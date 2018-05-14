@@ -12,11 +12,13 @@ ApplicationWindow {
         
         ToDoList {
             //anchors.centerIn: parent
+            visible: false;
         }
         OoList {
             //anchors.centerIn: parent
         }
         NewOrder {
+            //visible: false;
             //anchors.centerIn: parent
         }
     }

@@ -6,7 +6,6 @@ OoList::OoList(QObject *parent) : QObject(parent)
     mItems.append({ QStringLiteral("TFT"), QStringLiteral("20/03/2018 11:30"), QStringLiteral("1500"), QStringLiteral("Buy"), QStringLiteral("0.1 BTC"), QStringLiteral("pending") });
     mItems.append({ QStringLiteral("Ethereum"), QStringLiteral("20/03/2018 16:56"), QStringLiteral("0.8"), QStringLiteral("Sell"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
     mItems.append({ QStringLiteral("Ripple"), QStringLiteral("20/03/2018 17:12"), QStringLiteral("0.15"), QStringLiteral("Buy"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
-    //mItems.append({ false, QStringLiteral("Fix the sink"), QStringLiteral("Finishing") });
 }
 
 QVector<OoItem> OoList::items() const
