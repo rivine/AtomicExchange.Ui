@@ -9,7 +9,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         ListView {
-            implicitWidth: 250
+            implicitWidth: 800
             implicitHeight: 250
             anchors.fill: parent
             clip: true

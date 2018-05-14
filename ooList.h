@@ -6,8 +6,12 @@
 
 struct OoItem
 {
-    bool done;
-    QString description;
+    QString coin;
+    QString placed;
+    QString amount;
+    QString buySell;
+    QString price;
+    QString status;
 };
 
 class OoList : public QObject

@@ -25,10 +25,18 @@ QVariant OoModel::data(const QModelIndex &index, int role) const
 
     const OoItem item = mList->items().at(index.row());
     switch (role) {
-    case DoneRole:
-        return QVariant(item.done);
-    case DescriptionRole:
-        return QVariant(item.description);
+    case CoinRole:
+        return QVariant(item.coin);
+    case PlacedRole:
+        return QVariant(item.placed);
+    case AmountRole:
+        return QVariant(item.amount);
+    case BuySellRole:
+        return QVariant(item.buySell);
+    case PriceRole:
+        return QVariant(item.price);
+    case StatusRole:
+        return QVariant(item.status);
     }
 
     return QVariant();
@@ -41,12 +49,24 @@ bool OoModel::setData(const QModelIndex &index, const QVariant &value, int role)
 
     OoItem item = mList->items().at(index.row());
     switch (role) {
-    case DoneRole:
-        item.done = value.toBool();
-        break;
-    case DescriptionRole:
-        item.description = value.toString();
-        break;
+        case CoinRole:
+            item.coin = value.toString();
+            break;
+        case PlacedRole:
+            item.placed = value.toString();
+            break;
+        case AmountRole:
+            item.amount = value.toString();
+            break;
+        case BuySellRole:
+            item.buySell = value.toString();
+            break;
+        case PriceRole:
+            item.price = value.toString();
+            break;        
+        case StatusRole:
+            item.status = value.toString();
+            break;
     }
 
     if (mList->setItemAt(index.row(), item)) {
@@ -67,8 +87,12 @@ Qt::ItemFlags OoModel::flags(const QModelIndex &index) const
 QHash<int, QByteArray> OoModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names[DoneRole] = "done";
-    names[DescriptionRole] = "description";
+    names[CoinRole] = "coin";
+    names[PlacedRole] = "placed";
+    names[AmountRole] = "amount";
+    names[BuySellRole] = "buySell";
+    names[PriceRole] = "price";
+    names[StatusRole] = "status";
     return names;
 }
 

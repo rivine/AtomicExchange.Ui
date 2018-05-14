@@ -2,8 +2,11 @@
 
 OoList::OoList(QObject *parent) : QObject(parent)
 {
-    mItems.append({ true, QStringLiteral("Wash the car") });
-    mItems.append({ false, QStringLiteral("Fix the sink") });
+    mItems.append({ QStringLiteral("Bitcoin"), QStringLiteral("20/03/2018 10:39"), QStringLiteral("0.15"), QStringLiteral("Buy"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
+    mItems.append({ QStringLiteral("TFT"), QStringLiteral("20/03/2018 11:30"), QStringLiteral("1500"), QStringLiteral("Buy"), QStringLiteral("0.1 BTC"), QStringLiteral("pending") });
+    mItems.append({ QStringLiteral("Ethereum"), QStringLiteral("20/03/2018 16:56"), QStringLiteral("0.8"), QStringLiteral("Sell"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
+    mItems.append({ QStringLiteral("Ripple"), QStringLiteral("20/03/2018 17:12"), QStringLiteral("0.15"), QStringLiteral("Buy"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
+    //mItems.append({ false, QStringLiteral("Fix the sink"), QStringLiteral("Finishing") });
 }
 
 QVector<OoItem> OoList::items() const
@@ -17,7 +20,7 @@ bool OoList::setItemAt(int index, const OoItem &item)
         return false;
 
     const OoItem &oldItem = mItems.at(index);
-    if (item.done == oldItem.done && item.description == oldItem.description)
+    if (item.coin == oldItem.coin && item.placed == oldItem.placed && item.amount == oldItem.amount && item.buySell == oldItem.buySell && item.price == oldItem.price && item.status == oldItem.status)
         return false;
 
     mItems[index] = item;
@@ -29,7 +32,7 @@ void OoList::appendItem()
     emit preItemAppended();
 
     OoItem item;
-    item.done = false;
+    //item.done = false;
     mItems.append(item);
 
     emit postItemAppended();
@@ -37,15 +40,15 @@ void OoList::appendItem()
 
 void OoList::removeCompletedItems()
 {
-    for (int i = 0; i < mItems.size(); ) {
-        if (mItems.at(i).done) {
-            emit preItemRemoved(i);
+    // for (int i = 0; i < mItems.size(); ) {
+    //     if (mItems.at(i).done) {
+    //         emit preItemRemoved(i);
 
-            mItems.removeAt(i);
+    //         mItems.removeAt(i);
 
-            emit postItemRemoved();
-        } else {
-            ++i;
-        }
-    }
+    //         emit postItemRemoved();
+    //     } else {
+    //         ++i;
+    //     }
+    // }
 }

@@ -8,8 +8,8 @@ ApplicationWindow {
     height: 800
     title: qsTr("Jimber Atomic Swap")
 
-
     ColumnLayout {
+        
         ToDoList {
             //anchors.centerIn: parent
         }

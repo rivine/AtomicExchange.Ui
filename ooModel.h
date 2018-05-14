@@ -14,8 +14,12 @@ public:
     explicit OoModel(QObject *parent = nullptr);
 
     enum {
-        DoneRole = Qt::UserRole,
-        DescriptionRole
+        CoinRole,
+        PlacedRole,
+        AmountRole,
+        BuySellRole,
+        PriceRole,
+        StatusRole
     };
 
     // Basic functionality:

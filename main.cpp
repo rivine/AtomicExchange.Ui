@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty(QStringLiteral("toDoList"), &toDoList);
-
     engine.rootContext()->setContextProperty(QStringLiteral("ooList"), &ooList);
     engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
