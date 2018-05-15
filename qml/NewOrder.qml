@@ -12,13 +12,17 @@ ColumnLayout {
                 width: parent.width
 
                 Label {
-                    text: "From"
+                    text: "Amount"
                 }
-                TextField {
+                TextInput {
+                    id: inputBox
+                    objectName: "InputBox"
                     //text: model.description
                     //onEditingFinished: model.description = text
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+                    validator: RegExpValidator { regExp: /fruit basket/ }
                 }
                 ComboBox {
                         width: 200
@@ -79,12 +83,12 @@ ColumnLayout {
     RowLayout {
         Button {
             text: qsTr("Cancel")
-            onClicked: toDoList.cancel()
+            onClicked: ooList.confirmNewOrder()
             Layout.fillWidth: true
         }
         Button {
             text: qsTr("Confirm")
-            onClicked: toDoList.confirm()
+            onClicked: ooList.cancelNewOrder()
             Layout.fillWidth: true
         }
     }

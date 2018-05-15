@@ -16,9 +16,11 @@ ApplicationWindow {
         }
         OoList {
             //anchors.centerIn: parent
+            objectName: "openOrder"
         }
         NewOrder {
-            //visible: false;
+            objectName: "newOrder"
+            visible: false;
             //anchors.centerIn: parent
         }
     }

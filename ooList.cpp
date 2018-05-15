@@ -26,6 +26,31 @@ bool OoList::setItemAt(int index, const OoItem &item)
     return true;
 }
 
+void OoList::newOrder()
+{
+    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
+    QObject *openOrder = rootObject->findChild<QObject*>("openOrder");
+    newOrder->setProperty("visible", true);
+    openOrder->setProperty("visible", false);
+}
+void OoList::cancelNewOrder()
+{
+    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
+    QObject *openOrder = rootObject->findChild<QObject*>("openOrder");
+    newOrder->setProperty("visible", false);
+    openOrder->setProperty("visible", true);
+}
+void OoList::confirmNewOrder()
+{
+    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
+    QObject *openOrder = rootObject->findChild<QObject*>("openOrder");
+    newOrder->setProperty("visible", false);
+    openOrder->setProperty("visible", true);
+}
+
 void OoList::appendItem()
 {
     emit preItemAppended();

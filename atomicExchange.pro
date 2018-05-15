@@ -35,4 +35,5 @@ HEADERS += \
     todomodel.h \
     todolist.h \
     ooList.h \
-    ooModel.h
+    ooModel.h \
+    applicationContext.h

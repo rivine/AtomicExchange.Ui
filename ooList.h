@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include "applicationContext.h"
 
 struct OoItem
 {
@@ -34,6 +35,9 @@ signals:
 public slots:
     void appendItem();
     void removeCompletedItems();
+    void newOrder();
+    void confirmNewOrder();
+    void cancelNewOrder();
 
 private:
     QVector<OoItem> mItems;

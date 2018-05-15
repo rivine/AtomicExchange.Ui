@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     OoList ooList;
 
     QQmlApplicationEngine engine;
+    ApplicationContext::Instance().setEngine(&engine);
     engine.rootContext()->setContextProperty(QStringLiteral("toDoList"), &toDoList);
     engine.rootContext()->setContextProperty(QStringLiteral("ooList"), &ooList);
     engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
