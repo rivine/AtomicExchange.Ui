@@ -3,9 +3,9 @@
 ## Startscreen
 
   - Overview of your open orders
-        Coin, placed, amount, Buy/Sell, price and status information for each order.
+        Coin, placed, amount, price and status information for each order.
   - Overview of your order history
-        Coin, placed, amount, Buy/Sell, price and status information for each closed order.
+        Coin, placed, amount, price and status information for each closed order.
   - Create a new order
         Button to create a new order. When you enter theis button, The "New Order" screen will appear.
 
@@ -15,7 +15,7 @@
 
 In the "New Order" screen, you need to enter the form correctly :
 
-- The amount of Coins which you want to buy / sell proceeded by the respective coin
+- The amount of Coins which you want to order proceeded by the respective coin
 - The source wallet where the coins are available ( )
 - The price you want to pay / get for it proceeded by the respective coin
 - The destination wallet where you will receive your coins 
@@ -31,7 +31,7 @@ install Qt 5.10 or a newer version.
 ```sh
 qmake
 make
-./JimberAtomicSwap -platform webgl
+./atomicExchange -platform webgl
 ```
 # Tasks
 

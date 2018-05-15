@@ -31,8 +31,6 @@ QVariant OoModel::data(const QModelIndex &index, int role) const
         return QVariant(item.placed);
     case AmountRole:
         return QVariant(item.amount);
-    case BuySellRole:
-        return QVariant(item.buySell);
     case PriceRole:
         return QVariant(item.price);
     case StatusRole:
@@ -57,9 +55,6 @@ bool OoModel::setData(const QModelIndex &index, const QVariant &value, int role)
             break;
         case AmountRole:
             item.amount = value.toString();
-            break;
-        case BuySellRole:
-            item.buySell = value.toString();
             break;
         case PriceRole:
             item.price = value.toString();
@@ -90,7 +85,6 @@ QHash<int, QByteArray> OoModel::roleNames() const
     names[CoinRole] = "coin";
     names[PlacedRole] = "placed";
     names[AmountRole] = "amount";
-    names[BuySellRole] = "buySell";
     names[PriceRole] = "price";
     names[StatusRole] = "status";
     return names;

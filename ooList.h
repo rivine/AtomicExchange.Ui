@@ -10,7 +10,6 @@ struct OoItem
     QString coin;
     QString placed;
     QString amount;
-    QString buySell;
     QString price;
     QString status;
 };
@@ -20,7 +19,6 @@ class OoList : public QObject
     Q_OBJECT
 public:
     explicit OoList(QObject *parent = nullptr);
-
     QVector<OoItem> items() const;
 
     bool setItemAt(int index, const OoItem &item);
@@ -41,6 +39,7 @@ public slots:
 
 private:
     QVector<OoItem> mItems;
+    QString getDateTime();
 };
 
 #endif // OOLIST_H

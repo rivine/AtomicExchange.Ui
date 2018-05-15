@@ -1,28 +1,47 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 ApplicationWindow {
+    id: window
     visible: true
     width: 1024
     height: 800
-    title: qsTr("Jimber Atomic Swap")
-
+    title: qsTr("Atomic exchange")
+    
     ColumnLayout {
-        
-        ToDoList {
-            //anchors.centerIn: parent
-            visible: false;
-        }
-        OoList {
-            //anchors.centerIn: parent
-            objectName: "openOrder"
-        }
-        NewOrder {
-            objectName: "newOrder"
-            visible: false;
-            //anchors.centerIn: parent
-        }
-    }
+            
 
+            Text {
+                Layout.leftMargin: 50
+                Layout.topMargin: 20
+                Layout.bottomMargin: 20
+                text: "Atomic exchange"
+                font.pixelSize: 24
+                font.bold: true
+            }
+            OoList {
+                //anchors.centerIn: parent
+                Layout.leftMargin: 70
+                Layout.bottomMargin: 20
+                objectName: "openOrders"
+            }
+            OhList {
+                //anchors.centerIn: parent
+                Layout.leftMargin: 70
+                Layout.bottomMargin: 20
+                objectName: "orderHistory"
+            }
+            ToDoList {
+                //anchors.centerIn: parent
+                visible: false;
+            }
+
+            NewOrder {
+                Layout.leftMargin: 70
+                Layout.bottomMargin: 20
+                objectName: "newOrder"
+                visible: false;
+            }
+    }
 }

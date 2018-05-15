@@ -6,7 +6,7 @@ import Oo 1.0
 
 ColumnLayout {
     Text {
-        text: "Open orders"
+        text: "Order history"
         font.pixelSize: 20
         font.bold: true
     }
@@ -80,14 +80,6 @@ ColumnLayout {
                 //    Layout.fillWidth: true
                 //}
             }
-        }
-    }
-
-    RowLayout {
-        Button {
-            text: qsTr("New order")
-            onClicked: ooList.newOrder()
-            Layout.fillWidth: true
         }
     }
 }

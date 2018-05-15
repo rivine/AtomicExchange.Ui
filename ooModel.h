@@ -17,7 +17,6 @@ public:
         CoinRole,
         PlacedRole,
         AmountRole,
-        BuySellRole,
         PriceRole,
         StatusRole
     };
