@@ -1,24 +1,16 @@
-#ifndef OOLIST_H
-#define OOLIST_H
+#ifndef OHLIST_H
+#define OHLIST_H
 
 #include <QObject>
 #include <QVector>
 #include "applicationContext.h"
+#include "ooList.h"
 
-struct OoItem
-{
-    QString coin;
-    QString placed;
-    QString amount;
-    QString price;
-    QString status;
-};
-
-class OoList : public QObject
+class OhList : public QObject
 {
     Q_OBJECT
 public:
-    explicit OoList(QObject *parent = nullptr);
+    explicit OhList(QObject *parent = nullptr);
     QVector<OoItem> items() const;
 
     bool setItemAt(int index, const OoItem &item);
@@ -30,15 +22,9 @@ signals:
     void preItemRemoved(int index);
     void postItemRemoved();
 
-public slots:
-    void appendItem();
-    void newOrder();
-    void confirmNewOrder();
-    void cancelNewOrder();
-
 private:
     QVector<OoItem> mItems;
     QString getDateTime();
 };
 
-#endif // OOLIST_H
+#endif // OHLIST_H

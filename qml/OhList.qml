@@ -49,7 +49,7 @@ ColumnLayout {
             header: listHeaderComponent
 
             model: OoModel {
-                list: ooList
+                list: ohList
             }
             delegate: RowLayout {
                 width: parent.width

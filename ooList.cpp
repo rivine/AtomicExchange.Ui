@@ -83,22 +83,6 @@ void OoList::appendItem()
     emit postItemAppended();
 }
 
-void OoList::removeCompletedItems()
-{
-    // for (int i = 0; i < mItems.size(); ) {
-    //     if (mItems.at(i).done) {
-    //         emit preItemRemoved(i);
-
-    //         mItems.removeAt(i);
-
-    //         emit postItemRemoved();
-    //     } else {
-    //         ++i;
-    //     }
-    // }
-}
-
-
 QString getDateTime(){
   time_t rawtime;
   struct tm * timeinfo;

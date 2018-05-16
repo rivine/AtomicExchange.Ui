@@ -1,3 +1,6 @@
+#ifndef APPLICATIONCONTEXT_H
+#define APPLICATIONCONTEXT_H
+
 #include <QQmlApplicationEngine>
 
 class ApplicationContext
@@ -25,3 +28,5 @@ class ApplicationContext
             return this->engine;
         }
 };
+
+#endif // APPLICATIONCONTEXT_H
