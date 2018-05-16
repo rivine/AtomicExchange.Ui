@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import ToDo 1.0
 
 ColumnLayout {
+    Layout.fillWidth: true
     Text {
         text: "New order"
         font.pixelSize: 20
@@ -15,10 +16,34 @@ ColumnLayout {
         Layout.fillWidth: true
         ColumnLayout{
             RowLayout {
+
+
+                Label {
+                    text: "Role"
+                    Layout.preferredWidth: 100
+                }
+                ComboBox {
+                        id: role
+                        objectName: "role"
+                        width: 200
+                        model: [ "Initiator", "Acceptor" ]
+
+                        onActivated: ooList.initiatorAcceptorActivated(editText)
+                        
+                }
+                Text {
+                    id: ip
+                    objectName: "ip"
+                    text: "192.168.0.0"
+                }
+
+            }
+            RowLayout {
                 width: parent.width
 
                 Label {
                     text: "Amount"
+                    Layout.preferredWidth: 100
                 }
                 TextField {
                     id: amount
@@ -34,23 +59,7 @@ ColumnLayout {
                         id: coin
                         objectName: "coin"
                         width: 200
-                        model: [ "TFT", "BTC", "Ripple" ]
-                }
-
-            }
-            RowLayout {
-                width: parent.width
-
-                Label {
-                    text: "Source Wallet"
-                }
-                Text {
-                    text: "f1Zfeea2Ee631ZeF"
-                    //onEditingFinished: model.description = text
-                    Layout.fillWidth: true
-                }
-                Label {
-                    text: "(Please deposit the amount here)"
+                        model: [  "BTC", "TFT"]
                 }
 
             }
@@ -59,6 +68,7 @@ ColumnLayout {
 
                 Label {
                     text: "Value"
+                    Layout.preferredWidth: 100
                 }
                 TextField {
                     id: value
@@ -70,31 +80,13 @@ ColumnLayout {
                         id: destinationCoin
                         objectName: "destinationCoin"
                         width: 200
-                        model: [ "TFT", "BTC", "Ripple" ]
+                        model: [ "TFT", "BTC"]
                 }
-            }
-            RowLayout {
-                width: parent.width
-
-                Label {
-                    text: "Destination Wallet"
-                }
-                TextField {
-                    //text: model.description
-                    //onEditingFinished: model.description = text
-                    Layout.fillWidth: true
-                }
-
             }
         }
     }
 
     RowLayout {
-        Button {
-            text: qsTr("Cancel")
-            onClicked: ooList.cancelNewOrder()
-            Layout.fillWidth: true
-        }
         Button {
             text: qsTr("Confirm")
             onClicked: ooList.confirmNewOrder()

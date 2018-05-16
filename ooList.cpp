@@ -1,5 +1,6 @@
 #include "ooList.h"
 #include <QDebug>
+
 #include <ctime>
 
 OoList::OoList(QObject *parent) : QObject(parent)
@@ -28,39 +29,23 @@ bool OoList::setItemAt(int index, const OoItem &item)
     return true;
 }
 
-void OoList::newOrder()
+void OoList::initiatorAcceptorActivated(QString editText)
 {
     QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
-    QObject *openOrders = rootObject->findChild<QObject*>("openOrders");
-    QObject *orderHistory = rootObject->findChild<QObject*>("orderHistory");
-    newOrder->setProperty("visible", true);
-    openOrders->setProperty("visible", false);
-    orderHistory->setProperty("visible", false);
-}
-void OoList::cancelNewOrder()
-{
-    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
-    QObject *openOrders = rootObject->findChild<QObject*>("openOrders");
-    QObject *orderHistory = rootObject->findChild<QObject*>("orderHistory");
-    newOrder->setProperty("visible", false);
-    openOrders->setProperty("visible", true);
-    orderHistory->setProperty("visible", true);
-}
-void OoList::confirmNewOrder()
-{
-    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *newOrder = rootObject->findChild<QObject*>("newOrder");
-    QObject *openOrders = rootObject->findChild<QObject*>("openOrders");
-    QObject *orderHistory = rootObject->findChild<QObject*>("orderHistory");
-    newOrder->setProperty("visible", false);
-    openOrders->setProperty("visible", true);
-    orderHistory->setProperty("visible", true);
-    
-    appendItem();
+    QObject *coin = rootObject->findChild<QObject*>("coin");
+    QObject *destinationCoin = rootObject->findChild<QObject*>("destinationCoin");
+    if(editText == "Initiator"){
+        coin->setProperty("currentIndex", 0);
+        destinationCoin->setProperty("currentIndex", 0);
+    }else if(editText == "Acceptor"){
+        coin->setProperty("currentIndex", 1);
+        destinationCoin->setProperty("currentIndex", 1);
+    }
 }
 
+void OoList::confirmNewOrder(){
+    qInfo("confirm");
+}
 void OoList::appendItem()
 {
     emit preItemAppended();

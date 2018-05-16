@@ -10,8 +10,6 @@ ApplicationWindow {
     title: qsTr("Atomic exchange")
     
     ColumnLayout {
-            
-
             Text {
                 Layout.leftMargin: 50
                 Layout.topMargin: 20
@@ -19,7 +17,7 @@ ApplicationWindow {
                 text: "Atomic exchange"
                 font.pixelSize: 24
                 font.bold: true
-            }
+            }/*
             OoList {
                 //anchors.centerIn: parent
                 Layout.leftMargin: 70
@@ -32,16 +30,13 @@ ApplicationWindow {
                 Layout.bottomMargin: 20
                 objectName: "orderHistory"
             }
-            ToDoList {
-                //anchors.centerIn: parent
-                visible: false;
-            }
+*/
 
             NewOrder {
                 Layout.leftMargin: 70
                 Layout.bottomMargin: 20
                 objectName: "newOrder"
-                visible: false;
+                visible: true;
             }
     }
 }

@@ -32,9 +32,8 @@ signals:
 
 public slots:
     void appendItem();
-    void newOrder();
     void confirmNewOrder();
-    void cancelNewOrder();
+    void initiatorAcceptorActivated(QString editText);
 
 private:
     QVector<OoItem> mItems;
