@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     todolist.cpp \
     ooList.cpp \
     ohList.cpp \
-    ooModel.cpp
+    ooModel.cpp \
+    ohModel.cpp 
 
 RESOURCES += qml.qrc
 
@@ -38,4 +39,5 @@ HEADERS += \
     ooList.h \
     ohList.h \
     ooModel.h \
+    ohModel.h \
     applicationContext.h

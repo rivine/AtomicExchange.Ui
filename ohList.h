@@ -4,16 +4,25 @@
 #include <QObject>
 #include <QVector>
 #include "applicationContext.h"
-#include "ooList.h"
+#include "ohList.h"
+
+struct OhItem
+{
+    QString coin;
+    QString placed;
+    QString amount;
+    QString price;
+    QString status;
+};
 
 class OhList : public QObject
 {
     Q_OBJECT
 public:
     explicit OhList(QObject *parent = nullptr);
-    QVector<OoItem> items() const;
+    QVector<OhItem> items() const;
 
-    bool setItemAt(int index, const OoItem &item);
+    bool setItemAt(int index, const OhItem &item);
 
 signals:
     void preItemAppended();
@@ -23,7 +32,7 @@ signals:
     void postItemRemoved();
 
 private:
-    QVector<OoItem> mItems;
+    QVector<OhItem> mItems;
     QString getDateTime();
 };
 

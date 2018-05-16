@@ -38,7 +38,7 @@ make
  - Create Open order list
         - Create QML 
         - Create C++ models
- - Create order history List
+ - Create Order history List
         - Create QML 
         - Create C++ models
  - Create "New order" page

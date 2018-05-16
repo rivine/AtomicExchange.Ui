@@ -18,7 +18,7 @@ ColumnLayout {
                 width: parent.width
 
                 Label {
-                    text: "Amount"
+                    text: "I want to give"
                 }
                 TextField {
                     id: amount
@@ -58,7 +58,7 @@ ColumnLayout {
                 width: parent.width
 
                 Label {
-                    text: "Value"
+                    text: "I want to receive"
                 }
                 TextField {
                     id: value

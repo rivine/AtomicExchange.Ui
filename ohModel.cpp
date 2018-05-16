@@ -1,13 +1,14 @@
-#include "ooModel.h"
-#include "ooList.h"
+#include "ohModel.h"
 
-OoModel::OoModel(QObject *parent)
+#include "ohList.h"
+
+OhModel::OhModel(QObject *parent)
     : QAbstractListModel(parent)
     , mList(nullptr)
 {
 }
 
-int OoModel::rowCount(const QModelIndex &parent) const
+int OhModel::rowCount(const QModelIndex &parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
     // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
@@ -17,12 +18,12 @@ int OoModel::rowCount(const QModelIndex &parent) const
     return mList->items().size();
 }
 
-QVariant OoModel::data(const QModelIndex &index, int role) const
+QVariant OhModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || !mList)
         return QVariant();
 
-    const OoItem item = mList->items().at(index.row());
+    const OhItem item = mList->items().at(index.row());
     switch (role) {
     case CoinRole:
         return QVariant(item.coin);
@@ -39,12 +40,12 @@ QVariant OoModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool OoModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool OhModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (!mList)
         return false;
 
-    OoItem item = mList->items().at(index.row());
+    OhItem item = mList->items().at(index.row());
     switch (role) {
         case CoinRole:
             item.coin = value.toString();
@@ -70,7 +71,7 @@ bool OoModel::setData(const QModelIndex &index, const QVariant &value, int role)
     return false;
 }
 
-Qt::ItemFlags OoModel::flags(const QModelIndex &index) const
+Qt::ItemFlags OhModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -78,7 +79,7 @@ Qt::ItemFlags OoModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable;
 }
 
-QHash<int, QByteArray> OoModel::roleNames() const
+QHash<int, QByteArray> OhModel::roleNames() const
 {
     QHash<int, QByteArray> names;
     names[CoinRole] = "coin";
@@ -89,12 +90,12 @@ QHash<int, QByteArray> OoModel::roleNames() const
     return names;
 }
 
-OoList *OoModel::list() const
+OhList *OhModel::list() const
 {
     return mList;
 }
 
-void OoModel::setList(OoList *list)
+void OhModel::setList(OhList *list)
 {
     beginResetModel();
 
@@ -104,18 +105,18 @@ void OoModel::setList(OoList *list)
     mList = list;
 
     if (mList) {
-        connect(mList, &OoList::preItemAppended, this, [=]() {
+        connect(mList, &OhList::preItemAppended, this, [=]() {
             const int index = mList->items().size();
             beginInsertRows(QModelIndex(), index, index);
         });
-        connect(mList, &OoList::postItemAppended, this, [=]() {
+        connect(mList, &OhList::postItemAppended, this, [=]() {
             endInsertRows();
         });
 
-        connect(mList, &OoList::preItemRemoved, this, [=](int index) {
+        connect(mList, &OhList::preItemRemoved, this, [=](int index) {
             beginRemoveRows(QModelIndex(), index, index);
         });
-        connect(mList, &OoList::postItemRemoved, this, [=]() {
+        connect(mList, &OhList::postItemRemoved, this, [=]() {
             endRemoveRows();
         });
     }

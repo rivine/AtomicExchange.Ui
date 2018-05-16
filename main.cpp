@@ -7,6 +7,7 @@
 #include "ooList.h"
 #include "ohList.h"
 #include "ooModel.h"
+#include "ohModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,9 +25,9 @@ int main(int argc, char *argv[])
         QStringLiteral("OoList should not be created in QML"));
     OoList ooList;
 
-
-    qmlRegisterUncreatableType<ToDoList>("Oo", 1, 0, "OhList",
-        QStringLiteral("OoList should not be created in QML"));
+    qmlRegisterType<OhModel>("Oh", 1, 0, "OhModel");
+    qmlRegisterUncreatableType<OhList>("Oh", 1, 0, "OhList",
+        QStringLiteral("OhList should not be created in QML"));
 
     OhList ohList;
     

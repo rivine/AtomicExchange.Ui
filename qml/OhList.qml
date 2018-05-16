@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
-import Oo 1.0
+import Oh 1.0
 
 ColumnLayout {
     Text {
@@ -48,7 +48,7 @@ ColumnLayout {
             clip: true
             header: listHeaderComponent
 
-            model: OoModel {
+            model: OhModel {
                 list: ohList
             }
             delegate: RowLayout {
