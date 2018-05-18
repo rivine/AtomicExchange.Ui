@@ -52,13 +52,17 @@ void OoList::confirmNewOrder(){
 
     if(role == "Initiator"){
         qInfo("Initiator 1");
-        QProcess initiatorProcess;
+        QProcess* initiatorProcess;
+        qInfo("Initiator 1.1");
         //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/initiator.py";
-        QStringList pythonCommandArguments = QStringList()  << "./exchangeNodes/initiator.py" << "-o" << "987" << "-m" << "1234" << "-d";
-        
-        initiatorProcess.start ("python", pythonCommandArguments);
-        initiatorProcess.waitForFinished(-1);
-        QString outputString = initiatorProcess.readAllStandardOutput();
+        QStringList pythonCommandArguments = QStringList()  << "/home/kristof/exchangeNodes/initiator.py" << "-o" << "987" << "-m" << "1234" << "-d";
+        qInfo("Initiator 1.01");
+        initiatorProcess->setProcessChannelMode(QProcess::ForwardedChannels);
+qInfo("Initiator 1.2");
+        initiatorProcess->start ("python", pythonCommandArguments);
+        initiatorProcess->waitForFinished(-1);
+qInfo("Initiator 1.2");
+        QString outputString = initiatorProcess->readAllStandardOutput();
         //QString outputString = acceptorProcess.readAllStandardOutput();
         qInfo() <<"output " << outputString;
        
@@ -66,18 +70,20 @@ void OoList::confirmNewOrder(){
         qInfo("Initiator 2");
     }else if(role == "Acceptor"){
         qInfo("Acceptor 1");
-        QProcess acceptorProcess;
+        QProcess* acceptorProcess = new QProcess; // TODO REMOVE
         //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/acceptor.py";
-        QStringList pythonCommandArguments = QStringList()  << "./exchangeNodes/acceptor.py" << "-o" << "1234" << "-m" << "987" << "-d";
-        acceptorProcess.start ("python", pythonCommandArguments);
-        acceptorProcess.waitForFinished(-1);
+        QStringList pythonCommandArguments = QStringList()  << "/home/kristof/exchangeNodes/acceptor.py" << "-o" << "1234" << "-m" << "987" << "-d";
+        acceptorProcess->setProcessChannelMode(QProcess::ForwardedChannels);
 
-        QString outputString = acceptorProcess.readAllStandardOutput();
+        acceptorProcess->start ("python", pythonCommandArguments);
+        acceptorProcess->waitForFinished(-1);
+
+        QString outputString = acceptorProcess->readAllStandardOutput();
         //QString outputString = acceptorProcess.readAllStandardOutput();
         qInfo() <<"output " << outputString;
         //connect(&acceptorProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readData()));
         
-        qInfo() << "read output" << acceptorProcess.readAllStandardOutput();
+        qInfo() << "read output" << acceptorProcess->readAllStandardOutput();
         output->setProperty("text", outputString);
         qInfo("Acceptor 2");
     }
