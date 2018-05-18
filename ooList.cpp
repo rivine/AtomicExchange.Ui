@@ -47,23 +47,43 @@ void OoList::initiatorAcceptorActivated(QString editText)
 }
 
 void OoList::confirmNewOrder(){
+    QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *output = rootObject->findChild<QObject*>("output");
+
     if(role == "Initiator"){
         qInfo("Initiator 1");
         QProcess initiatorProcess;
         //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/initiator.py";
-        QStringList pythonCommandArguments = QStringList()  << "python/initiator.py" << "-o" << "125" << "-m" << "987" << "-d";
+        QStringList pythonCommandArguments = QStringList()  << "./exchangeNodes/initiator.py" << "-o" << "987" << "-m" << "1234" << "-d";
+        
         initiatorProcess.start ("python", pythonCommandArguments);
         initiatorProcess.waitForFinished(-1);
+        QString outputString = initiatorProcess.readAllStandardOutput();
+        //QString outputString = acceptorProcess.readAllStandardOutput();
+        qInfo() <<"output " << outputString;
+       
+        output->setProperty("text", outputString);
         qInfo("Initiator 2");
     }else if(role == "Acceptor"){
         qInfo("Acceptor 1");
         QProcess acceptorProcess;
         //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/acceptor.py";
-        QStringList pythonCommandArguments = QStringList()  << "python/acceptor.py" << "-o" << "125" << "-m" << "987" << "-d";
+        QStringList pythonCommandArguments = QStringList()  << "./exchangeNodes/acceptor.py" << "-o" << "1234" << "-m" << "987" << "-d";
         acceptorProcess.start ("python", pythonCommandArguments);
         acceptorProcess.waitForFinished(-1);
+
+        QString outputString = acceptorProcess.readAllStandardOutput();
+        //QString outputString = acceptorProcess.readAllStandardOutput();
+        qInfo() <<"output " << outputString;
+        //connect(&acceptorProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readData()));
+        
+        qInfo() << "read output" << acceptorProcess.readAllStandardOutput();
+        output->setProperty("text", outputString);
         qInfo("Acceptor 2");
     }
+}
+void OoList::readData(){
+    qInfo("here");
 }
 void OoList::appendItem()
 {

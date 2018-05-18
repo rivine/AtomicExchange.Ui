@@ -38,5 +38,21 @@ ApplicationWindow {
                 objectName: "newOrder"
                 visible: true;
             }
+
+         RowLayout {
+                             Layout.leftMargin: 70
+                Layout.bottomMargin: 20
+                width: parent.width
+
+                Label {
+                    text: "Output :"
+                    Layout.preferredWidth: 100
+                }
+                Label {
+                    id: output
+                    objectName: "output"
+                    Layout.preferredWidth: 100
+                }
+            }
     }
 }

@@ -34,6 +34,7 @@ public slots:
     void appendItem();
     void confirmNewOrder();
     void initiatorAcceptorActivated(QString editText);
+    void readData();
 
 private:
     QVector<OoItem> mItems;

@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/ToDoList.qml</file>
-        <file>qml/OoList.qml</file>
         <file>qml/OhList.qml</file>
         <file>qml/NewOrder.qml</file>
         <file>qtquickcontrols2.conf</file>
