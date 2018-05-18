@@ -38,6 +38,7 @@ public slots:
 private:
     QVector<OoItem> mItems;
     QString getDateTime();
+    QString role = "initiator";
 };
 
 #endif // OOLIST_H

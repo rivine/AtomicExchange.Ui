@@ -1,5 +1,6 @@
 #include "ooList.h"
 #include <QDebug>
+#include <QProcess>
 
 #include <ctime>
 
@@ -31,12 +32,14 @@ bool OoList::setItemAt(int index, const OoItem &item)
 
 void OoList::initiatorAcceptorActivated(QString editText)
 {
+    role = editText;
     QObject *rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *coin = rootObject->findChild<QObject*>("coin");
     QObject *destinationCoin = rootObject->findChild<QObject*>("destinationCoin");
     if(editText == "Initiator"){
         coin->setProperty("currentIndex", 0);
         destinationCoin->setProperty("currentIndex", 0);
+    
     }else if(editText == "Acceptor"){
         coin->setProperty("currentIndex", 1);
         destinationCoin->setProperty("currentIndex", 1);
@@ -44,7 +47,23 @@ void OoList::initiatorAcceptorActivated(QString editText)
 }
 
 void OoList::confirmNewOrder(){
-    qInfo("confirm");
+    if(role == "Initiator"){
+        qInfo("Initiator 1");
+        QProcess initiatorProcess;
+        //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/initiator.py";
+        QStringList pythonCommandArguments = QStringList()  << "python/initiator.py" << "-o" << "125" << "-m" << "987" << "-d";
+        initiatorProcess.start ("python", pythonCommandArguments);
+        initiatorProcess.waitForFinished(-1);
+        qInfo("Initiator 2");
+    }else if(role == "Acceptor"){
+        qInfo("Acceptor 1");
+        QProcess acceptorProcess;
+        //QString scriptFile =  QCoreApplication::applicationDirPath() + "python/acceptor.py";
+        QStringList pythonCommandArguments = QStringList()  << "python/acceptor.py" << "-o" << "125" << "-m" << "987" << "-d";
+        acceptorProcess.start ("python", pythonCommandArguments);
+        acceptorProcess.waitForFinished(-1);
+        qInfo("Acceptor 2");
+    }
 }
 void OoList::appendItem()
 {
