@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include "applicationContext.h"
+#include <QProcess>
 
 struct OoItem
 {
@@ -34,12 +35,18 @@ public slots:
     void appendItem();
     void confirmNewOrder();
     void initiatorAcceptorActivated(QString editText);
-    void readData();
+    void readOutput();
+    void readErrors();
 
 private:
     QVector<OoItem> mItems;
     QString getDateTime();
-    QString role = "initiator";
+    QString role;
+    QProcess acceptorProcess;
+    QProcess initiatorProcess;
+    QString errors;
+    QString output;
+    QObject *rootObject;
 };
 
 #endif // OOLIST_H

@@ -40,19 +40,34 @@ ApplicationWindow {
             }
 
          RowLayout {
-                             Layout.leftMargin: 70
-                Layout.bottomMargin: 20
-                width: parent.width
+            Layout.leftMargin: 70
+            Layout.bottomMargin: 20
+            width: parent.width
 
-                Label {
-                    text: "Output :"
-                    Layout.preferredWidth: 100
-                }
-                Label {
-                    id: output
-                    objectName: "output"
-                    Layout.preferredWidth: 100
-                }
+            Label {
+                text: "Output :"
+                Layout.preferredWidth: 100
             }
+            Text {
+                id: outputMessages
+                objectName: "outputMessages"
+                Layout.preferredWidth: 100
+            }
+        }
+        RowLayout {
+            Layout.leftMargin: 70
+            Layout.bottomMargin: 20
+            width: parent.width
+
+            Label {
+                text: "Error :"
+                Layout.preferredWidth: 100
+            }
+            Text {
+                id: errorMessages
+                objectName: "errorMessages"
+                Layout.preferredWidth: 100
+            }
+        }
     }
 }
