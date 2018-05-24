@@ -27,6 +27,7 @@ ApplicationWindow {
                 Layout.leftMargin: 70
                 Layout.bottomMargin: 20
                 objectName: "openOrders"
+                
             }
             OhList {
                 //anchors.centerIn: parent

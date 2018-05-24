@@ -85,7 +85,10 @@ ColumnLayout {
 
     RowLayout {
         Button {
+            Material.background: Material.LightBlue
+            Material.foreground: "white"
             text: qsTr("New order")
+            font.bold: true
             onClicked: ooList.newOrder()
             Layout.fillWidth: true
         }
