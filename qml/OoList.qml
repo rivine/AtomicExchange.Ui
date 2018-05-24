@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.0
 
 import Oo 1.0
 
@@ -8,7 +9,6 @@ ColumnLayout {
     Text {
         text: "Open orders"
         font.pixelSize: 20
-        font.bold: true
     }
     Frame {
 
@@ -43,7 +43,7 @@ ColumnLayout {
         /*end of test */
         ListView {
             implicitWidth: 800
-            implicitHeight: 250
+            implicitHeight: 150
             anchors.fill: parent
             clip: true
             header: listHeaderComponent

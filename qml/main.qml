@@ -1,14 +1,16 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.0
 
 ApplicationWindow {
     id: window
     visible: true
     width: 1024
     height: 800
-    title: qsTr("Atomic exchange")
-    
+    title: qsTr("Atomic exchange - New order")
+    Material.theme: Material.Light
+
     ColumnLayout {
             
 
@@ -16,9 +18,9 @@ ApplicationWindow {
                 Layout.leftMargin: 50
                 Layout.topMargin: 20
                 Layout.bottomMargin: 20
-                text: "Atomic exchange"
+                text: "Atomic Exchange - New order"
                 font.pixelSize: 24
-                font.bold: true
+
             }
             OoList {
                 //anchors.centerIn: parent
