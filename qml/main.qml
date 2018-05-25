@@ -10,7 +10,6 @@ ApplicationWindow {
     height: 800
     title: qsTr("Atomic exchange - New order")
     Material.theme: Material.Light
-
     ColumnLayout {
             
 
@@ -18,11 +17,12 @@ ApplicationWindow {
                 Layout.leftMargin: 50
                 Layout.topMargin: 20
                 Layout.bottomMargin: 20
-                text: "Atomic Exchange - New order"
+                text: "Atomic Exchange - Orderbook"
                 font.pixelSize: 24
 
             }
             OoList {
+                        
                 //anchors.centerIn: parent
                 Layout.leftMargin: 70
                 Layout.bottomMargin: 20

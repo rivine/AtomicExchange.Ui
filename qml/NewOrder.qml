@@ -94,11 +94,17 @@ ColumnLayout {
     RowLayout {
         Button {
             text: qsTr("Cancel")
+            Material.background: Material.LightBlue
+            Material.foreground: "white"
+            font.bold: true
             onClicked: ooList.cancelNewOrder()
             Layout.fillWidth: true
         }
         Button {
             text: qsTr("Confirm")
+            Material.background: Material.LightBlue
+            Material.foreground: "white"
+            font.bold: true
             onClicked: ooList.confirmNewOrder()
             Layout.fillWidth: true
         }

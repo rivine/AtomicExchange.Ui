@@ -13,7 +13,7 @@ ColumnLayout {
     Frame {
 
         /*test*/
-        property Item listHeaderItem: null
+        
         Component {
             
             id: listHeaderComponent
@@ -87,8 +87,8 @@ ColumnLayout {
         Button {
             Material.background: Material.LightBlue
             Material.foreground: "white"
-            text: qsTr("New order")
             font.bold: true
+            text: qsTr("New order")
             onClicked: ooList.newOrder()
             Layout.fillWidth: true
         }
