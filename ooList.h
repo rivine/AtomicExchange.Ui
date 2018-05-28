@@ -1,6 +1,7 @@
 #ifndef OOLIST_H
 #define OOLIST_H
 
+#include <QQmlApplicationEngine>
 #include <QObject>
 #include <QVector>
 #include "applicationContext.h"
@@ -19,10 +20,12 @@ class OoList : public QObject
 {
     Q_OBJECT
 public:
+    Q_INVOKABLE QString getIp();
     explicit OoList(QObject *parent = nullptr);
     QVector<OoItem> items() const;
 
     bool setItemAt(int index, const OoItem &item);
+    QJsonObject ObjectFromString(const QString& in);
 
 signals:
     void preItemAppended();
@@ -37,16 +40,20 @@ public slots:
     void initiatorAcceptorActivated(QString editText);
     void readOutput();
     void readErrors();
+    void uiCreated(QObject *object, const QUrl &url);
 
 private:
     QVector<OoItem> mItems;
     QString getDateTime();
+    void printJsonObject(const QJsonObject& jsonObject);
     QString role;
-    QProcess acceptorProcess;
-    QProcess initiatorProcess;
+    QProcess process;
     QString errors;
     QString output;
+    QString ipAddress;
     QObject *rootObject;
+    QQmlApplicationEngine* engine;
+    
 };
 
 #endif // OOLIST_H

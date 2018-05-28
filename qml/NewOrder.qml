@@ -32,11 +32,23 @@ ColumnLayout {
                         
                 }
                 Text {
-                    id: ip
-                    objectName: "ip"
-                    text: "192.168.0.0"
+                    text: ooList.getIp();
                 }
 
+            }
+            RowLayout {
+                width: parent.width
+
+                Label {
+                    text: "Ip acceptor"
+                    Layout.preferredWidth: 100
+                }
+                TextField {
+                    id: ipAcceptor
+                    objectName: "ipAcceptor"
+                    Layout.fillWidth: true
+                    validator: RegExpValidator { regExp: /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/ }
+                }
             }
             RowLayout {
                 width: parent.width

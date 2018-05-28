@@ -1,12 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
 
 #include "todolist.h"
 #include "todomodel.h"
 #include "ooList.h"
 #include "ohList.h"
 #include "ooModel.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -25,10 +27,10 @@ int main(int argc, char *argv[])
     OoList ooList;
 
 
-    qmlRegisterUncreatableType<ToDoList>("Oo", 1, 0, "OhList",
-        QStringLiteral("OoList should not be created in QML"));
+     qmlRegisterUncreatableType<ToDoList>("Oo", 1, 0, "OhList",
+         QStringLiteral("OoList should not be created in QML"));
 
-    OhList ohList;
+     OhList ohList;
     
 
     QQmlApplicationEngine engine;
@@ -37,6 +39,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(QStringLiteral("ooList"), &ooList);
     engine.rootContext()->setContextProperty(QStringLiteral("ohList"), &ohList);
     engine.load(QUrl(QLatin1String("qrc:/qml/main.qml")));
+    
     if (engine.rootObjects().isEmpty())
         return -1;
 
