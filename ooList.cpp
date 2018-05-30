@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "config.h"
 
 #include <ctime>
 
@@ -100,7 +101,7 @@ void OoList::readOutput(){
     QStringList list = output.split(separator);
     for( int i = 0; i < list.length() ; i++){
         qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
-        QJsonObject jsonObj = ObjectFromString(output);
+        QJsonObject jsonObj = ObjectFromString(list[i]);
         printJsonObject(jsonObj);
     }
 
@@ -113,17 +114,22 @@ void OoList::printJsonObject(const QJsonObject& object){
     QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
     //int step = object.value("step").toInt();
     if( step > 0 && step < 10 ){
-         qInfo() << "step in loop " << QString::number(step);
          QObject *stepBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "Box");
          QObject *stepCheckBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "CheckBox");
          QObject *stepExtraInfo = rootObject->findChild<QObject*>("step" + QString::number(step) + "ExtraInfo");
 
          //qInfo() <<"testje" << object.value("step").toDouble() / 10;
-         progressBar->setProperty("value", object.value("step").toDouble() / 10);
+         if(role == "Initiator"){
+            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
+         }else if(role == "Acceptor"){
+            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
+         }
+         
          stepBox->setProperty("visible", 1);
          stepCheckBox->setProperty("text", object.value("stepName"));
          stepCheckBox->setProperty("checked", 1);
     }
+    
 
 }
 void OoList::readErrors(){

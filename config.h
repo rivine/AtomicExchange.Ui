@@ -1,0 +1,2 @@
+#define INITIATOR_STEPS 8
+#define ACCEPTOR_STEPS 9
