@@ -27,6 +27,7 @@ public:
     bool setItemAt(int index, const OoItem &item);
     QJsonObject ObjectFromString(const QString& in);
 
+
 signals:
     void preItemAppended();
     void postItemAppended();
@@ -40,7 +41,6 @@ public slots:
     void initiatorAcceptorActivated(QString editText);
     void readOutput();
     void readErrors();
-    void uiCreated(QObject *object, const QUrl &url);
 
 private:
     QVector<OoItem> mItems;

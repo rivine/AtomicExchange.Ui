@@ -16,8 +16,6 @@ ColumnLayout {
         Layout.fillWidth: true
         ColumnLayout{
             RowLayout {
-
-
                 Label {
                     text: "Role"
                     Layout.preferredWidth: 100
@@ -38,6 +36,9 @@ ColumnLayout {
             }
             RowLayout {
                 width: parent.width
+                   id: ipAcceptorBox
+                    objectName: "ipAcceptorBox"
+                    visible: true
 
                 Label {
                     text: "Ip acceptor"

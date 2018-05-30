@@ -18,7 +18,6 @@ OoList::OoList(QObject *parent) : QObject(parent)
 
 
     engine = ApplicationContext::Instance().getEngine();
-    //QObject::connect(&engine, SIGNAL(objectCreated), this, SLOT(uiCreated(QObject *object, const QUrl &url)));
 
 }
 QVector<OoItem> OoList::items() const
@@ -45,13 +44,16 @@ void OoList::initiatorAcceptorActivated(QString editText)
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *coin = rootObject->findChild<QObject*>("coin");
     QObject *destinationCoin = rootObject->findChild<QObject*>("destinationCoin");
+    QObject *ipAcceptor = rootObject->findChild<QObject*>("ipAcceptorBox");
     if(editText == "Initiator"){
         coin->setProperty("currentIndex", 0);
         destinationCoin->setProperty("currentIndex", 0);
+        ipAcceptor->setProperty("visible", 1);
     
     }else if(editText == "Acceptor"){
         coin->setProperty("currentIndex", 1);
         destinationCoin->setProperty("currentIndex", 1);
+        ipAcceptor->setProperty("visible", 0);
     }
 }
 
@@ -89,38 +91,38 @@ void OoList::confirmNewOrder(){
     }
 }
 void OoList::readOutput(){
-    qInfo("output");
+    qInfo("readOutput");
     
     output = process.readAllStandardOutput();
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
-    QRegExp separator("\n");
+    //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
+    QRegExp separator("\\n");
     QStringList list = output.split(separator);
-    for( int i = 0; i < list.length(); i++){
+    for( int i = 0; i < list.length() ; i++){
+        qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
         QJsonObject jsonObj = ObjectFromString(output);
         printJsonObject(jsonObj);
     }
-    
-    //qInfo() << jsonObj;
-    outputBox->setProperty("text", output);
 
 }
 void OoList::printJsonObject(const QJsonObject& object){
-        
-    qInfo() << "step " << object.value("step");
+
+    int step = object.value("step").toInt();
+    qInfo() << "step " << step;
     qInfo() << "stepName " << object.value("stepName");
-    if(object.value("step").toDouble() == 1){
-        qInfo() << "woop woop";
-        //QObject *step1box = rootObject->findChild<QObject*>("step1box");
-        //QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
-        //progressBar->setProperty("value", 0.1);
-        //progressBar->setProperty("visible", 1);
-    }
-    else if(object.value("step").toDouble() == 2){
-        qInfo() << "woop woop2";
-    }
-    else{
-        qInfo() << "floop " << object.value("step");
+    QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
+    //int step = object.value("step").toInt();
+    if( step > 0 && step < 10 ){
+         qInfo() << "step in loop " << QString::number(step);
+         QObject *stepBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "Box");
+         QObject *stepCheckBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "CheckBox");
+         QObject *stepExtraInfo = rootObject->findChild<QObject*>("step" + QString::number(step) + "ExtraInfo");
+
+         //qInfo() <<"testje" << object.value("step").toDouble() / 10;
+         progressBar->setProperty("value", object.value("step").toDouble() / 10);
+         stepBox->setProperty("visible", 1);
+         stepCheckBox->setProperty("text", object.value("stepName"));
+         stepCheckBox->setProperty("checked", 1);
     }
 
 }
@@ -133,19 +135,12 @@ void OoList::readErrors(){
 
     process.kill();
 }
-void OoList::uiCreated(QObject *object, const QUrl &url){
-    qInfo("woop woop ui");
 
-    //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << "1234" << "-m" << "987" << "-d";
-    //process.start("sh", pythonCommandArguments);
-    process.waitForFinished();
-    ipAddress = process.readAll();
-        
-    QObject *ipAddressField = rootObject->findChild<QObject*>("ipaddress");
-    ipAddressField->setProperty("text", "yo");
-}
 QString OoList::getIp(){
-    return "192.168.7.152";
+    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    return output;
 }
 
 void OoList::appendItem()

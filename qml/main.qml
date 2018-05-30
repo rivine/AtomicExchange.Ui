@@ -72,7 +72,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step1Box
-            objectName: "step1box"
+            objectName: "step1Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -81,7 +81,7 @@ ApplicationWindow {
                 id: step1CheckBox
                 objectName: "step1CheckBox"
                 checked: false
-                enabled: false;
+                enabled: false
             }
             Text {
                 id: step1ExtraInfo
@@ -91,7 +91,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step2Box
-            objectName: "step2box"
+            objectName: "step2Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -110,7 +110,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step3Box
-            objectName: "step3box"
+            objectName: "step3Box"
             Layout.leftMargin: 70
             width: parent.width
              visible: false
@@ -129,7 +129,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step4Box
-            objectName: "step4box"
+            objectName: "step4Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -148,7 +148,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step5Box
-            objectName: "step5box"
+            objectName: "step5Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -167,7 +167,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step6Box
-            objectName: "step6box"
+            objectName: "step6Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -186,7 +186,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step7Box
-            objectName: "step7box"
+            objectName: "step7Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -205,7 +205,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step8Box
-            objectName: "step8box"
+            objectName: "step8Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
@@ -224,7 +224,7 @@ ApplicationWindow {
         }
         RowLayout {
             id: step9Box
-            objectName: "step9box"
+            objectName: "step9Box"
             Layout.leftMargin: 70
             width: parent.width
             visible: false
