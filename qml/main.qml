@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     width: 1024
     height: 800
-    title: qsTr("Atomic exchange - New order")
+    title: qsTr("Atomic exchange")
     Material.theme: Material.Light
     ColumnLayout {
             

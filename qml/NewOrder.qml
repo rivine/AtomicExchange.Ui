@@ -6,12 +6,13 @@ import QtQuick.Controls.Material 2.0
 import ToDo 1.0
 
 ColumnLayout {
-    // Text {
-    //     text: "New order"
-    //     font.pixelSize: 20
-    // }
-    Frame {
-
+     Text {
+        text: "New order"
+         font.pixelSize: 20
+     }
+    Pane {
+        Material.elevation: 10
+        Material.background: "White"
         Layout.fillWidth: true
         ColumnLayout{
             RowLayout {

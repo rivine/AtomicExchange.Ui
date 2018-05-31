@@ -11,8 +11,9 @@ ColumnLayout {
         text: "Order history"
         font.pixelSize: 20
     }
-    Frame {
-
+    Pane {
+        Material.elevation: 10
+        Material.background: "White"
         /*test*/
         property Item listHeaderItem: null
         Component {

@@ -10,8 +10,9 @@ ColumnLayout {
         text: "Open orders"
         font.pixelSize: 20
     }
-    Frame {
-
+    Pane {
+        Material.elevation: 10
+        Material.background: "White"
         /*test*/
         
         Component {
