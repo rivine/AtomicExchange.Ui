@@ -6,15 +6,19 @@ import QtQuick.Controls.Material 2.0
 import ToDo 1.0
 
 ColumnLayout {
-     Text {
-        text: "New order"
-         font.pixelSize: 20
-     }
+
     Pane {
         Material.elevation: 10
         Material.background: "White"
         Layout.fillWidth: true
+
         ColumnLayout{
+            RowLayout{
+                        Text {
+                    text: "New order"
+                    font.pixelSize: 20
+                }
+            }
             RowLayout {
                 width: parent.width
 
@@ -89,25 +93,25 @@ ColumnLayout {
                 }
 
             }
+             RowLayout {
+                Button {
+                    text: qsTr("Cancel")
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    onClicked: ooList.cancelNewOrder()
+                    Layout.fillWidth: true
+                }
+                Button {
+                    text: qsTr("Confirm")
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    onClicked: ooList.confirmNewOrder()
+                    Layout.fillWidth: true
+                }
+            }
         }
     }
 
-    RowLayout {
-        Button {
-            text: qsTr("Cancel")
-            Material.background: Material.LightBlue
-            Material.foreground: "white"
-            font.bold: true
-            onClicked: ooList.cancelNewOrder()
-            Layout.fillWidth: true
-        }
-        Button {
-            text: qsTr("Confirm")
-            Material.background: Material.LightBlue
-            Material.foreground: "white"
-            font.bold: true
-            onClicked: ooList.confirmNewOrder()
-            Layout.fillWidth: true
-        }
-    }
 }

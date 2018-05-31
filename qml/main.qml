@@ -10,19 +10,35 @@ ApplicationWindow {
     height: 800
     title: qsTr("Atomic exchange")
     Material.theme: Material.Light
-    ColumnLayout {
-            
 
-            Text {
-                Layout.leftMargin: 50
+   header: 
+        ToolBar {
+            Material.elevation: 10
+            Material.primary: Material.Blue
+            Layout.leftMargin: 50
+            Layout.topMargin: 20
+
+            RowLayout {
+
                 Layout.topMargin: 20
-                Layout.bottomMargin: 20
-                text: "Atomic Exchange - Orderbook"
-                font.pixelSize: 24
 
-            }
+                Text {
+                    Layout.leftMargin: 70
+                    Layout.topMargin: 20
+
+                    Layout.bottomMargin: 20
+                    text: "Atomic Exchange"
+                    font.pixelSize: 24
+                    color: "white"
+                }
+            }        
+    }
+
+    ColumnLayout {          
+            Layout.topMargin: 200
+
             OoList {
-                        
+                Layout.topMargin: 40    
                 //anchors.centerIn: parent
                 Layout.leftMargin: 70
                 Layout.bottomMargin: 20
@@ -41,6 +57,7 @@ ApplicationWindow {
             }
 
             NewOrder {
+                Layout.topMargin: 40    
                 Layout.leftMargin: 70
                 Layout.bottomMargin: 20
                 objectName: "newOrder"
