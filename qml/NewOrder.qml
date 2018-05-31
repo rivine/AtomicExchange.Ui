@@ -7,12 +7,7 @@ import ToDo 1.0
 
 ColumnLayout {
     Layout.fillWidth: true
-    Text {
-        color : "#2b2b2b"
-        text: "New order"
-        font.pixelSize: 20
-        font.bold: true
-    }
+
     Pane {
 
         Material.elevation: 10
@@ -21,6 +16,14 @@ ColumnLayout {
         Material.accent: Material.Green
     
         ColumnLayout{
+            RowLayout{
+                Text {
+                    color : "#2b2b2b"
+                    text: "New order"
+                    font.pixelSize: 20
+                    font.bold: true
+                }
+            }
             RowLayout {
                 Label {
                     text: "Role"
@@ -135,19 +138,20 @@ ColumnLayout {
                     visible: false;
                 }
             }
+            RowLayout {
+                Button {
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    id: submitButton
+                    objectName: "submitButton"
+                    text: qsTr("Confirm")
+                    onClicked: ooList.confirmNewOrder()
+                    Layout.fillWidth: true
+                }
+            }
         }
     }
 
-    RowLayout {
-        Button {
-            Material.background: Material.LightBlue
-            Material.foreground: "white"
-            font.bold: true
-            id: submitButton
-            objectName: "submitButton"
-            text: qsTr("Confirm")
-            onClicked: ooList.confirmNewOrder()
-            Layout.fillWidth: true
-        }
-    }
+    
 }

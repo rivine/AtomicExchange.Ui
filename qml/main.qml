@@ -11,18 +11,32 @@ ApplicationWindow {
     height: 800
     title: qsTr("Atomic exchange")
     
+    header: 
+        ToolBar {
+            Material.elevation: 10
+            Material.primary: Material.Blue
+            Layout.leftMargin: 50
+            Layout.topMargin: 20
+
+            RowLayout {
+
+                Layout.topMargin: 20
+
+                Text {
+                    Layout.leftMargin: 70
+                    Layout.topMargin: 20
+
+                    Layout.bottomMargin: 20
+                    text: "Atomic Exchange"
+                    font.pixelSize: 24
+                    color: "white"
+                }
+            }        
+    }
     
     ColumnLayout {
        
-            Text {
-                color : "#2b2b2b"
-                Layout.leftMargin: 50
-                Layout.topMargin: 20
-                Layout.bottomMargin: 20
-                text: "Atomic exchange"
-                font.pixelSize: 24
-                font.bold: true
-            }/*
+            /*
             OoList {
                 //anchors.centerIn: parent
                 Layout.leftMargin: 70
@@ -37,32 +51,16 @@ ApplicationWindow {
             }
 */
 
-            NewOrder {
-                Layout.leftMargin: 70
-                Layout.bottomMargin: 20
-                objectName: "newOrder"
-                visible: true;
-            }
-
-         RowLayout {
+        NewOrder {
+            Layout.topMargin: 40    
             Layout.leftMargin: 70
-            Layout.bottomMargin: 20
-            width: parent.width
-            visible: false;
-
-            Label {
-                text: "Output :"
-                Layout.preferredWidth: 100
-            }
-            Text {
-                id: outputMessages
-                objectName: "outputMessages"
-                Layout.preferredWidth: 100
-            }
+            objectName: "newOrder"
+            visible: true;
         }
+
         RowLayout {
             Layout.leftMargin: 70
-            Layout.bottomMargin: 20
+            Layout.topMargin: 10
             width: parent.width
             
 
