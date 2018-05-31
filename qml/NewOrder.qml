@@ -50,6 +50,15 @@ ColumnLayout {
                     Layout.fillWidth: true
                     validator: RegExpValidator { regExp: /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/ }
                 }
+                Text {
+                    id: ipNote
+                    objectName: "ipNote"
+                    //text: model.description
+                    //onEditingFinished: model.description = text
+                    Layout.fillWidth: true
+                    text: "Please enter a IP"
+                    visible: false;
+                }
             }
             RowLayout {
                 width: parent.width
@@ -73,6 +82,16 @@ ColumnLayout {
                         objectName: "coin"
                         width: 200
                         model: [  "BTC", "TFT"]
+                        enabled: false;
+                }
+                Text {
+                    id: amountNote
+                    objectName: "amountNote"
+                    //text: model.description
+                    //onEditingFinished: model.description = text
+                    Layout.fillWidth: true
+                    text: "Please enter a valid amount"
+                    visible: false;
                 }
 
             }
@@ -94,6 +113,16 @@ ColumnLayout {
                         objectName: "destinationCoin"
                         width: 200
                         model: [ "TFT", "BTC"]
+                        enabled: false;
+                }
+                Text {
+                    id: valueNote
+                    objectName: "valueNote"
+                    //text: model.description
+                    //onEditingFinished: model.description = text
+                    Layout.fillWidth: true
+                    text: "Please enter a valid value"
+                    visible: false;
                 }
             }
         }
@@ -101,6 +130,8 @@ ColumnLayout {
 
     RowLayout {
         Button {
+            id: submitButton
+            objectName: "submitButton"
             text: qsTr("Confirm")
             onClicked: ooList.confirmNewOrder()
             Layout.fillWidth: true

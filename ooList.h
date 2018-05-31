@@ -21,6 +21,7 @@ class OoList : public QObject
     Q_OBJECT
 public:
     Q_INVOKABLE QString getIp();
+    Q_INVOKABLE void showOutputLog();
     explicit OoList(QObject *parent = nullptr);
     QVector<OoItem> items() const;
 
@@ -53,6 +54,7 @@ private:
     QString ipAddress;
     QObject *rootObject;
     QQmlApplicationEngine* engine;
+    QString outputLog;
     
 };
 

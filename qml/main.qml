@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
+
 ApplicationWindow {
     id: window
     visible: true
@@ -9,7 +10,9 @@ ApplicationWindow {
     height: 800
     title: qsTr("Atomic exchange")
     
+    
     ColumnLayout {
+       
             Text {
                 Layout.leftMargin: 50
                 Layout.topMargin: 20
@@ -71,162 +74,132 @@ ApplicationWindow {
 
         }
         RowLayout {
-            id: step1Box
-            objectName: "step1Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
+            RowLayout {
+                id: step1Box
+                objectName: "step1Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
 
-            CheckBox {
-                id: step1CheckBox
-                objectName: "step1CheckBox"
-                checked: false
-                enabled: false
+                CheckBox {
+                    id: step1CheckBox
+                    objectName: "step1CheckBox"
+                    checked: false
+                    enabled: false
+                }
+
             }
-            Text {
-                id: step1ExtraInfo
-                objectName: "step1ExtraInfo"
-                Layout.preferredWidth: 100
+            RowLayout {
+                id: step2Box
+                objectName: "step2Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
+
+                CheckBox {
+                    id: step2CheckBox
+                    objectName: "step2CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
         }
         RowLayout {
-            id: step2Box
-            objectName: "step2Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
+            RowLayout {
+                id: step3Box
+                objectName: "step3Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
 
-            CheckBox {
-                id: step2CheckBox
-                objectName: "step2CheckBox"
-                checked: false
-                enabled: false;
+                CheckBox {
+                    id: step3CheckBox
+                    objectName: "step3CheckBox"
+                    checked: false
+                    enabled: false;
+                }
+
             }
-            Text {
-                id: step2ExtraInfo
-                objectName: "step2ExtraInfo"
-                Layout.preferredWidth: 100
+            RowLayout {
+                id: step4Box
+                objectName: "step4Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
+
+                CheckBox {
+                    id: step4CheckBox
+                    objectName: "step4CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
         }
         RowLayout {
-            id: step3Box
-            objectName: "step3Box"
-            Layout.leftMargin: 70
-            width: parent.width
-             visible: false
+            RowLayout {
+                id: step5Box
+                objectName: "step5Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
 
-            CheckBox {
-                id: step3CheckBox
-                objectName: "step3CheckBox"
-                checked: false
-                enabled: false;
+                CheckBox {
+                    id: step5CheckBox
+                    objectName: "step5CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
-            Text {
-                id: step3ExtraInfo
-                objectName: "step3ExtraInfo"
-                Layout.preferredWidth: 100
+            RowLayout {
+                id: step6Box
+                objectName: "step6Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
+
+                CheckBox {
+                    id: step6CheckBox
+                    objectName: "step6CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
         }
         RowLayout {
-            id: step4Box
-            objectName: "step4Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
+            RowLayout {
+                id: step7Box
+                objectName: "step7Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
 
-            CheckBox {
-                id: step4CheckBox
-                objectName: "step4CheckBox"
-                checked: false
-                enabled: false;
+                CheckBox {
+                    id: step7CheckBox
+                    objectName: "step7CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
-            Text {
-                id: step4ExtraInfo
-                objectName: "step4ExtraInfo"
-                Layout.preferredWidth: 100
-            }
-        }
-        RowLayout {
-            id: step5Box
-            objectName: "step5Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
+            RowLayout {
+                id: step8Box
+                objectName: "step8Box"
+                Layout.leftMargin: 70
+                Layout.preferredWidth: 250
+                visible: false
 
-            CheckBox {
-                id: step5CheckBox
-                objectName: "step5CheckBox"
-                checked: false
-                enabled: false;
-            }
-            Text {
-                id: step5ExtraInfo
-                objectName: "step5ExtraInfo"
-                Layout.preferredWidth: 100
-            }
-        }
-        RowLayout {
-            id: step6Box
-            objectName: "step6Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
-
-            CheckBox {
-                id: step6CheckBox
-                objectName: "step6CheckBox"
-                checked: false
-                enabled: false;
-            }
-            Text {
-                id: step6ExtraInfo
-                objectName: "step6ExtraInfo"
-                Layout.preferredWidth: 100
-            }
-        }
-        RowLayout {
-            id: step7Box
-            objectName: "step7Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
-
-            CheckBox {
-                id: step7CheckBox
-                objectName: "step7CheckBox"
-                checked: false
-                enabled: false;
-            }
-            Text {
-                id: step7ExtraInfo
-                objectName: "step7ExtraInfo"
-                Layout.preferredWidth: 100
-            }
-        }
-        RowLayout {
-            id: step8Box
-            objectName: "step8Box"
-            Layout.leftMargin: 70
-            width: parent.width
-            visible: false
-
-            CheckBox {
-                id: step8CheckBox
-                objectName: "step8CheckBox"
-                checked: false
-                enabled: false;
-            }
-            Text {
-                id: step8ExtraInfo
-                objectName: "step8ExtraInfo"
-                Layout.preferredWidth: 100
+                CheckBox {
+                    id: step8CheckBox
+                    objectName: "step8CheckBox"
+                    checked: false
+                    enabled: false;
+                }
             }
         }
         RowLayout {
             id: step9Box
             objectName: "step9Box"
             Layout.leftMargin: 70
-            width: parent.width
+            Layout.preferredWidth: 250
             visible: false
 
             CheckBox {
@@ -235,11 +208,35 @@ ApplicationWindow {
                 checked: false
                 enabled: false;
             }
-            Text {
-                id: step9ExtraInfo
-                objectName: "step9ExtraInfo"
-                Layout.preferredWidth: 100
-            }
         }
+        RowLayout {
+            id: outputLog
+            objectName: "ouputLog"
+            Layout.leftMargin: 70
+            width: parent.width
+            property bool textVisible: false;
+
+
+            Button {
+                id: outputLogButton
+                objectName: "ouputLogButton"
+                text: "Show log"
+                onClicked: {
+                    parent.textVisible = !parent.textVisible
+                    ooList.showOutputLog();
+                }
+            }
+            Text {
+                id: outputLogText
+                objectName: "outputLogText"
+                Layout.preferredWidth: 100
+                visible: parent.textVisible
+            }
+
+        }
+
+         
     }
+
+    
 }

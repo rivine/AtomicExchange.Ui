@@ -16,8 +16,6 @@ OoList::OoList(QObject *parent) : QObject(parent)
     mItems.append({ QStringLiteral("Ripple"), QStringLiteral("20/03/2018 17:12"), QStringLiteral("0.15"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
 
     role = "Initiator";
-
-
     engine = ApplicationContext::Instance().getEngine();
 
 }
@@ -61,40 +59,76 @@ void OoList::initiatorAcceptorActivated(QString editText)
 void OoList::confirmNewOrder(){
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
-    progressBar->setProperty("visible", 1);
 
-    if(role == "Initiator"){
-        QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << "1234" << "-m" << "987" << "-d";
-        
-        //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
-        //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
-        //qInfo() << "path : " << scriptFile;
-        //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+    QObject *amountField = rootObject->findChild<QObject*>("amount");
+    QString amount = amountField->property("text").toString();
 
-        process.start("python", pythonCommandArguments);
-        qInfo() << pythonCommandArguments;
-        QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
-        //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
-        
-    }else if(role == "Acceptor"){
+    QObject *valueField = rootObject->findChild<QObject*>("value");
+    QString value = valueField->property("text").toString();
 
-        QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << "987" << "-m" << "1234" << "-d" ;
+    QObject *ipField = rootObject->findChild<QObject*>("ipAcceptor");
+    QString ipAcceptor = ipField->property("text").toString();
 
-        //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
-        //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
-        //qInfo() << "path : " << scriptFile;
-        //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+    QObject *amountNote = rootObject->findChild<QObject*>("amountNote");
+    QObject *valueNote = rootObject->findChild<QObject*>("valueNote");
+    QObject *ipNote = rootObject->findChild<QObject*>("ipNote");  
 
-        process.start("python", pythonCommandArguments);
-        qInfo() << pythonCommandArguments;
-        QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
-        //QObject::connect(&acceptorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors())); // when enabling errors, there is no ouput anymore after an error
+    amountNote->setProperty("visible", 0);
+    valueNote->setProperty("visible", 0);
+    ipNote->setProperty("visible", 0);
+
+    QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
+
+    if(amount == "" || value == "" || (ipAcceptor == "" && role == "Initiator")){
+        qInfo() << "something went wrong";
+        if(amount == ""){
+            amountNote->setProperty("visible", 1);
+        }
+        if(value == ""){
+            valueNote->setProperty("visible", 1);
+        }
+        if(ipAcceptor == "" && role == "Initiator"){
+            ipNote->setProperty("visible", 1);
+        }
+    }
+    else{
+        progressBar->setProperty("visible", 1);
+        submitButton->setProperty("enabled", 0);
+
+        if(role == "Initiator"){
+            QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
+            
+            //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
+            //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
+            //qInfo() << "path : " << scriptFile;
+            //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+
+            process.start("python", pythonCommandArguments);
+            qInfo() << pythonCommandArguments;
+            QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
+            //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
+            
+        }else if(role == "Acceptor"){
+
+            QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
+
+            //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
+            //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
+            //qInfo() << "path : " << scriptFile;
+            //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+
+            process.start("python", pythonCommandArguments);
+            qInfo() << pythonCommandArguments;
+            QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
+            //QObject::connect(&acceptorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors())); // when enabling errors, there is no ouput anymore after an error
+        }
     }
 }
 void OoList::readOutput(){
     qInfo("readOutput");
     
     output = process.readAllStandardOutput();
+    outputLog += output;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
     QRegExp separator("\\n");
@@ -105,6 +139,10 @@ void OoList::readOutput(){
         printJsonObject(jsonObj);
     }
 
+}
+void OoList::showOutputLog(){
+    QObject *outputLogTextfield = rootObject->findChild<QObject*>("outputLogText");
+    outputLogTextfield->setProperty("text", outputLog);
 }
 void OoList::printJsonObject(const QJsonObject& object){
 
