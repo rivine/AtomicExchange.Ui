@@ -1,19 +1,25 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.0
 
 import ToDo 1.0
 
 ColumnLayout {
     Layout.fillWidth: true
     Text {
+        color : "#2b2b2b"
         text: "New order"
         font.pixelSize: 20
         font.bold: true
     }
-    Frame {
+    Pane {
 
+        Material.elevation: 10
+        Material.background: "White"
         Layout.fillWidth: true
+        Material.accent: Material.Green
+    
         ColumnLayout{
             RowLayout {
                 Label {
@@ -30,6 +36,7 @@ ColumnLayout {
                         
                 }
                 Text {
+                    color : "#2b2b2b"
                     text: ooList.getIp();
                 }
 
@@ -56,6 +63,7 @@ ColumnLayout {
                     //text: model.description
                     //onEditingFinished: model.description = text
                     Layout.fillWidth: true
+                    color : "red"
                     text: "Please enter a IP"
                     visible: false;
                 }
@@ -90,6 +98,7 @@ ColumnLayout {
                     //text: model.description
                     //onEditingFinished: model.description = text
                     Layout.fillWidth: true
+                    color : "red"
                     text: "Please enter a valid amount"
                     visible: false;
                 }
@@ -121,6 +130,7 @@ ColumnLayout {
                     //text: model.description
                     //onEditingFinished: model.description = text
                     Layout.fillWidth: true
+                    color : "red"
                     text: "Please enter a valid value"
                     visible: false;
                 }
@@ -130,6 +140,9 @@ ColumnLayout {
 
     RowLayout {
         Button {
+            Material.background: Material.LightBlue
+            Material.foreground: "white"
+            font.bold: true
             id: submitButton
             objectName: "submitButton"
             text: qsTr("Confirm")

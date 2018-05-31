@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.0
 
 
 ApplicationWindow {
@@ -14,6 +15,7 @@ ApplicationWindow {
     ColumnLayout {
        
             Text {
+                color : "#2b2b2b"
                 Layout.leftMargin: 50
                 Layout.topMargin: 20
                 Layout.bottomMargin: 20
@@ -218,6 +220,9 @@ ApplicationWindow {
 
 
             Button {
+                font.bold: true
+                Material.background: Material.LightBlue
+                Material.foreground: "white"
                 id: outputLogButton
                 objectName: "ouputLogButton"
                 text: "Show log"
