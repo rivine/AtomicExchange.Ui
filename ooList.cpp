@@ -96,12 +96,10 @@ void OoList::confirmNewOrder(){
         submitButton->setProperty("enabled", 0);
 
         if(role == "Initiator"){
-            QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
+            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
             
-            //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
-            //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
-            //qInfo() << "path : " << scriptFile;
-            //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+            QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
+            QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
 
             process.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
@@ -110,12 +108,10 @@ void OoList::confirmNewOrder(){
             
         }else if(role == "Acceptor"){
 
-            QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
+            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
 
-            //PATH IN CODE IS CORRECT BUT CODE IS NOT WORKING
-            //QString scriptFile =  QCoreApplication::applicationDirPath() + "/../exchangeNodes/acceptor.py";
-            //qInfo() << "path : " << scriptFile;
-            //QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << "1234" << "-m" << "987" << "-d";
+            QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/acceptor.py";
+            QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
 
             process.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
