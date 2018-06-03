@@ -191,7 +191,7 @@ QString OoList::getBalanceBTC(){
     return output;
 }
 QString OoList::getBalanceTFT(){
-    process.start("sh", QStringList() << "-c" << "tfchainc wallet balance");
+    process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
     return output;
@@ -215,7 +215,7 @@ void OoList::createTFTAddress(){
     createdTFTAddress->setProperty("text", output);
 }
 QString OoList::getSyncStatusBTC(){
-    process.start("sh", QStringList() << "-c" << "calc() { awk 'BEGIN{ printf \'%.2f\n\", $* }'; } && calc $(wget -q -O- https://blockexplorer.com/q/getblockcount; echo) /  $(bitcoin-cli getblockcount) * 100");
+    process.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
@@ -231,7 +231,7 @@ QString OoList::getSyncStatusBTC(){
     return output;
 }
 QString OoList::getSyncStatusTFT(){
-    process.start("sh", QStringList() << "-c" << "tfchainc consensus");
+    process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
