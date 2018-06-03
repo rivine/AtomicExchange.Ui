@@ -222,6 +222,7 @@ ApplicationWindow {
                 Material.background: Material.LightBlue
                 Material.foreground: "white"
                 id: outputLogButton
+                font.capitalization: Font.MixedCase
                 objectName: "ouputLogButton"
                 text: "Show log"
                 onClicked: {

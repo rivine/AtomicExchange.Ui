@@ -21,6 +21,12 @@ class OoList : public QObject
     Q_OBJECT
 public:
     Q_INVOKABLE QString getIp();
+    Q_INVOKABLE QString getBalanceBTC();
+    Q_INVOKABLE QString getBalanceTFT();
+    Q_INVOKABLE void createBTCAddress();
+    Q_INVOKABLE void createTFTAddress();
+    Q_INVOKABLE QString getSyncStatusBTC();
+    Q_INVOKABLE QString getSyncStatusTFT();
     Q_INVOKABLE void showOutputLog();
     explicit OoList(QObject *parent = nullptr);
     QVector<OoItem> items() const;
@@ -55,6 +61,8 @@ private:
     QObject *rootObject;
     QQmlApplicationEngine* engine;
     QString outputLog;
+    bool syncStatusTFTFinished;
+    bool syncStatusBTCFinished;
     
 };
 

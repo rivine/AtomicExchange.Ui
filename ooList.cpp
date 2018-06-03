@@ -16,6 +16,8 @@ OoList::OoList(QObject *parent) : QObject(parent)
     mItems.append({ QStringLiteral("Ripple"), QStringLiteral("20/03/2018 17:12"), QStringLiteral("0.15"), QStringLiteral("15000 TFT"), QStringLiteral("pending") });
 
     role = "Initiator";
+    syncStatusBTCFinished = false;
+    syncStatusTFTFinished = false;
     engine = ApplicationContext::Instance().getEngine();
 
 }
@@ -180,6 +182,70 @@ QString OoList::getIp(){
     process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16");
     process.waitForFinished();
     QByteArray output = process.readAll();
+    return output;
+}
+QString OoList::getBalanceBTC(){
+    process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    return output;
+}
+QString OoList::getBalanceTFT(){
+    process.start("sh", QStringList() << "-c" << "tfchainc wallet balance");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    return output;
+}
+void OoList::createBTCAddress(){
+    process.start("sh", QStringList() << "-c" << "bitcoin-cli getnewaddress "" legacy");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+
+    rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *createdBTCAddessField = rootObject->findChild<QObject*>("createdBTCAddress");
+    createdBTCAddessField->setProperty("text", output);
+}
+void OoList::createTFTAddress(){
+    process.start("sh", QStringList() << "-c" << "tfchainc wallet address");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+
+    rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    QObject *createdTFTAddress = rootObject->findChild<QObject*>("createdTFTAddress");
+    createdTFTAddress->setProperty("text", output);
+}
+QString OoList::getSyncStatusBTC(){
+    process.start("sh", QStringList() << "-c" << "calc() { awk 'BEGIN{ printf \'%.2f\n\", $* }'; } && calc $(wget -q -O- https://blockexplorer.com/q/getblockcount; echo) /  $(bitcoin-cli getblockcount) * 100");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    //TODO, stop timer when sync is 100
+    if(output == "100"){
+        if( syncStatusTFTFinished == true){
+            rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+            QObject *syncStatusBTCTimer = rootObject->findChild<QObject*>("syncStatusBTCTimer");
+            QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
+            syncStatusBTCTimer->setProperty("running", false);
+            submitButton->setProperty("enabled", true);
+        }
+    }
+    return output;
+}
+QString OoList::getSyncStatusTFT(){
+    process.start("sh", QStringList() << "-c" << "tfchainc consensus");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    //TODO, stop timer when sync is 100
+    if(output == "100"){
+        if( syncStatusBTCFinished == true){
+            syncStatusTFTFinished = true;
+            rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+            QObject *syncStatusTFTTimer = rootObject->findChild<QObject*>("syncStatusTFTTimer");
+            QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
+            syncStatusTFTTimer->setProperty("running", false);
+            submitButton->setProperty("enabled", true);
+        }
+        
+    }
     return output;
 }
 
