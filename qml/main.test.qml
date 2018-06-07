@@ -6,20 +6,11 @@ import QtQuick.Controls 2.3
 Window {
     id: window
     visible: true
-    readonly property int responsiveWidth: 500
+    readonly property int maxWidthPhone: 479
+    readonly property int maxWidthTablet: 767
     width: 300; height: 500
 
-    ScrollView {
-        anchors.fill: parent
-        width: 200
-        height: 200
-        clip: true
 
-        Label {
-            text: "ABC"
-            font.pixelSize: 224
-        }
-    }
     SwipeView  {
         id: swipeView
         currentIndex: 1

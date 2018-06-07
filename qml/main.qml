@@ -10,6 +10,8 @@ ApplicationWindow {
     width: 1024
     height: 800
     title: qsTr("Atomic exchange")
+    readonly property int maxWidthPhone: 479
+    readonly property int maxWidthTablet: 767
     
     header: 
         ToolBar {
@@ -33,214 +35,238 @@ ApplicationWindow {
                 }
             }        
     }
-    
-    ColumnLayout {
-       
-            /*
-            OoList {
-                //anchors.centerIn: parent
-                Layout.leftMargin: 70
-                Layout.bottomMargin: 20
-                objectName: "openOrders"
+    ScrollView {
+        anchors.fill: parent
+        width: 200
+        height: 200
+        clip: true
+        
+
+        states: [
+            State {
+                when: window.width <= maxWidthPhone
+                PropertyChanges { target: masterColumnLayout; width: 300 }
+                PropertyChanges { target: newOrder; Layout.leftMargin: 10 }
+                PropertyChanges { target: masterColumnLayout; width: window.width - 10 }
+                
+            },
+            State {
+                when: window.width > maxWidthPhone && window.width <= maxWidthTablet
+                PropertyChanges { target: newOrder; Layout.leftMargin: 10 }
+                PropertyChanges { target: masterColumnLayout; width: window.width - 10 }
+            },
+            State {
+                when: window.width > maxWidthTablet
+                PropertyChanges { target: masterColumnLayout; width: 750 }
             }
-            OhList {
-                //anchors.centerIn: parent
+        ]
+
+        ColumnLayout {
+            id: masterColumnLayout
+            objectName: "masterColumnLayout"
+            Layout.leftMargin: 70
+                /*
+                OoList {
+                    //anchors.centerIn: parent
+                    Layout.leftMargin: 70
+                    Layout.bottomMargin: 20
+                    objectName: "openOrders"
+                }
+                OhList {
+                    //anchors.centerIn: parent
+                    Layout.leftMargin: 70
+                    Layout.bottomMargin: 20
+                    objectName: "orderHistory"
+                }
+            */
+
+            NewOrder {
+                Layout.topMargin: 40    
                 Layout.leftMargin: 70
-                Layout.bottomMargin: 20
-                objectName: "orderHistory"
+                id: newOrder
+                objectName: "newOrder"
+                visible: true;
             }
-*/
 
-        NewOrder {
-            Layout.topMargin: 40    
-            Layout.leftMargin: 70
-            objectName: "newOrder"
-            visible: true;
-        }
-
-        RowLayout {
-            Layout.leftMargin: 70
-            Layout.topMargin: 10
-            width: parent.width
-            
-
-            ProgressBar {
+            RowLayout {
+                Layout.leftMargin: 70
+                Layout.topMargin: 10
                 width: parent.width
-                id: progressBar
-                objectName: "progressBar"
-                value: 0
-                visible: false
-            }
+                
 
-        }
-        RowLayout {
-            RowLayout {
-                id: step1Box
-                objectName: "step1Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step1CheckBox
-                    objectName: "step1CheckBox"
-                    checked: false
-                    enabled: false
+                ProgressBar {
+                    width: parent.width
+                    id: progressBar
+                    objectName: "progressBar"
+                    value: 0
+                    visible: false
                 }
 
             }
             RowLayout {
-                id: step2Box
-                objectName: "step2Box"
+                RowLayout {
+                    id: step1Box
+                    objectName: "step1Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step1CheckBox
+                        objectName: "step1CheckBox"
+                        checked: false
+                        enabled: false
+                    }
+
+                }
+                RowLayout {
+                    id: step2Box
+                    objectName: "step2Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step2CheckBox
+                        objectName: "step2CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+            }
+            RowLayout {
+                RowLayout {
+                    id: step3Box
+                    objectName: "step3Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step3CheckBox
+                        objectName: "step3CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+
+                }
+                RowLayout {
+                    id: step4Box
+                    objectName: "step4Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step4CheckBox
+                        objectName: "step4CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+            }
+            RowLayout {
+                RowLayout {
+                    id: step5Box
+                    objectName: "step5Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step5CheckBox
+                        objectName: "step5CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+                RowLayout {
+                    id: step6Box
+                    objectName: "step6Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step6CheckBox
+                        objectName: "step6CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+            }
+            RowLayout {
+                RowLayout {
+                    id: step7Box
+                    objectName: "step7Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step7CheckBox
+                        objectName: "step7CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+                RowLayout {
+                    id: step8Box
+                    objectName: "step8Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step8CheckBox
+                        objectName: "step8CheckBox"
+                        checked: false
+                        enabled: false;
+                    }
+                }
+            }
+            RowLayout {
+                id: step9Box
+                objectName: "step9Box"
                 Layout.leftMargin: 70
                 Layout.preferredWidth: 250
                 visible: false
 
                 CheckBox {
-                    id: step2CheckBox
-                    objectName: "step2CheckBox"
+                    id: step9CheckBox
+                    objectName: "step9CheckBox"
                     checked: false
                     enabled: false;
                 }
             }
-        }
-        RowLayout {
             RowLayout {
-                id: step3Box
-                objectName: "step3Box"
+                id: outputLog
+                objectName: "ouputLog"
                 Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
+                width: parent.width
+                property bool textVisible: false;
 
-                CheckBox {
-                    id: step3CheckBox
-                    objectName: "step3CheckBox"
-                    checked: false
-                    enabled: false;
+
+                Button {
+                    font.bold: true
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    id: outputLogButton
+                    font.capitalization: Font.MixedCase
+                    objectName: "ouputLogButton"
+                    text: "Show log"
+                    onClicked: {
+                        parent.textVisible = !parent.textVisible
+                        ooList.showOutputLog();
+                    }
                 }
-
-            }
-            RowLayout {
-                id: step4Box
-                objectName: "step4Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step4CheckBox
-                    objectName: "step4CheckBox"
-                    checked: false
-                    enabled: false;
+                Text {
+                    id: outputLogText
+                    objectName: "outputLogText"
+                    Layout.preferredWidth: 100
+                    visible: parent.textVisible
                 }
-            }
+            }            
         }
-        RowLayout {
-            RowLayout {
-                id: step5Box
-                objectName: "step5Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step5CheckBox
-                    objectName: "step5CheckBox"
-                    checked: false
-                    enabled: false;
-                }
-            }
-            RowLayout {
-                id: step6Box
-                objectName: "step6Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step6CheckBox
-                    objectName: "step6CheckBox"
-                    checked: false
-                    enabled: false;
-                }
-            }
-        }
-        RowLayout {
-            RowLayout {
-                id: step7Box
-                objectName: "step7Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step7CheckBox
-                    objectName: "step7CheckBox"
-                    checked: false
-                    enabled: false;
-                }
-            }
-            RowLayout {
-                id: step8Box
-                objectName: "step8Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step8CheckBox
-                    objectName: "step8CheckBox"
-                    checked: false
-                    enabled: false;
-                }
-            }
-        }
-        RowLayout {
-            id: step9Box
-            objectName: "step9Box"
-            Layout.leftMargin: 70
-            Layout.preferredWidth: 250
-            visible: false
-
-            CheckBox {
-                id: step9CheckBox
-                objectName: "step9CheckBox"
-                checked: false
-                enabled: false;
-            }
-        }
-        RowLayout {
-            id: outputLog
-            objectName: "ouputLog"
-            Layout.leftMargin: 70
-            width: parent.width
-            property bool textVisible: false;
-
-
-            Button {
-                font.bold: true
-                Material.background: Material.LightBlue
-                Material.foreground: "white"
-                id: outputLogButton
-                font.capitalization: Font.MixedCase
-                objectName: "ouputLogButton"
-                text: "Show log"
-                onClicked: {
-                    parent.textVisible = !parent.textVisible
-                    ooList.showOutputLog();
-                }
-            }
-            Text {
-                id: outputLogText
-                objectName: "outputLogText"
-                Layout.preferredWidth: 100
-                visible: parent.textVisible
-            }
-
-        }
-
-         
-    }
-
-    
+    }       
 }
