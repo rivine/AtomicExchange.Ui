@@ -8,26 +8,26 @@ import ToDo 1.0
 ColumnLayout {
     Layout.fillWidth: true
 
-    states: [
-        State {
-            when: window.width <= maxWidthPhone
-            //ParentChange { target: groupbBoxBTC; parent: columnLayoutCurrencies; }
-            ParentChange { target: groupbBoxTFT; parent: columnLayoutCurrencies; }
+    // states: [
+    //     State {
+    //         when: window.width <= maxWidthPhone
+    //         //ParentChange { target: groupbBoxBTC; parent: columnLayoutCurrencies; }
+    //         ParentChange { target: groupbBoxTFT; parent: columnLayoutCurrencies; }
 
             
-        },
-        State {
-            when: window.width > maxWidthPhone && window.width <= maxWidthTablet
-            //ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
-            ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
-        },
-        State {
-            when: window.width > maxWidthTablet
-            ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
-            ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
-        }
+    //     },
+    //     State {
+    //         when: window.width > maxWidthPhone && window.width <= maxWidthTablet
+    //         //ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
+    //         ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
+    //     },
+    //     State {
+    //         when: window.width > maxWidthTablet
+    //         ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
+    //         ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
+    //     }
         
-    ]
+    // ]
     Pane {       
         Material.elevation: 6
         Material.background: "White"
@@ -43,161 +43,174 @@ ColumnLayout {
                     font.bold: true
                 }
             }
-            RowLayout{   
-                id: rowLayoutGroupboxes   
+         
+            GroupBox {
+                id: groupbBoxBTC
+                Layout.maximumWidth: 400
+                Material.background: "White"
+                Material.accent: Material.Green
+                title: qsTr("BTC")                    
 
-                GroupBox {
-                    id: groupbBoxBTC
-                    Material.background: "White"
-                    Material.accent: Material.Green
-                    title: qsTr("BTC")                    
-
-                    ColumnLayout {                    
-                        //Layout.fillWidth: true
-                        anchors.fill: parent
-                        RowLayout{
-                            Label {
-                                text: "Current balance"
-                                Layout.preferredWidth: 300
-                            }
-                            Text {
-                                id: balanceBTC
-                                objectName: "balanceBTC"
-                                text: ooList.getBalanceBTC();
-                            }
+                ColumnLayout {                    
+                    //Layout.fillWidth: true
+                    anchors.fill: parent
+                    RowLayout{
+                        Label {
+                            text: "Current balance"
+                            //Layout.preferredWidth: 300
+                            Layout.maximumWidth: 400
                         }
-                        
-                        property bool createdBTCAddressVisible: false;
-                        
-                        RowLayout{
-                            id: createdBTCAdressBox
-                            objectName: "createdBTCAddressBox"                  
-                            visible: parent.createdBTCAddressVisible
-
-                            Label {
-                                text: "Created BTC address"
-                                Layout.preferredWidth: 150
-                            }
-                            Text {
-                                id: createdBTCAddress
-                                objectName: "createdBTCAddress"
-                                text: "";
-                            }
-                        }
-                        RowLayout{
-                            id: syncStatusBTCBox
-                            objectName: "syncStatusBTC"                  
-
-                            Timer {
-                                id: syncStatusBTCTimer
-                                interval: 5000; running: true; repeat: true
-                                onTriggered: syncStatusBTC.text = ooList.getSyncStatusBTC()
-                            }
-                            Label {
-                                text: "Sync status"
-                                Layout.preferredWidth: 150
-                            }
-                            Text {
-                                id: syncStatusBTC
-                                objectName: "syncStatusBTC"
-                            }
-                        }
-                        RowLayout{
-                            Button {
-                                Material.background: "White"
-                                Material.foreground: "#2b2b2b"
-                                font.capitalization: Font.MixedCase
-                                id: createAddressBTC
-                                objectName: "createAddressBTC"
-                                text: "Create BTC address"
-                                onClicked: {
-                                    createAddressBTC.visible= false
-                                    parent.parent.createdBTCAddressVisible = true
-                                    ooList.createBTCAddress()
-                                }
-                            }
+                        Text {
+                            id: balanceBTC
+                            objectName: "balanceBTC"
+                            text: ooList.getBalanceBTC();
                         }
                     }
-                }
-                GroupBox {
-                    id: groupbBoxTFT
-                    Material.background: "White"
-                    Layout.fillWidth: true
-                    Material.accent: Material.Green
-                    title: qsTr("TfChain")
-                    ColumnLayout {
-                        //Layout.fillWidth: true
-                        //anchors.fill: parent
+                    
+                    property bool createdBTCAddressVisible: false;
+                    
+                    RowLayout{
+                        id: createdBTCAdressBox
+                        objectName: "createdBTCAddressBox"                  
+                        visible: parent.createdBTCAddressVisible
 
-                        RowLayout{
+                        Label {
+                            text: "Created BTC address"
+                            Layout.preferredWidth: 150
+                        }
+                    }
+                    RowLayout{
+                        Text {
+                            id: createdBTCAddress
+                            objectName: "createdBTCAddress"
+                            Layout.maximumWidth: 350
+                            wrapMode: Text.Wrap
+                            text: "";
+                        }
+                    }                   
+                    RowLayout{
+                        id: syncStatusBTCBox
+                        objectName: "syncStatusBTC"                  
 
-                            Label {
-                                text: "Current balance"
-                                Layout.preferredWidth: 300
-                            }
-                            Text {
-                                id: balance
-                                objectName: "balanceTFT"
-                                text: ooList.getBalanceTFT();
+                        Timer {
+                            id: syncStatusBTCTimer
+                            interval: 5000; running: true; repeat: true
+                            onTriggered: syncStatusBTC.text = ooList.getSyncStatusBTC()
+                        }
+                        Label {
+                            text: "Sync status"
+                            Layout.preferredWidth: 150
+                        }
+                        Text {
+                            id: syncStatusBTC
+                            objectName: "syncStatusBTC"
+                            Layout.preferredWidth: 100
+                        }
+                    }
+                    RowLayout{
+                        Button {
+                            Material.background: "White"
+                            Material.foreground: "#2b2b2b"
+                            font.capitalization: Font.MixedCase
+                            id: createAddressBTC
+                            objectName: "createAddressBTC"
+                            text: "Create BTC address"
+                            onClicked: {
+                                createAddressBTC.visible= false
+                                parent.parent.createdBTCAddressVisible = true
+                                ooList.createBTCAddress()
                             }
                         }
-                        property bool createdTFTAddressVisible: false;
-
-                        RowLayout{
-                            id: createdTFTAdressBox
-                            objectName: "createdTFTAdressBox"                  
-                            visible: parent.createdTFTAddressVisible
-
-                            Label {
-                                text: "Created TFT address"
-                                Layout.preferredWidth: 150
-                            }
-                            Text {
-                                id: createdTFTAddress
-                                objectName: "createdTFTAddress"
-                                text: "";
-                            }
-                        }
-                        RowLayout{
-                            id: syncStatusTFTBox
-                            objectName: "syncStatusTFT"                  
-
-                            Timer {
-                                id: syncStatusTFTTimer
-                                objectName: "syncStatusTFTTimer"
-                                interval: 5000; running: true; repeat: true
-                                onTriggered: syncStatusTFT.text = ooList.getSyncStatusTFT()
-                            }
-                            Label {
-                                text: "Sync status"
-                                Layout.preferredWidth: 150
-                            }
-                            Text {
-                                id: syncStatusTFT
-                                objectName: "syncStatusTFT"
-                            }
-                        }
-                        RowLayout{
-                            Button {
-                                Material.background: "White"
-                                Material.foreground: "#2b2b2b"
-                                font.capitalization: Font.MixedCase
-                                id: createAddressTFT
-                                objectName: "createAddressTFT"
-                                text: "Create TFT address"
-                                onClicked: {
-                                    createAddressTFT.visible= false
-                                    parent.parent.createdTFTAddressVisible = true
-                                    ooList.createTFTAddress()
-                                    
-                                }
-                            }
-
-                        }
-
                     }
                 }
             }
+            GroupBox {
+                id: groupbBoxTFT
+                Layout.maximumWidth: 400
+                Material.background: "White"
+                Layout.fillWidth: true
+                Material.accent: Material.Green
+                title: qsTr("TfChain")
+                ColumnLayout {
+                    //Layout.fillWidth: true
+                    //anchors.fill: parent
+
+                    RowLayout{
+
+                        Label {
+                            text: "Current balance"
+                            Layout.maximumWidth: 400
+                            //Layout.preferredWidth: 300
+                        }
+                        Text {
+                            id: balance
+                            objectName: "balanceTFT"
+                            text: ooList.getBalanceTFT();
+                        }
+                    }
+                    property bool createdTFTAddressVisible: false;
+
+                    RowLayout{
+                        id: createdTFTAdressBox
+                        objectName: "createdTFTAdressBox"                  
+                        visible: parent.createdTFTAddressVisible
+
+                        Label {
+                            text: "Created TFT address"
+                            Layout.preferredWidth: 150
+                        }
+                    }
+                    RowLayout{
+
+                        Text {
+                            id: createdTFTAddress
+                            Layout.maximumWidth: 350
+                            wrapMode: Text.Wrap
+                            objectName: "createdTFTAddress"
+                            text: "";
+                        }
+                    }
+                    RowLayout{
+                        id: syncStatusTFTBox
+                        objectName: "syncStatusTFT"                  
+
+                        Timer {
+                            id: syncStatusTFTTimer
+                            objectName: "syncStatusTFTTimer"
+                            interval: 5000; running: true; repeat: true
+                            onTriggered: syncStatusTFT.text = ooList.getSyncStatusTFT()
+                        }
+                        Label {
+                            text: "Sync status"
+                            Layout.preferredWidth: 150
+                        }
+                        Text {
+                            id: syncStatusTFT
+                            objectName: "syncStatusTFT"
+                            Layout.preferredWidth: 100
+                        }
+                    }
+                    RowLayout{
+                        Button {
+                            Material.background: "White"
+                            Material.foreground: "#2b2b2b"
+                            font.capitalization: Font.MixedCase
+                            id: createAddressTFT
+                            objectName: "createAddressTFT"
+                            text: "Create TFT address"
+                            onClicked: {
+                                createAddressTFT.visible= false
+                                parent.parent.createdTFTAddressVisible = true
+                                ooList.createTFTAddress()
+                                
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            
         }
     }
 
@@ -220,6 +233,11 @@ ColumnLayout {
             }
           
             RowLayout {
+                Timer {
+                    id: getIpTimer
+                    interval: 5000; running: true; repeat: true
+                    onTriggered: ipAddress.text = ooList.getIp()
+                }
                 Label {
                     text: "Role"
                     Layout.preferredWidth: 100
@@ -233,8 +251,9 @@ ColumnLayout {
                         
                 }
                 Text {
+                    id: ipAddress
+                    objectName: "ipAddress"
                     color : "#2b2b2b"
-                    text: ooList.getIp();
                 }
             }
             RowLayout {

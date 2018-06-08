@@ -179,9 +179,14 @@ void OoList::readErrors(){
 }
 
 QString OoList::getIp(){
-    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16");
+    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
     process.waitForFinished();
     QByteArray output = process.readAll();
+    if(output != ""){
+            rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+            QObject *getIpTimer = rootObject->findChild<QObject*>("getIpTimer");
+            getIpTimer->setProperty("running", false);
+    }
     return output;
 }
 QString OoList::getBalanceBTC(){
@@ -206,7 +211,7 @@ void OoList::createBTCAddress(){
     createdBTCAddessField->setProperty("text", output);
 }
 void OoList::createTFTAddress(){
-    process.start("sh", QStringList() << "-c" << "tfchainc wallet address");
+    process.start("sh", QStringList() << "-c" << "tfchainc wallet address | cut -d' ' -f 4");
     process.waitForFinished();
     QByteArray output = process.readAll();
 
@@ -228,7 +233,7 @@ QString OoList::getSyncStatusBTC(){
             submitButton->setProperty("enabled", true);
         }
     }
-    return output;
+    return output + " %";
 }
 QString OoList::getSyncStatusTFT(){
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
@@ -246,7 +251,7 @@ QString OoList::getSyncStatusTFT(){
         }
         
     }
-    return output;
+    return output + " %";
 }
 
 void OoList::appendItem()
