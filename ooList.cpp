@@ -253,7 +253,28 @@ QString OoList::getSyncStatusTFT(){
     }
     return output + " %";
 }
+void OoList::login(const QString username, const QString password){
 
+    QString scriptFile =  QCoreApplication::applicationDirPath() + "/scripts/iyo/login.sh";
+    QStringList commandArguments = QStringList()  << scriptFile << username << password;
+
+    process.start("sh", commandArguments);
+    process.waitForFinished();
+    QByteArray output = process.readAll();
+    if(process.exitCode() == 1){
+        rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+        QObject *loginNote = rootObject->findChild<QObject*>("loginNote");
+        loginNote->setProperty("visible", true);
+    }else{
+        rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+        QObject *scrollView = rootObject->findChild<QObject*>("scrollView");
+        QObject *scrollViewLogin = rootObject->findChild<QObject*>("scrollViewLogin");
+
+        scrollViewLogin->setProperty("visible", false);
+        scrollView->setProperty("visible", true);
+
+    }
+}
 void OoList::appendItem()
 {
     emit preItemAppended();

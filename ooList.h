@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE QString getBalanceTFT();
     Q_INVOKABLE void createBTCAddress();
     Q_INVOKABLE void createTFTAddress();
+    Q_INVOKABLE void login(const QString username, const QString password);
     Q_INVOKABLE QString getSyncStatusBTC();
     Q_INVOKABLE QString getSyncStatusTFT();
     Q_INVOKABLE void showOutputLog();

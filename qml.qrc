@@ -3,6 +3,7 @@
         <file>qml/main.qml</file>
         <file>qml/OhList.qml</file>
         <file>qml/NewOrder.qml</file>
+        <file>qml/Login.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

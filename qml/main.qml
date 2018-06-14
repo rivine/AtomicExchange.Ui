@@ -13,6 +13,13 @@ ApplicationWindow {
     readonly property int maxWidthPhone: 479
     readonly property int maxWidthTablet: 767
     
+    onActiveChanged: {
+        if(active){
+            //console.log("woop")
+            //masterColumnLayout.visible = false
+        }
+    }
+
     header: 
         ToolBar {
             Material.elevation: 10
@@ -36,10 +43,33 @@ ApplicationWindow {
             }        
     }
     ScrollView {
+        id: scrollviewLogin
+        objectName: "scrollViewLogin"
         anchors.fill: parent
         width: 200
         height: 200
         clip: true
+        visible: true
+            ColumnLayout {
+                Layout.leftMargin: 70
+                Login {
+                    Layout.topMargin: 40    
+                    Layout.leftMargin: 70
+                    id: login
+                    objectName: "login"
+                    visible: true;
+                }
+            }
+    }
+   
+    ScrollView {
+        id: scrollView
+        objectName: "scrollView"
+        anchors.fill: parent
+        width: 200
+        height: 200
+        clip: true
+        visible: false
         
 
         states: [
@@ -60,7 +90,21 @@ ApplicationWindow {
                 PropertyChanges { target: masterColumnLayout; width: 750 }
             }
         ]
+        // ColumnLayout {
+        //     visible: true
+        //     id: loginColumnLayout
+        //     objectName: "loginColumnLayout"
+        //     Layout.leftMargin: 70
 
+        //     Login {
+        //         Layout.topMargin: 40    
+        //         Layout.leftMargin: 70
+        //         id: login
+        //         objectName: "login"
+        //         visible: true;
+        //     }
+
+        // }
         ColumnLayout {
             id: masterColumnLayout
             objectName: "masterColumnLayout"
