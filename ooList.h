@@ -49,6 +49,7 @@ public slots:
     void initiatorAcceptorActivated(QString editText);
     void readOutput();
     void readErrors();
+    void loginFinished(int,  QProcess::ExitStatus);
 
 private:
     QVector<OoItem> mItems;
@@ -56,6 +57,7 @@ private:
     void printJsonObject(const QJsonObject& jsonObject);
     QString role;
     QProcess process;
+    QProcess loginProcess;
     QString errors;
     QString output;
     QString ipAddress;

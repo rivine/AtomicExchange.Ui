@@ -6,7 +6,8 @@ import QtQuick.Controls.Material 2.0
 import ToDo 1.0
 
 ColumnLayout {
-    Layout.fillWidth: true
+    //Layout.fillWidth: true
+    
 
     // states: [
     //     State {
@@ -31,10 +32,10 @@ ColumnLayout {
 
 
     Pane {
-
+        Layout.preferredWidth: 350
         Material.elevation: 6
         Material.background: "White"
-        Layout.fillWidth: true
+        //Layout.fillWidth: true
         Material.accent: Material.Green
 
         ColumnLayout{
@@ -63,6 +64,7 @@ ColumnLayout {
                     id: username
                     objectName: "username"
                     Layout.fillWidth: true
+                    Layout.preferredWidth: 200
 
                 }
             }
@@ -75,6 +77,7 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
                 TextField {
+                    echoMode: TextInput.Password
                     id: password
                     objectName: "password"
                     Layout.fillWidth: true
