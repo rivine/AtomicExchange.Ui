@@ -13,8 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp \
-    todomodel.cpp \
-    todolist.cpp \
+    login.cpp \
+    newOrder.cpp \
     ooList.cpp \
     ohList.cpp \
     ooModel.cpp
@@ -33,8 +33,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    todomodel.h \
-    todolist.h \
+    login.h \
+    newOrder.h \
     ooList.h \
     ohList.h \
     ooModel.h \

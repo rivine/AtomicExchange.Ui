@@ -20,21 +20,12 @@ class OoList : public QObject
 {
     Q_OBJECT
 public:
-    Q_INVOKABLE QString getIp();
-    Q_INVOKABLE QString getBalanceBTC();
-    Q_INVOKABLE QString getBalanceTFT();
-    Q_INVOKABLE void createBTCAddress();
-    Q_INVOKABLE void createTFTAddress();
-    Q_INVOKABLE void login(const QString username, const QString password);
-    Q_INVOKABLE QString getSyncStatusBTC();
-    Q_INVOKABLE QString getSyncStatusTFT();
-    Q_INVOKABLE void showOutputLog();
+    //Q_INVOKABLE QString getBalanceBTC();
+    //Q_INVOKABLE QString getBalanceTFT();
     explicit OoList(QObject *parent = nullptr);
     QVector<OoItem> items() const;
 
     bool setItemAt(int index, const OoItem &item);
-    QJsonObject ObjectFromString(const QString& in);
-
 
 signals:
     void preItemAppended();
@@ -45,11 +36,6 @@ signals:
 
 public slots:
     void appendItem();
-    void confirmNewOrder();
-    void initiatorAcceptorActivated(QString editText);
-    void readOutput();
-    void readErrors();
-    void loginFinished(int,  QProcess::ExitStatus);
 
 private:
     QVector<OoItem> mItems;
@@ -57,15 +43,10 @@ private:
     void printJsonObject(const QJsonObject& jsonObject);
     QString role;
     QProcess process;
-    QProcess loginProcess;
-    QString errors;
-    QString output;
     QString ipAddress;
     QObject *rootObject;
     QQmlApplicationEngine* engine;
     QString outputLog;
-    bool syncStatusTFTFinished;
-    bool syncStatusBTCFinished;
     
 };
 

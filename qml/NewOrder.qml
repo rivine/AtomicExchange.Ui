@@ -3,8 +3,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 
-import ToDo 1.0
-
 ColumnLayout {
     Layout.fillWidth: true
 
@@ -63,7 +61,7 @@ ColumnLayout {
                         Text {
                             id: balanceBTC
                             objectName: "balanceBTC"
-                            text: ooList.getBalanceBTC();
+                            text: newOrderService.getBalanceBTC();
                         }
                     }
                     
@@ -95,7 +93,7 @@ ColumnLayout {
                         Timer {
                             id: syncStatusBTCTimer
                             interval: 5000; running: true; repeat: true
-                            onTriggered: syncStatusBTC.text = ooList.getSyncStatusBTC()
+                            onTriggered: syncStatusBTC.text = newOrderService.getSyncStatusBTC()
                         }
                         Label {
                             text: "Sync status"
@@ -145,7 +143,7 @@ ColumnLayout {
                         Text {
                             id: balance
                             objectName: "balanceTFT"
-                            text: ooList.getBalanceTFT();
+                            text: newOrderService.getBalanceTFT();
                         }
                     }
                     property bool createdTFTAddressVisible: false;
@@ -178,7 +176,7 @@ ColumnLayout {
                             id: syncStatusTFTTimer
                             objectName: "syncStatusTFTTimer"
                             interval: 5000; running: true; repeat: true
-                            onTriggered: syncStatusTFT.text = ooList.getSyncStatusTFT()
+                            onTriggered: syncStatusTFT.text = newOrderService.getSyncStatusTFT()
                         }
                         Label {
                             text: "Sync status"
@@ -201,7 +199,7 @@ ColumnLayout {
                             onClicked: {
                                 createAddressTFT.visible= false
                                 parent.parent.createdTFTAddressVisible = true
-                                ooList.createTFTAddress()
+                                newOrderService.createTFTAddress()
                                 
                             }
                         }
@@ -236,7 +234,7 @@ ColumnLayout {
                 Timer {
                     id: getIpTimer
                     interval: 5000; running: true; repeat: true
-                    onTriggered: ipAddress.text = ooList.getIp()
+                    onTriggered: ipAddress.text = newOrderService.getIp()
                 }
                 Label {
                     text: "Role"
@@ -247,7 +245,7 @@ ColumnLayout {
                         objectName: "role"
                         width: 200
                         model: [ "Initiator", "Acceptor" ]
-                        onActivated: ooList.initiatorAcceptorActivated(editText)
+                        onActivated: newOrderService.initiatorAcceptorActivated(editText)
                         
                 }
                 Text {
@@ -360,7 +358,7 @@ ColumnLayout {
                     font.capitalization: Font.MixedCase
                     objectName: "submitButton"
                     text: qsTr("Confirm")
-                    onClicked: ooList.confirmNewOrder()
+                    onClicked: newOrderService.confirmNewOrder()
                     Layout.fillWidth: true
                 }
             }

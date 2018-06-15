@@ -3,7 +3,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 
-import ToDo 1.0
 
 ColumnLayout {
     //Layout.fillWidth: true
@@ -105,7 +104,7 @@ ColumnLayout {
                     font.capitalization: Font.MixedCase
                     objectName: "loginButton"
                     text: qsTr("Log in")
-                    onClicked: ooList.login(username.text, password.text)
+                    onClicked: loginService.startLoginProcess(username.text, password.text)
                     Layout.fillWidth: true
                 }
             }
