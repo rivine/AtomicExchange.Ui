@@ -9,19 +9,9 @@ $debug = false;
 
 $rest = new RestApiAccess();
 $headers = Array();
-// Connect to IYO and get cookies
-array_push($headers,"Content-Type: application/json");
-//array_push($headers, "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36");
 
-list($headers, $result) = $rest->GET("https://www.itsyou.online", null, $headers);
-
-$cookie = $headers["Set-Cookie"];
 
 $sentHeaders = Array();
-array_push($sentHeaders, "Cookie: ".$cookie);
-array_push($sentHeaders, "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36");
-array_push($sentHeaders, "Origin: https://itsyou.online");
-array_push($sentHeaders, "Referer: https://itsyou.online/login");
 
 // POST to login to get more cookies
 list($headers, $result) = $rest->POST("https://itsyou.online/login", false, $sentHeaders,json_encode($arr) );
@@ -208,6 +198,3 @@ class RestApiAccess {
      }
  
  }
-
-
-
