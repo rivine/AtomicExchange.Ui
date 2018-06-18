@@ -203,6 +203,7 @@ QString NewOrder::getSyncStatusBTC(){
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
+        syncStatusBTCFinished = true;
         if( syncStatusTFTFinished == true){
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
             QObject *syncStatusBTCTimer = rootObject->findChild<QObject*>("syncStatusBTCTimer");
@@ -219,8 +220,8 @@ QString NewOrder::getSyncStatusTFT(){
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
-        if( syncStatusBTCFinished == true){
-            syncStatusTFTFinished = true;
+        syncStatusTFTFinished = true;
+        if( syncStatusBTCFinished == true){            
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
             QObject *syncStatusTFTTimer = rootObject->findChild<QObject*>("syncStatusTFTTimer");
             QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
