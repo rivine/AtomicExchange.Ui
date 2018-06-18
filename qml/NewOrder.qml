@@ -277,7 +277,7 @@ ColumnLayout {
                     //onEditingFinished: model.description = text
                     Layout.fillWidth: true
                     color : "red"
-                    text: "Please enter a IP"
+                    text: "Please enter an IP"
                     visible: false;
                 }
             }
@@ -353,7 +353,7 @@ ColumnLayout {
                     Material.background: Material.LightBlue
                     Material.foreground: "white"
                     font.bold: true
-                    enabled: false
+                    enabled: true
                     id: submitButton
                     font.capitalization: Font.MixedCase
                     objectName: "submitButton"

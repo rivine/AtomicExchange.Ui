@@ -202,7 +202,7 @@ QString NewOrder::getSyncStatusBTC(){
     process.waitForFinished();
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
-    if(output == "100" || output == 100){
+    if(output == "100"){
         syncStatusBTCFinished = true;
         if( syncStatusTFTFinished == true){
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
@@ -219,7 +219,7 @@ QString NewOrder::getSyncStatusTFT(){
     process.waitForFinished();
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
-    if(output == "100" || output == 100){
+    if(output == "100"){
         syncStatusTFTFinished = true;
         if( syncStatusBTCFinished == true){            
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
