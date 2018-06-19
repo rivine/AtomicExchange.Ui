@@ -212,7 +212,9 @@ QString NewOrder::getSyncStatusBTC(){
             submitButton->setProperty("enabled", true);
         }
     }
-    return output + " %";
+    QString outputString(output);
+    outputString.remove(QRegExp("[\n\t\r]"));
+    return output  +  " %";
 }
 QString NewOrder::getSyncStatusTFT(){
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
@@ -230,7 +232,9 @@ QString NewOrder::getSyncStatusTFT(){
         }
         
     }
-    return output + " %";
+    QString outputString(output);
+    outputString.remove(QRegExp("[\n\t\r]"));
+    return outputString + " %";
 }
 
 QJsonObject NewOrder::ObjectFromString(const QString& in)
