@@ -58,7 +58,7 @@ ColumnLayout {
                             //Layout.preferredWidth: 300
                             Layout.maximumWidth: 400
                         }
-                        Text {
+                        Label {
                             id: balanceBTC
                             objectName: "balanceBTC"
                             text: newOrderService.getBalanceBTC();
@@ -99,7 +99,7 @@ ColumnLayout {
                             text: "Sync status"
                             Layout.preferredWidth: 150
                         }
-                        Text {
+                        Label {
                             id: syncStatusBTC
                             objectName: "syncStatusBTC"
                             Layout.preferredWidth: 100
@@ -140,7 +140,7 @@ ColumnLayout {
                             Layout.maximumWidth: 400
                             //Layout.preferredWidth: 300
                         }
-                        Text {
+                        Label {
                             id: balance
                             objectName: "balanceTFT"
                             text: newOrderService.getBalanceTFT();
@@ -182,7 +182,7 @@ ColumnLayout {
                             text: "Sync status"
                             Layout.preferredWidth: 150
                         }
-                        Text {
+                        Label {
                             id: syncStatusTFT
                             objectName: "syncStatusTFT"
                             Layout.preferredWidth: 100
