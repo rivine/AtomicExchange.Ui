@@ -171,13 +171,17 @@ QString NewOrder::getBalanceBTC(){
     process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
     process.waitForFinished();
     QByteArray output = process.readAll();
-    return output;
+    QString outputString(output);
+    outputString.remove(QRegExp("[\n\t\r]"));
+    return outputString;
 }
 QString NewOrder::getBalanceTFT(){
     process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
-    return output;
+    QString outputString(output);
+    outputString.remove(QRegExp("[\n\t\r]"));
+    return outputString;
 }
 void NewOrder::createBTCAddress(){
     process.start("sh", QStringList() << "-c" << "bitcoin-cli getnewaddress "" legacy");
@@ -214,7 +218,7 @@ QString NewOrder::getSyncStatusBTC(){
     }
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
-    return output  +  " %";
+    return outputString +   " %";
 }
 QString NewOrder::getSyncStatusTFT(){
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");

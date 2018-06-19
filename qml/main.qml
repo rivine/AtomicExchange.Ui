@@ -6,11 +6,12 @@ import QtQuick.Controls.Material 2.0
 ApplicationWindow {
     id: window
     visible: true
-    width: 1024
-    height: 800
+    width: 1440
+    height: 900
     title: qsTr("Atomic exchange")
     readonly property int maxWidthPhone: 479
     readonly property int maxWidthTablet: 767
+    
     
     onActiveChanged: {
         if(active){
@@ -23,7 +24,7 @@ ApplicationWindow {
         ToolBar {
             Material.elevation: 10
             Material.primary: Material.Blue
-            Layout.leftMargin: 50
+            Layout.leftMargin: 70
             Layout.topMargin: 20
 
             RowLayout {
@@ -45,10 +46,9 @@ ApplicationWindow {
         id: scrollviewLogin
         objectName: "scrollViewLogin"
         anchors.fill: parent
-        width: 200
-        height: 200
+
         clip: true
-        visible: true
+        visible: false
             ColumnLayout {
                 Layout.leftMargin: 70
                 Login {
@@ -65,10 +65,10 @@ ApplicationWindow {
         id: scrollView
         objectName: "scrollView"
         anchors.fill: parent
-        width: 200
-        height: 200
         clip: true
-        visible: false
+        visible: true
+        anchors.top: parent.top
+        //anchors.horizontalCenter: parent.horizontalCenter
         
 
         states: [
@@ -86,7 +86,8 @@ ApplicationWindow {
             },
             State {
                 when: window.width > maxWidthTablet
-                PropertyChanges { target: masterColumnLayout; width: 750 }
+                //PropertyChanges { target: newOrder; anchors.centerIn: parent }
+                //PropertyChanges { target: newOrder; anchors.horizontalCenter: parent.horizontalCenter }
             }
         ]
         // ColumnLayout {
@@ -107,7 +108,8 @@ ApplicationWindow {
         ColumnLayout {
             id: masterColumnLayout
             objectName: "masterColumnLayout"
-            Layout.leftMargin: 70
+            //Layout.leftMargin: window.width / 2 - masterColumnLayout.width / 2
+
                 /*
                 OoList {
                     //anchors.centerIn: parent
@@ -124,13 +126,14 @@ ApplicationWindow {
             */
 
             NewOrder {
-                Layout.topMargin: 40    
+                //anchors.top: parent.top + 40
+                //Layout.preferredWidth: 750
                 Layout.leftMargin: 70
+                anchors.centerIn: parent;
                 id: newOrder
                 objectName: "newOrder"
-                visible: true;
+                visible: true
             }
-
             RowLayout {
                 Layout.leftMargin: 70
                 Layout.topMargin: 10
@@ -285,12 +288,13 @@ ApplicationWindow {
             RowLayout {
                 id: outputLog
                 objectName: "ouputLog"
-                Layout.leftMargin: 70
+                Layout.leftMargin: 40
                 width: parent.width
                 property bool textVisible: false;
 
 
                 Button {
+                    Layout.topMargin: 20
                     font.bold: true
                     Material.background: Material.LightBlue
                     Material.foreground: "white"
