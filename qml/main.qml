@@ -49,16 +49,39 @@ ApplicationWindow {
 
         clip: true
         visible: true
-            ColumnLayout {
-                Layout.leftMargin: 70
-                Login {
-                    Layout.topMargin: 40    
-                    Layout.leftMargin: 70
-                    id: login
-                    objectName: "login"
-                    visible: true;
-                }
+
+        states: [
+            State {
+                when: window.width <= maxWidthPhone
+                PropertyChanges { target: loginColumnLayout; width: 300 }
+                PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
+                PropertyChanges { target: loginColumnLayout; width: window.width - 10 }
+                
+            },
+            State {
+                when: window.width > maxWidthPhone && window.width <= maxWidthTablet
+                PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
+                PropertyChanges { target: loginColumnLayout; width: window.width - 10 }
+            },
+            State {
+                when: window.width > maxWidthTablet
+                //PropertyChanges { target: newOrder; anchors.centerIn: parent }
+                //PropertyChanges { target: newOrder; anchors.horizontalCenter: parent.horizontalCenter }
             }
+        ]
+
+        ColumnLayout {
+            id: loginColumnLayout
+            objectName: "loginColumnLayout"
+            Layout.leftMargin: 70
+            Login {
+                Layout.topMargin: 40    
+                Layout.leftMargin: 70
+                id: loginBox
+                objectName: "login"
+                visible: true;
+            }
+        }
     }
    
     ScrollView {

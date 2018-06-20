@@ -2,40 +2,37 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
+import QtGraphicalEffects 1.0
 
 
 ColumnLayout {
     //Layout.fillWidth: true
     
+    Item {
+        width: 300
+        height: 150
 
-    // states: [
-    //     State {
-    //         when: window.width <= maxWidthPhone
-    //         //ParentChange { target: groupbBoxBTC; parent: columnLayoutCurrencies; }
-    //         ParentChange { target: groupbBoxTFT; parent: columnLayoutCurrencies; }
+         Image {
+             id: bug
+             source: "https://itsyou.online/assets/img/its-you-online.gif"
+             sourceSize: Qt.size(parent.width, parent.height)
+             smooth: true
+             visible: false
+         }
 
-            
-    //     },
-    //     State {
-    //         when: window.width > maxWidthPhone && window.width <= maxWidthTablet
-    //         //ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
-    //         ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
-    //     },
-    //     State {
-    //         when: window.width > maxWidthTablet
-    //         ParentChange { target: groupbBoxBTC; parent: rowLayoutGroupboxes; }
-    //         ParentChange { target: groupbBoxTFT; parent: rowLayoutGroupboxes; }
-    //     }
-        
-    // ]
-
-
+        ColorOverlay {
+            anchors.fill: bug
+            source: bug
+            color: "black"
+        }
+    }
     Pane {
         Layout.preferredWidth: 350
         Material.elevation: 6
         Material.background: "White"
         //Layout.fillWidth: true
         Material.accent: Material.Green
+
 
         ColumnLayout{
             
@@ -46,8 +43,9 @@ ColumnLayout {
                     font.pixelSize: 20
                     font.bold: true
                 }
-            }
-          
+
+
+            }          
           
             RowLayout {
                 width: parent.width
@@ -107,6 +105,13 @@ ColumnLayout {
                     onClicked: loginService.startLoginProcess(username.text, password.text)
                     Layout.fillWidth: true
                 }
+            }
+            RowLayout{
+                Text{    
+                    text: "<a href='http://itsyou.online'>Create account</a>"
+                    onLinkActivated: Qt.openUrlExternally(link)
+                }
+
             }
         }
     }

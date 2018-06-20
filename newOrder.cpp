@@ -157,7 +157,7 @@ void NewOrder::readErrors(){
 }
 
 QString NewOrder::getIp(){
-    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
+    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d ' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
     process.waitForFinished();
     QByteArray output = process.readAll();
     QString outputString(output);
