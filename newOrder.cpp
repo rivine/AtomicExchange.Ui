@@ -160,12 +160,14 @@ QString NewOrder::getIp(){
     process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
     process.waitForFinished();
     QByteArray output = process.readAll();
-    if(output != ""){
+    QString outputString(output);
+    outputString.remove(QRegExp("[\n\t\r]"));
+    if(outputString != ""){
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
             QObject *getIpTimer = rootObject->findChild<QObject*>("getIpTimer");
             getIpTimer->setProperty("running", false);
     }
-    return output;
+    return outputString;
 }
 QString NewOrder::getBalanceBTC(){
     process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");

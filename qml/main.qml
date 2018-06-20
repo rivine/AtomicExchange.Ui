@@ -48,7 +48,7 @@ ApplicationWindow {
         anchors.fill: parent
 
         clip: true
-        visible: false
+        visible: true
             ColumnLayout {
                 Layout.leftMargin: 70
                 Login {
@@ -66,7 +66,7 @@ ApplicationWindow {
         objectName: "scrollView"
         anchors.fill: parent
         clip: true
-        visible: true
+        visible: false
         anchors.top: parent.top
         //anchors.horizontalCenter: parent.horizontalCenter
         
@@ -108,28 +108,10 @@ ApplicationWindow {
         ColumnLayout {
             id: masterColumnLayout
             objectName: "masterColumnLayout"
-            //Layout.leftMargin: window.width / 2 - masterColumnLayout.width / 2
-
-                /*
-                OoList {
-                    //anchors.centerIn: parent
-                    Layout.leftMargin: 70
-                    Layout.bottomMargin: 20
-                    objectName: "openOrders"
-                }
-                OhList {
-                    //anchors.centerIn: parent
-                    Layout.leftMargin: 70
-                    Layout.bottomMargin: 20
-                    objectName: "orderHistory"
-                }
-            */
-
             NewOrder {
                 //anchors.top: parent.top + 40
                 //Layout.preferredWidth: 750
                 Layout.leftMargin: 70
-                anchors.centerIn: parent;
                 id: newOrder
                 objectName: "newOrder"
                 visible: true
