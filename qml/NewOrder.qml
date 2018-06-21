@@ -88,7 +88,7 @@ ColumnLayout {
                             Text {
                                 id: createdBTCAddress
                                 objectName: "createdBTCAddress"
-                                Layout.maximumWidth: 350
+                                Layout.maximumWidth: 300
                                 wrapMode: Text.Wrap
                                 text: "";
                             }
@@ -174,7 +174,7 @@ ColumnLayout {
 
                             Text {
                                 id: createdTFTAddress
-                                Layout.maximumWidth: 350
+                                Layout.maximumWidth: 300
                                 wrapMode: Text.Wrap
                                 objectName: "createdTFTAddress"
                                 text: "";

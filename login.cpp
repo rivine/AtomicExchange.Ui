@@ -44,12 +44,14 @@ void Login::signOut(){
     QObject *scrollView = rootObject->findChild<QObject*>("scrollView");
     QObject *scrollViewLogin = rootObject->findChild<QObject*>("scrollViewLogin");
     QObject *loginButton = rootObject->findChild<QObject*>("loginButton");
+    QObject *loginNote = rootObject->findChild<QObject*>("loginNote");
 
     userNameHeader->setProperty("visible", false);
     userImage->setProperty("visible", false);
     scrollViewLogin->setProperty("visible", true);
     scrollView->setProperty("visible", false);   
     loginButton->setProperty("visible", true);  
+    loginNote->setProperty("visible", true);
 
 }
 

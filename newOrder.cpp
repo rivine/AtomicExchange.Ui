@@ -195,7 +195,7 @@ void NewOrder::createBTCAddress(){
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *createdBTCAddessField = rootObject->findChild<QObject*>("createdBTCAddress");
-    createdBTCAddessField->setProperty("text", output);
+    createdBTCAddessField->setProperty("text", "outputsqdqfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 }
 void NewOrder::createTFTAddress(){
     process.start("sh", QStringList() << "-c" << "tfchainc wallet address | cut -d' ' -f 4");
@@ -204,7 +204,7 @@ void NewOrder::createTFTAddress(){
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *createdTFTAddress = rootObject->findChild<QObject*>("createdTFTAddress");
-    createdTFTAddress->setProperty("text", output);
+    createdTFTAddress->setProperty("text", "outputsqdqfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 }
 QString NewOrder::getSyncStatusBTC(){
     processSyncStatusBTC.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
