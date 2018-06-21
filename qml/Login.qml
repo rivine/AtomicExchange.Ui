@@ -92,7 +92,6 @@ ColumnLayout {
                 }
             }
 
-
             RowLayout {
                 Button {
                     Material.background: Material.LightBlue
@@ -102,7 +101,9 @@ ColumnLayout {
                     font.capitalization: Font.MixedCase
                     objectName: "loginButton"
                     text: qsTr("Log in")
-                    onClicked: loginService.startLoginProcess(username.text, password.text)
+                    onClicked: {
+                        loginService.startLoginProcess(username.text, password.text)
+                    }
                     Layout.fillWidth: true
                 }
             }

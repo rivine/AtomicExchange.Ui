@@ -42,6 +42,11 @@ private:
     void printJsonObject(const QJsonObject& jsonObject);
     QString role;
     QProcess process;
+    QProcess processBalanceTFT;
+    QProcess processBalanceBTC;
+    QProcess processSyncStatusTFT;
+    QProcess processSyncStatusBTC;
+    QProcess processGetIp;
     QString errors;
     QString output;
     QString ipAddress;

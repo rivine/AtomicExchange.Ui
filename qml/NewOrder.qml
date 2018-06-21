@@ -63,7 +63,12 @@ ColumnLayout {
                                 Layout.preferredWidth: 150
                                 id: balanceBTC
                                 objectName: "balanceBTC"
-                                text: newOrderService.getBalanceBTC();
+                            }
+
+                            Timer {
+                                id: balanceBTCTimer
+                                interval: 60000; running: true; repeat: true
+                                onTriggered: balanceBTC.text = newOrderService.getBalanceBTC()
                             }
                         }
                         
@@ -141,13 +146,16 @@ ColumnLayout {
                             Label {
                                 text: "Current balance"
                                 Layout.preferredWidth: 150
-                                //Layout.preferredWidth: 300
                             }
                             Label {
                                 Layout.preferredWidth: 150
-                                id: balance
+                                id: balanceTFT
                                 objectName: "balanceTFT"
-                                text: newOrderService.getBalanceTFT();
+                            }
+                            Timer {
+                                id: balanceTFTTimer
+                                interval: 60000; running: true; repeat: true
+                                onTriggered: balanceTFT.text = newOrderService.getBalanceTFT()
                             }
                         }
                         property bool createdTFTAddressVisible: false;

@@ -13,7 +13,7 @@ class Login : public QObject
 public:
     explicit Login(QObject *parent = nullptr);
     Q_INVOKABLE void startLoginProcess(const QString username, const QString password);
-    
+    Q_INVOKABLE void signOut();
     
 public slots:
     void loginFinished(int,  QProcess::ExitStatus);
@@ -21,6 +21,7 @@ public slots:
 private:
     QObject *rootObject;
     QProcess loginProcess;
+    QString userName;
    
 };
 

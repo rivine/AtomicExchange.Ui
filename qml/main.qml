@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 
@@ -15,7 +15,7 @@ ApplicationWindow {
     
     onActiveChanged: {
         if(active){
-            //console.log("woop")
+            //console.log("test")
             //masterColumnLayout.visible = false
         }
     }
@@ -28,7 +28,7 @@ ApplicationWindow {
             Layout.topMargin: 20
 
             RowLayout {
-
+                anchors.fill: parent
                 Layout.topMargin: 20
 
                 Text {
@@ -40,7 +40,57 @@ ApplicationWindow {
                     font.pixelSize: 24
                     color: "white"
                 }
-            }        
+                Text {
+                    id: userNameHeader
+                    objectName: "userNameHeader"
+                    visible: false
+                    anchors.right: parent.right
+                    anchors.rightMargin: 60
+                    font.pixelSize: 16
+                    color: "white"
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: menu.open()
+                    }
+                    
+                }  
+                
+                Image {
+                    id: userImage
+                    objectName: "userImage"
+                    visible: false
+                    width: 35; height: 35
+                    anchors.right: parent.right
+                    anchors.rightMargin: 15
+                    source: "../img/user.png"
+                    sourceSize: Qt.size(35, 35)
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: menu.open()
+                    }
+
+                    Menu {
+                        id: menu
+                        y: userImage.height
+                        MenuItem{
+                            text: 'Show log'
+                            onClicked: {
+
+                                outputLog.outputLogTextVisible = !outputLog.outputLogTextVisible
+                                newOrderService.showOutputLog();
+                            }
+                        }
+                        MenuItem{
+                            text: 'Sign out'
+                            onClicked: {
+                                loginService.signOut();
+                            }
+                        }
+                    }
+                }
+            }      
     }
     ScrollView {
         id: scrollviewLogin
@@ -92,7 +142,6 @@ ApplicationWindow {
         visible: false
         anchors.top: parent.top
         //anchors.horizontalCenter: parent.horizontalCenter
-        
 
         states: [
             State {
@@ -113,21 +162,6 @@ ApplicationWindow {
                 //PropertyChanges { target: newOrder; anchors.horizontalCenter: parent.horizontalCenter }
             }
         ]
-        // ColumnLayout {
-        //     visible: true
-        //     id: loginColumnLayout
-        //     objectName: "loginColumnLayout"
-        //     Layout.leftMargin: 70
-
-        //     Login {
-        //         Layout.topMargin: 40    
-        //         Layout.leftMargin: 70
-        //         id: login
-        //         objectName: "login"
-        //         visible: true;
-        //     }
-
-        // }
         ColumnLayout {
             id: masterColumnLayout
             objectName: "masterColumnLayout"
@@ -295,28 +329,13 @@ ApplicationWindow {
                 objectName: "ouputLog"
                 Layout.leftMargin: 40
                 width: parent.width
-                property bool textVisible: false;
+                property bool outputLogTextVisible: false;
 
-
-                Button {
-                    Layout.topMargin: 20
-                    font.bold: true
-                    Material.background: Material.LightBlue
-                    Material.foreground: "white"
-                    id: outputLogButton
-                    font.capitalization: Font.MixedCase
-                    objectName: "ouputLogButton"
-                    text: "Show log"
-                    onClicked: {
-                        parent.textVisible = !parent.textVisible
-                        ooList.showOutputLog();
-                    }
-                }
                 Text {
                     id: outputLogText
                     objectName: "outputLogText"
                     Layout.preferredWidth: 100
-                    visible: parent.textVisible
+                    visible: parent.outputLogTextVisible
                 }
             }            
         }

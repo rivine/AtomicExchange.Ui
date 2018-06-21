@@ -10,6 +10,7 @@
 
 NewOrder::NewOrder(QObject *parent) : QObject(parent)
 {
+    outputLog = "";
     role = "Initiator";
     syncStatusBTCFinished = false;
     syncStatusTFTFinished = false;
@@ -117,6 +118,8 @@ void NewOrder::readOutput(){
 
 }
 void NewOrder::showOutputLog(){
+    rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+
     QObject *outputLogTextfield = rootObject->findChild<QObject*>("outputLogText");
     outputLogTextfield->setProperty("text", outputLog);
 }
@@ -157,9 +160,9 @@ void NewOrder::readErrors(){
 }
 
 QString NewOrder::getIp(){
-    process.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d ' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
-    process.waitForFinished();
-    QByteArray output = process.readAll();
+    processGetIp.start("sh", QStringList() << "-c" << "ip -br addr show | grep zt | cut -d ' ' -f 16 | awk '{printf \"%.0f\n\", $1}'");
+    processGetIp.waitForFinished();
+    QByteArray output = processGetIp.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     if(outputString != ""){
@@ -170,17 +173,17 @@ QString NewOrder::getIp(){
     return outputString;
 }
 QString NewOrder::getBalanceBTC(){
-    process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
-    process.waitForFinished();
-    QByteArray output = process.readAll();
+    processBalanceBTC.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
+    processBalanceBTC.waitForFinished();
+    QByteArray output = processBalanceBTC.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString;
 }
 QString NewOrder::getBalanceTFT(){
-    process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
-    process.waitForFinished();
-    QByteArray output = process.readAll();
+    processBalanceTFT.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
+    processBalanceTFT.waitForFinished();
+    QByteArray output = processBalanceTFT.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString;
@@ -204,9 +207,9 @@ void NewOrder::createTFTAddress(){
     createdTFTAddress->setProperty("text", output);
 }
 QString NewOrder::getSyncStatusBTC(){
-    process.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
-    process.waitForFinished();
-    QByteArray output = process.readAll();
+    processSyncStatusBTC.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
+    processSyncStatusBTC.waitForFinished();
+    QByteArray output = processSyncStatusBTC.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
         syncStatusBTCFinished = true;
@@ -223,9 +226,9 @@ QString NewOrder::getSyncStatusBTC(){
     return outputString +   " %";
 }
 QString NewOrder::getSyncStatusTFT(){
-    process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
-    process.waitForFinished();
-    QByteArray output = process.readAll();
+    processSyncStatusTFT.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
+    processSyncStatusTFT.waitForFinished();
+    QByteArray output = processSyncStatusTFT.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
         syncStatusTFTFinished = true;
