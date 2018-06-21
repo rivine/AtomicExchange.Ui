@@ -45,14 +45,17 @@ void Login::signOut(){
     QObject *scrollViewLogin = rootObject->findChild<QObject*>("scrollViewLogin");
     QObject *loginButton = rootObject->findChild<QObject*>("loginButton");
     QObject *loginNote = rootObject->findChild<QObject*>("loginNote");
+    QObject *usernameInput = rootObject->findChild<QObject*>("usernameInput");
+    QObject *passwordInput = rootObject->findChild<QObject*>("passwordInput");
 
     userNameHeader->setProperty("visible", false);
     userImage->setProperty("visible", false);
     scrollViewLogin->setProperty("visible", true);
     scrollView->setProperty("visible", false);   
     loginButton->setProperty("visible", true);  
-    loginNote->setProperty("visible", true);
-
+    loginNote->setProperty("visible", false);
+    usernameInput->setProperty("text", "");  
+    passwordInput->setProperty("text", "");
 }
 
 void Login::startLoginProcess(const QString userN, const QString password){

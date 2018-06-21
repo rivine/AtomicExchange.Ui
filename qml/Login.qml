@@ -59,7 +59,7 @@ ColumnLayout {
                 }
                 TextField {
                     id: username
-                    objectName: "username"
+                    objectName: "usernameInput"
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
 
@@ -76,7 +76,7 @@ ColumnLayout {
                 TextField {
                     echoMode: TextInput.Password
                     id: password
-                    objectName: "password"
+                    objectName: "passwordInput"
                     Layout.fillWidth: true
                 }
             }

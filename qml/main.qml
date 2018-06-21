@@ -14,10 +14,7 @@ ApplicationWindow {
     
     
     onActiveChanged: {
-        if(active){
-            //console.log("test")
-            //masterColumnLayout.visible = false
-        }
+        loginService.signOut()
     }
 
     header: 
@@ -85,7 +82,7 @@ ApplicationWindow {
                         MenuItem{
                             text: 'Sign out'
                             onClicked: {
-                                loginService.signOut();
+                                loginService.signOut()
                             }
                         }
                     }
