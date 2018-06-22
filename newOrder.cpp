@@ -4,6 +4,9 @@
 #include <QCoreApplication>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QFile>
+#include <QTextStream>
+
 #include "config.h"
 
 #include <ctime>
@@ -265,4 +268,28 @@ QJsonObject NewOrder::ObjectFromString(const QString& in)
     }
 
     return obj;
+}
+
+QString NewOrder::getCommitVersion()
+{       
+    
+    QFile file("dist/commit");
+    qDebug() << "Start.";
+    QString fileContent;
+    if ( file.open(QIODevice::ReadOnly) ) {
+        qDebug() << "Start1";
+        QString line;
+        QTextStream t( &file );
+        do {
+            line = t.readLine();
+            fileContent += line;
+        } while (!line.isNull());
+
+        file.close();
+    } else {
+        qDebug() << "Something went wrong.";
+        //emit error("Unable to open the file");
+    
+    }
+    return fileContent;
 }

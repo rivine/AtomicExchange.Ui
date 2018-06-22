@@ -21,6 +21,8 @@ public:
     Q_INVOKABLE QString getSyncStatusTFT();
     Q_INVOKABLE void showOutputLog();
 
+    Q_INVOKABLE QString getCommitVersion();
+
     QJsonObject ObjectFromString(const QString& in);
 
 

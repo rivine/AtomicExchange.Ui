@@ -127,6 +127,12 @@ ApplicationWindow {
                 objectName: "login"
                 visible: true;
             }
+            Text {
+                Layout.leftMargin: window.width / 2 - 175
+                id: getCommitVersion
+                objectName: "getCommitVersion"
+                text: newOrderService.getCommitVersion()
+            }
         }
     }
    

@@ -21,8 +21,7 @@ public slots:
 private:
     QObject *rootObject;
     QProcess loginProcess;
-    QString userName;
-   
+    QString userName;   
 };
 
 #endif // Login

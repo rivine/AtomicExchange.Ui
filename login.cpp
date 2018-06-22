@@ -65,7 +65,6 @@ void Login::startLoginProcess(const QString userN, const QString password){
     QObject *loginNote = rootObject->findChild<QObject*>("loginNote");
     loginButton->setProperty("visible", false);
 
-
     //QString scriptFile =  QCoreApplication::applicationDirPath() + "/scripts/iyo/login.sh";
     QStringList commandArguments = QStringList() << userN << password;
     loginProcess.start("dist/scripts/iyo/login.php", commandArguments);
@@ -75,4 +74,3 @@ void Login::startLoginProcess(const QString userN, const QString password){
     loginNote->setProperty("visible", true);
     loginNote->setProperty("text", "You will receive a text message to login.");
 }
-
