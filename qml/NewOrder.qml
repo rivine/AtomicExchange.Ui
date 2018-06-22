@@ -246,18 +246,19 @@ ColumnLayout {
             RowLayout {
                 Timer {
                     id: getIpTimer
+                    objectName: "getIpTimer"
                     interval: 5000; running: true; repeat: true
                     onTriggered: ipAddress.text = newOrderService.getIp()
                 }
                 Label {
-                    text: "Role"
+                    text: "Direction"
                     Layout.preferredWidth: 100
                 }
                 ComboBox {
                         id: role
                         objectName: "role"
                         width: 200
-                        model: [ "Initiator", "Acceptor" ]
+                        model: [ "BTC -> TFT", "TFT -> BTC" ]
                         onActivated: newOrderService.initiatorAcceptorActivated(editText)
                         
                 }

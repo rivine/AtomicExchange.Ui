@@ -18,84 +18,103 @@ NewOrder::NewOrder(QObject *parent) : QObject(parent)
     syncStatusBTCFinished = false;
     syncStatusTFTFinished = false;
     engine = ApplicationContext::Instance().getEngine();
-
 }
 
 void NewOrder::initiatorAcceptorActivated(QString editText)
 {
     role = editText;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *coin = rootObject->findChild<QObject*>("coin");
-    QObject *destinationCoin = rootObject->findChild<QObject*>("destinationCoin");
-    QObject *ipAcceptor = rootObject->findChild<QObject*>("ipAcceptorBox");
-    if(editText == "Initiator"){
+    QObject *coin = rootObject->findChild<QObject *>("coin");
+    QObject *destinationCoin = rootObject->findChild<QObject *>("destinationCoin");
+    QObject *ipAcceptor = rootObject->findChild<QObject *>("ipAcceptorBox");
+    if (coin == nullptr || destinationCoin == nullptr || ipAcceptor == nullptr)
+    {
+        qInfo() << "nullptr in initiatorAcceptorActivated";
+        return;
+    }
+
+    if (editText == "Initiator")
+    {
         coin->setProperty("currentIndex", 0);
         destinationCoin->setProperty("currentIndex", 0);
         ipAcceptor->setProperty("visible", 1);
-    
-    }else if(editText == "Acceptor"){
+    }
+    else if (editText == "Acceptor")
+    {
         coin->setProperty("currentIndex", 1);
         destinationCoin->setProperty("currentIndex", 1);
         ipAcceptor->setProperty("visible", 0);
     }
 }
 
-void NewOrder::confirmNewOrder(){
+void NewOrder::confirmNewOrder()
+{
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
+    QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
 
-    QObject *amountField = rootObject->findChild<QObject*>("amount");
+    QObject *amountField = rootObject->findChild<QObject *>("amount");
+    QObject *valueField = rootObject->findChild<QObject *>("value");
+    QObject *ipField = rootObject->findChild<QObject *>("ipAcceptor");
+    QObject *amountNote = rootObject->findChild<QObject *>("amountNote");
+    QObject *valueNote = rootObject->findChild<QObject *>("valueNote");
+    QObject *ipNote = rootObject->findChild<QObject *>("ipNote");
+    QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+
+    if (progressBar == nullptr || amountField == nullptr || valueField == nullptr ||
+        ipField == nullptr || amountNote == nullptr || valueNote == nullptr || ipNote == nullptr || submitButton == nullptr)
+    {
+
+        qInfo() << "nullptr in confirmNewOrder";
+        return;
+    }
     QString amount = amountField->property("text").toString();
-
-    QObject *valueField = rootObject->findChild<QObject*>("value");
     QString value = valueField->property("text").toString();
-
-    QObject *ipField = rootObject->findChild<QObject*>("ipAcceptor");
     QString ipAcceptor = ipField->property("text").toString();
-
-    QObject *amountNote = rootObject->findChild<QObject*>("amountNote");
-    QObject *valueNote = rootObject->findChild<QObject*>("valueNote");
-    QObject *ipNote = rootObject->findChild<QObject*>("ipNote");  
 
     amountNote->setProperty("visible", 0);
     valueNote->setProperty("visible", 0);
     ipNote->setProperty("visible", 0);
 
-    QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
-
-    if(amount == "" || value == "" || (ipAcceptor == "" && role == "Initiator")){
+    if (amount == "" || value == "" || (ipAcceptor == "" && role == "Initiator"))
+    {
         qInfo() << "something went wrong";
-        if(amount == ""){
+        if (amount == "")
+        {
             amountNote->setProperty("visible", 1);
         }
-        if(value == ""){
+        if (value == "")
+        {
             valueNote->setProperty("visible", 1);
         }
-        if(ipAcceptor == "" && role == "Initiator"){
+        if (ipAcceptor == "" && role == "Initiator")
+        {
             ipNote->setProperty("visible", 1);
         }
     }
-    else{
+    else
+    {
         progressBar->setProperty("visible", 1);
         submitButton->setProperty("enabled", 0);
 
-        if(role == "Initiator"){
+        if (role == "Initiator")
+        {
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
-            
-            QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
-            QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
+
+            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-d";
 
             processInitiator.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
-            
-        }else if(role == "Acceptor"){
+        }
+        else if (role == "Acceptor")
+        {
 
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
 
-            QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/acceptor.py";
-            QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
+            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/acceptor.py";
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-d";
 
             processAcceptor.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
@@ -104,7 +123,8 @@ void NewOrder::confirmNewOrder(){
         }
     }
 }
-void NewOrder::readOutputInitiator(){
+void NewOrder::readOutputInitiator()
+{
     qInfo("readOutput");
     output = processInitiator.readAllStandardOutput();
     outputLog += output;
@@ -112,57 +132,77 @@ void NewOrder::readOutputInitiator(){
     //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
     QRegExp separator("\\n");
     QStringList list = output.split(separator);
-    for( int i = 0; i < list.length() ; i++){
+    for (int i = 0; i < list.length(); i++)
+    {
         qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
         QJsonObject jsonObj = ObjectFromString(list[i]);
         printJsonObject(jsonObj);
     }
 }
-void NewOrder::readOutputAcceptor(){
-    qInfo("readOutput");
+void NewOrder::readOutputAcceptor()
+{
+    qInfo() << "readOutput";
     output = processAcceptor.readAllStandardOutput();
     outputLog += output;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
     QRegExp separator("\\n");
     QStringList list = output.split(separator);
-    for( int i = 0; i < list.length() ; i++){
+    for (int i = 0; i < list.length(); i++)
+    {
         qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
         QJsonObject jsonObj = ObjectFromString(list[i]);
         printJsonObject(jsonObj);
     }
 }
-void NewOrder::showOutputLog(){
+void NewOrder::showOutputLog()
+{
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
 
-    QObject *outputLogTextfield = rootObject->findChild<QObject*>("outputLogText");
+    QObject *outputLogTextfield = rootObject->findChild<QObject *>("outputLogText");
+
+    if (outputLogTextfield == nullptr)
+    {
+        qInfo() << "nullptr in showOutputLog";
+        return;
+    }
     outputLogTextfield->setProperty("text", outputLog);
 }
-void NewOrder::printJsonObject(const QJsonObject& object){
+void NewOrder::printJsonObject(const QJsonObject &object)
+{
 
     int step = object.value("step").toInt();
     qInfo() << "step " << step;
     qInfo() << "stepName " << object.value("stepName");
-    QObject *progressBar = rootObject->findChild<QObject*>("progressBar");
-    //int step = object.value("step").toInt();
-    if( step > 0 && step < 10 ){
-         QObject *stepBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "Box");
-         QObject *stepCheckBox = rootObject->findChild<QObject*>("step" + QString::number(step) + "CheckBox");
-         QObject *stepExtraInfo = rootObject->findChild<QObject*>("step" + QString::number(step) + "ExtraInfo");
 
-         //qInfo() <<"testje" << object.value("step").toDouble() / 10;
-         if(role == "Initiator"){
-            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
-         }else if(role == "Acceptor"){
-            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
-         }
-         
-         stepBox->setProperty("visible", 1);
-         stepCheckBox->setProperty("text", object.value("stepName"));
-         stepCheckBox->setProperty("checked", 1);
+    QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
+    QObject *stepBox = rootObject->findChild<QObject *>("step" + QString::number(step) + "Box");
+    QObject *stepCheckBox = rootObject->findChild<QObject *>("step" + QString::number(step) + "CheckBox");
+    QObject *stepExtraInfo = rootObject->findChild<QObject *>("step" + QString::number(step) + "ExtraInfo");
+
+    if (progressBar == nullptr || stepBox == nullptr || stepCheckBox == nullptr || stepExtraInfo == nullptr)
+    {
+        qInfo() << "nullptr in printJsonObject";
+        return;
     }
-    
+    //int step = object.value("step").toInt();
+    if (step > 0 && step < 10)
+    {
 
+        //qInfo() <<"testje" << object.value("step").toDouble() / 10;
+        if (role == "Initiator")
+        {
+            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
+        }
+        else if (role == "Acceptor")
+        {
+            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
+        }
+
+        stepBox->setProperty("visible", 1);
+        stepCheckBox->setProperty("text", object.value("stepName"));
+        stepCheckBox->setProperty("checked", 1);
+    }
 }
 // void NewOrder::readErrors(){
 //     qInfo("fail");
@@ -174,30 +214,46 @@ void NewOrder::printJsonObject(const QJsonObject& object){
 //     process.kill();
 // }
 
-QString NewOrder::getIp(){
+QString NewOrder::getIp()
+{
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/sys/getztaddr.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
-    if(outputString != ""){
-            rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-            QObject *getIpTimer = rootObject->findChild<QObject*>("getIpTimer");
-            getIpTimer->setProperty("running", false);
+
+    if (outputString != "")
+    {
+        rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+
+        QObject *getIpTimer = rootObject->findChild<QObject *>("getIpTimer");
+        if (getIpTimer == nullptr)
+        {
+            qInfo() << "nullptr in getIp";
+            return "";
+        }
+        getIpTimer->setProperty("running", false);
     }
     return outputString;
 }
-QString NewOrder::getBalanceBTC(){
+QString NewOrder::getBalanceBTC()
+{
+        return "";
+    qInfo() << "getbalance";
     QProcess process;
-    process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
+    process.start("sh", QStringList() << "-c"
+                                      << "bitcoin-cli getbalance");
     process.waitForFinished();
     QByteArray output = process.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString;
 }
-QString NewOrder::getBalanceTFT(){
+QString NewOrder::getBalanceTFT()
+{
+        return "";
+    qInfo() << "getbalance tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
     process.waitForFinished();
@@ -219,119 +275,175 @@ QString NewOrder::getBalanceTFT(){
 
 // }
 
-void NewOrder::createBTCAddress(){
+void NewOrder::createBTCAddress()
+{
+    qInfo() << "create btc";
     QProcess process;
-    process.start("sh", QStringList() << "-c" << "bitcoin-cli getnewaddress "" legacy");
+    process.start("sh", QStringList() << "-c"
+                                      << "bitcoin-cli getnewaddress "
+                                         " legacy");
     process.waitForFinished();
     QByteArray output = process.readAll();
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *createdBTCAddessField = rootObject->findChild<QObject*>("createdBTCAddress");
+    QObject *createdBTCAddessField = rootObject->findChild<QObject *>("createdBTCAddress");
+    if (createdBTCAddessField == nullptr)
+    {
+        qInfo() << "Nullptr in createbtcaddress";
+    }
     createdBTCAddessField->setProperty("text", output);
 }
-void NewOrder::createTFTAddress(){
+void NewOrder::createTFTAddress()
+{
+    qInfo() << "create tft";
     QProcess process;
-    process.start("sh", QStringList() << "-c" << "tfchainc wallet address | cut -d' ' -f 4");
+    process.start("sh", QStringList() << "-c"
+                                      << "tfchainc wallet address | cut -d' ' -f 4");
     process.waitForFinished();
     QByteArray output = process.readAll();
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *createdTFTAddress = rootObject->findChild<QObject*>("createdTFTAddress");
+    QObject *createdTFTAddress = rootObject->findChild<QObject *>("createdTFTAddress");
+    if (createdTFTAddress == nullptr)
+    {
+        qInfo() << "nullptr in create tft failed";
+        return;
+    }
     createdTFTAddress->setProperty("text", output);
 }
-QString NewOrder::getSyncStatusBTC(){
+QString NewOrder::getSyncStatusBTC()
+{
+    return "";
+    qInfo() << "getsync ";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
+    qInfo() << "getsync 1";
     process.waitForFinished();
     QByteArray output = process.readAll();
+    qInfo() << "getsync 2";
     //TODO, stop timer when sync is 100
-    if(output == "100"){
+    if (output == "100")
+    {
+        qInfo() << "getsync 3";
         syncStatusBTCFinished = true;
-        if( syncStatusTFTFinished == true){
+        if (syncStatusTFTFinished == true)
+        {
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-            QObject *syncStatusBTCTimer = rootObject->findChild<QObject*>("syncStatusBTCTimer");
-            QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
+            qInfo() << "getsync 4";
+            QObject *syncStatusBTCTimer = rootObject->findChild<QObject *>("syncStatusBTCTimer");
+            QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+            if (syncStatusBTCTimer == nullptr && submitButton == nullptr)
+            {
+                qInfo() << "getsyncStatusBtc error";
+                return QString("");
+            }
+
             syncStatusBTCTimer->setProperty("running", false);
             submitButton->setProperty("enabled", true);
         }
     }
+    qInfo() << "getsync 5";
     QString outputString(output);
+    qInfo() << "getsync 6";
     outputString.remove(QRegExp("[\n\t\r]"));
-    return outputString +   " %";
+        qInfo() << "getsync 7";
+    return outputString + " %";
 }
-QString NewOrder::getSyncStatusTFT(){
+QString NewOrder::getSyncStatusTFT()
+{
+        return "";
+    qInfo() << "get sync tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
     process.waitForFinished();
     QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
-    if(output == "100"){
+    if (output == "100")
+    {
         syncStatusTFTFinished = true;
-        if( syncStatusBTCFinished == true){            
+        if (syncStatusBTCFinished == true)
+        {
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-            QObject *syncStatusTFTTimer = rootObject->findChild<QObject*>("syncStatusTFTTimer");
-            QObject *submitButton = rootObject->findChild<QObject*>("submitButton");
+            QObject *syncStatusTFTTimer = rootObject->findChild<QObject *>("syncStatusTFTTimer");
+            QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+            if (syncStatusTFTTimer == nullptr && submitButton == nullptr)
+            {
+                qInfo() << "error sync status tft";
+            }
             syncStatusTFTTimer->setProperty("running", false);
             submitButton->setProperty("enabled", true);
         }
-        
     }
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString + " %";
 }
 
-QJsonObject NewOrder::ObjectFromString(const QString& in)
+QJsonObject NewOrder::ObjectFromString(const QString &in)
 {
     QJsonObject obj;
     QJsonDocument doc = QJsonDocument::fromJson(in.toUtf8());
 
     // check validity of the document
-    if(!doc.isNull()){
-        if(doc.isObject()){
-            obj = doc.object();        
+    if (!doc.isNull())
+    {
+        if (doc.isObject())
+        {
+            obj = doc.object();
         }
-        else{
+        else
+        {
             qInfo() << "Document is not an object" << endl;
         }
     }
-    else{
-        qInfo() << "Invalid JSON...\n" << in << endl;
+    else
+    {
+        qInfo() << "Invalid JSON...\n"
+                << in << endl;
     }
 
     return obj;
 }
 
 QString NewOrder::getCommitVersion()
-{           
+{
+    qInfo() << "get commit";
     QFile file("dist/commit");
-      QString fileContent;
-    if ( file.open(QIODevice::ReadOnly) ) {
-        qDebug() << "Start1";
+    QString fileContent;
+    if (file.open(QIODevice::ReadOnly))
+    {
+        qInfo() << "Start1";
         QString line;
-        QTextStream t( &file );
-        do {
+        QTextStream t(&file);
+        do
+        {
             line = t.readLine();
             fileContent += line;
         } while (!line.isNull());
 
         file.close();
-    } else {
-        qDebug() << "Something went wrong. Commitfile not found";    
+    }
+    else
+    {
+        qInfo() << "Something went wrong. Commitfile not found";
     }
     fileContent += " ";
     QFile hostNameFile("/etc/hostname");
-    if ( hostNameFile.open(QIODevice::ReadOnly) ) {
+    if (hostNameFile.open(QIODevice::ReadOnly))
+    {
         QString line;
-        QTextStream t( &hostNameFile );
-        do {
+        QTextStream t(&hostNameFile);
+        do
+        {
             line = t.readLine();
             fileContent += line;
         } while (!line.isNull());
 
         hostNameFile.close();
-    } else {
-        qDebug() << "Something went wrong in hostname.";    
+    }
+    else
+    {
+        qInfo() << "Something went wrong in hostname.";
     }
     return fileContent;
 }
