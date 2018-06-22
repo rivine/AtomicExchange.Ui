@@ -87,7 +87,7 @@ ColumnLayout {
                     objectName: "loginNote"
                     Layout.fillWidth: true
                     color : "red"
-                    text: "Username / password combination is not correct."
+                    text: "Username / password is not correct."
                     visible: false;
                 }
             }
