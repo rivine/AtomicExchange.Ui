@@ -1,0 +1,1 @@
+ip -br addr show | grep zt | cut -d ' ' -f 16 | cut -d'/' -f 1
