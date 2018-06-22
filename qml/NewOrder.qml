@@ -244,6 +244,8 @@ ColumnLayout {
             }
           
             RowLayout {
+                Layout.topMargin: 10
+                Layout.bottomMargin: 10
                 Timer {
                     id: getIpTimer
                     objectName: "getIpTimer"
@@ -289,7 +291,7 @@ ColumnLayout {
             }
             RowLayout {
                 Label {
-                    text: "Amount"
+                    text: "Sell"
                     Layout.preferredWidth: 100
                 }
                 TextField {
@@ -323,7 +325,7 @@ ColumnLayout {
             }
             RowLayout {
                 Label {
-                    text: "Value"
+                    text: "Buy"
                     Layout.preferredWidth: 100
                 }
                 TextField {
