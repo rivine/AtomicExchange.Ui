@@ -36,19 +36,16 @@ public:
 public slots:
     void confirmNewOrder();
     void initiatorAcceptorActivated(QString editText);
-    void readOutput();
-    void readErrors();
+    void readOutputInitiator();
+    void readOutputAcceptor();
+    //void readErrors();
 
 private:
     QString getDateTime();
     void printJsonObject(const QJsonObject& jsonObject);
     QString role;
-    QProcess process;
-    QProcess processBalanceTFT;
-    QProcess processBalanceBTC;
-    QProcess processSyncStatusTFT;
-    QProcess processSyncStatusBTC;
-    QProcess processGetIp;
+    QProcess processInitiator;
+    QProcess processAcceptor;
     QString errors;
     QString output;
     QString ipAddress;

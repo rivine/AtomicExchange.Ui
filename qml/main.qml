@@ -132,6 +132,7 @@ ApplicationWindow {
                 id: getCommitVersion
                 objectName: "getCommitVersion"
                 text: newOrderService.getCommitVersion()
+                color: "#d3d3d3"
             }
         }
     }

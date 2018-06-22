@@ -85,9 +85,9 @@ void NewOrder::confirmNewOrder(){
             QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
             QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
 
-            process.start("python", pythonCommandArguments);
+            processInitiator.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
-            QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
+            QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
             
         }else if(role == "Acceptor"){
@@ -97,17 +97,16 @@ void NewOrder::confirmNewOrder(){
             QString scriptFile =  QCoreApplication::applicationDirPath() + "/exchangeNodes/acceptor.py";
             QStringList pythonCommandArguments = QStringList()  << scriptFile << "-o" << amount << "-m" << value << "-d";
 
-            process.start("python", pythonCommandArguments);
+            processAcceptor.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
-            QObject::connect(&process, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutput()));
+            QObject::connect(&processAcceptor, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputAcceptor()));
             //QObject::connect(&acceptorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors())); // when enabling errors, there is no ouput anymore after an error
         }
     }
 }
-void NewOrder::readOutput(){
+void NewOrder::readOutputInitiator(){
     qInfo("readOutput");
-    
-    output = process.readAllStandardOutput();
+    output = processInitiator.readAllStandardOutput();
     outputLog += output;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
@@ -118,7 +117,20 @@ void NewOrder::readOutput(){
         QJsonObject jsonObj = ObjectFromString(list[i]);
         printJsonObject(jsonObj);
     }
-
+}
+void NewOrder::readOutputAcceptor(){
+    qInfo("readOutput");
+    output = processAcceptor.readAllStandardOutput();
+    outputLog += output;
+    rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
+    QRegExp separator("\\n");
+    QStringList list = output.split(separator);
+    for( int i = 0; i < list.length() ; i++){
+        qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
+        QJsonObject jsonObj = ObjectFromString(list[i]);
+        printJsonObject(jsonObj);
+    }
 }
 void NewOrder::showOutputLog(){
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
@@ -152,20 +164,21 @@ void NewOrder::printJsonObject(const QJsonObject& object){
     
 
 }
-void NewOrder::readErrors(){
-    qInfo("fail");
-    errors = process.readAllStandardError();
+// void NewOrder::readErrors(){
+//     qInfo("fail");
+//     errors = process.readAllStandardError();
 
-    QObject *errorMessages = rootObject->findChild<QObject*>("errorMessages");
-    errorMessages->setProperty("text", errors);
+//     QObject *errorMessages = rootObject->findChild<QObject*>("errorMessages");
+//     errorMessages->setProperty("text", errors);
 
-    process.kill();
-}
+//     process.kill();
+// }
 
 QString NewOrder::getIp(){
-    processBalanceTFT.start("sh", QStringList() << "/dist/scripts/sys/getztaddr.sh");
-    processGetIp.waitForFinished();
-    QByteArray output = processGetIp.readAll();
+    QProcess process;
+    process.start("sh", QStringList() << "/dist/scripts/sys/getztaddr.sh");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     if(outputString != ""){
@@ -176,22 +189,38 @@ QString NewOrder::getIp(){
     return outputString;
 }
 QString NewOrder::getBalanceBTC(){
-    processBalanceBTC.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
-    processBalanceBTC.waitForFinished();
-    QByteArray output = processBalanceBTC.readAll();
+    QProcess process;
+    process.start("sh", QStringList() << "-c" << "bitcoin-cli getbalance");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString;
 }
 QString NewOrder::getBalanceTFT(){
-    processBalanceTFT.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
-    processBalanceTFT.waitForFinished();
-    QByteArray output = processBalanceTFT.readAll();
+    QProcess process;
+    process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
     QString outputString(output);
     outputString.remove(QRegExp("[\n\t\r]"));
     return outputString;
 }
+
+// void startAndGetOutput(QString command){
+
+//     QProcess process;
+//     process.start("sh", QStringList() << command);
+//     process.waitForFinished();
+//     QByteArray output = process.readAll();
+//     QString outputString(output);
+//     outputString.remove(QRegExp("[\n\t\r]"));
+//     return outputString;
+
+// }
+
 void NewOrder::createBTCAddress(){
+    QProcess process;
     process.start("sh", QStringList() << "-c" << "bitcoin-cli getnewaddress "" legacy");
     process.waitForFinished();
     QByteArray output = process.readAll();
@@ -201,6 +230,7 @@ void NewOrder::createBTCAddress(){
     createdBTCAddessField->setProperty("text", output);
 }
 void NewOrder::createTFTAddress(){
+    QProcess process;
     process.start("sh", QStringList() << "-c" << "tfchainc wallet address | cut -d' ' -f 4");
     process.waitForFinished();
     QByteArray output = process.readAll();
@@ -210,9 +240,10 @@ void NewOrder::createTFTAddress(){
     createdTFTAddress->setProperty("text", output);
 }
 QString NewOrder::getSyncStatusBTC(){
-    processSyncStatusBTC.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
-    processSyncStatusBTC.waitForFinished();
-    QByteArray output = processSyncStatusBTC.readAll();
+    QProcess process;
+    process.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
         syncStatusBTCFinished = true;
@@ -229,9 +260,10 @@ QString NewOrder::getSyncStatusBTC(){
     return outputString +   " %";
 }
 QString NewOrder::getSyncStatusTFT(){
-    processSyncStatusTFT.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
-    processSyncStatusTFT.waitForFinished();
-    QByteArray output = processSyncStatusTFT.readAll();
+    QProcess process;
+    process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
+    process.waitForFinished();
+    QByteArray output = process.readAll();
     //TODO, stop timer when sync is 100
     if(output == "100"){
         syncStatusTFTFinished = true;
@@ -271,11 +303,9 @@ QJsonObject NewOrder::ObjectFromString(const QString& in)
 }
 
 QString NewOrder::getCommitVersion()
-{       
-    
+{           
     QFile file("dist/commit");
-    qDebug() << "Start.";
-    QString fileContent;
+      QString fileContent;
     if ( file.open(QIODevice::ReadOnly) ) {
         qDebug() << "Start1";
         QString line;
@@ -287,9 +317,21 @@ QString NewOrder::getCommitVersion()
 
         file.close();
     } else {
-        qDebug() << "Something went wrong.";
-        //emit error("Unable to open the file");
-    
+        qDebug() << "Something went wrong. Commitfile not found";    
+    }
+    fileContent += " ";
+    QFile hostNameFile("/etc/hostname");
+    if ( hostNameFile.open(QIODevice::ReadOnly) ) {
+        QString line;
+        QTextStream t( &hostNameFile );
+        do {
+            line = t.readLine();
+            fileContent += line;
+        } while (!line.isNull());
+
+        hostNameFile.close();
+    } else {
+        qDebug() << "Something went wrong in hostname.";    
     }
     return fileContent;
 }
