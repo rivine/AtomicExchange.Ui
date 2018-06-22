@@ -4,30 +4,34 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 
 ColumnLayout {
-    Layout.fillWidth: true
+    //Layout.fillWidth: true
+    width: 668
 
     states: [
         State {
             when: window.width <= maxWidthPhone
-           
+            PropertyChanges { target: paneCurrencies; Layout.preferredWidth: window.width - 20 } 
+            PropertyChanges { target: paneNewOrder; Layout.preferredWidth: window.width - 20 }            
         },
         State {
             when: window.width > maxWidthPhone && window.width <= maxWidthTablet
-            PropertyChanges { target: columnLayout1; width: 608 }
-            PropertyChanges { target: flow1; width: 668 }
+            PropertyChanges { target: paneCurrencies; Layout.preferredWidth: window.width - 20 }
+            PropertyChanges { target: paneNewOrder; Layout.preferredWidth: window.width - 20 }       
+            PropertyChanges { target: flow1; width: 700 }
         },
         State {
             when: window.width > maxWidthTablet
-            PropertyChanges { target: columnLayout1; width: 608 }
-            PropertyChanges { target: flow1; width: 668 }
+            PropertyChanges { target: paneCurrencies; Layout.preferredWidth: 700 }
+            PropertyChanges { target: paneNewOrder; Layout.preferredWidth: 700 }  
+            PropertyChanges { target: flow1; width: 700 }
         }
         
     ]
     Pane {       
+        id: paneCurrencies
+        Layout.preferredWidth: 700
         Material.elevation: 6
         Material.background: "White"
-        Layout.fillWidth: true
-        Layout.fillHeight: true
         Material.accent: Material.Green
 
         ColumnLayout{
@@ -227,14 +231,13 @@ ColumnLayout {
     }
 
     Pane {
-
+        id: paneNewOrder
+        Layout.preferredWidth: 700
         Material.elevation: 6
         Material.background: "White"
-        Layout.fillWidth: true
         Material.accent: Material.Green
 
         ColumnLayout{
-            
             RowLayout{
                 Text {
                     color : "#2b2b2b"
@@ -269,7 +272,7 @@ ColumnLayout {
                 }
             }
             RowLayout {
-                width: parent.width
+               
                    id: ipAcceptorBox
                     objectName: "ipAcceptorBox"
                     visible: true
@@ -296,8 +299,6 @@ ColumnLayout {
                 }
             }
             RowLayout {
-                width: parent.width
-
                 Label {
                     text: "Amount"
                     Layout.preferredWidth: 100
@@ -329,11 +330,8 @@ ColumnLayout {
                     text: "Please enter a valid amount"
                     visible: false;
                 }
-
             }
             RowLayout {
-                width: parent.width
-
                 Label {
                     text: "Value"
                     Layout.preferredWidth: 100

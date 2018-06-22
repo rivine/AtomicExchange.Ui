@@ -93,8 +93,6 @@ ApplicationWindow {
         id: scrollviewLogin
         objectName: "scrollViewLogin"
         anchors.fill: parent
-
-
         clip: true
         visible: true
 
@@ -121,7 +119,6 @@ ApplicationWindow {
         ColumnLayout {
             id: loginColumnLayout
             objectName: "loginColumnLayout"
-
             width: window.width
 
             Login { 
@@ -139,8 +136,7 @@ ApplicationWindow {
         anchors.fill: parent
         clip: true
         visible: false
-        anchors.top: parent.top
-        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.top: parent.top
 
         states: [
             State {
@@ -164,10 +160,13 @@ ApplicationWindow {
         ColumnLayout {
             id: masterColumnLayout
             objectName: "masterColumnLayout"
+            width: window.width
+
             NewOrder {
-                //anchors.top: parent.top + 40
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 334
                 //Layout.preferredWidth: 750
-                Layout.leftMargin: 70
+                //Layout.leftMargin: 70
                 id: newOrder
                 objectName: "newOrder"
                 visible: true
