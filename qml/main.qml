@@ -94,6 +94,7 @@ ApplicationWindow {
         objectName: "scrollViewLogin"
         anchors.fill: parent
 
+
         clip: true
         visible: true
 
@@ -101,13 +102,13 @@ ApplicationWindow {
             State {
                 when: window.width <= maxWidthPhone
                 PropertyChanges { target: loginColumnLayout; width: 300 }
-                PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
+                //PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
                 PropertyChanges { target: loginColumnLayout; width: window.width - 10 }
                 
             },
             State {
                 when: window.width > maxWidthPhone && window.width <= maxWidthTablet
-                PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
+                //PropertyChanges { target: loginBox; Layout.leftMargin: 10 }
                 PropertyChanges { target: loginColumnLayout; width: window.width - 10 }
             },
             State {
@@ -120,10 +121,11 @@ ApplicationWindow {
         ColumnLayout {
             id: loginColumnLayout
             objectName: "loginColumnLayout"
-            Layout.leftMargin: 70
-            Login {
-                Layout.topMargin: 40    
-                Layout.leftMargin: 70
+
+            width: window.width
+
+            Login { 
+                Layout.leftMargin: window.width / 2 - 175
                 id: loginBox
                 objectName: "login"
                 visible: true;

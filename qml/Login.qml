@@ -43,8 +43,6 @@ ColumnLayout {
                     font.pixelSize: 20
                     font.bold: true
                 }
-
-
             }          
           
             RowLayout {
@@ -62,13 +60,11 @@ ColumnLayout {
                     objectName: "usernameInput"
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
-
                 }
             }
           
             RowLayout {
                 width: parent.width
-
                 Label {
                     text: "Password"
                     Layout.preferredWidth: 100
@@ -112,10 +108,7 @@ ColumnLayout {
                     text: "<a href='http://itsyou.online'>Create account</a>"
                     onLinkActivated: Qt.openUrlExternally(link)
                 }
-
             }
         }
-    }
-
-    
+    }    
 }
