@@ -12,6 +12,7 @@ class NewOrder : public QObject
     Q_OBJECT
 public:
     explicit NewOrder(QObject *parent = nullptr);
+    Q_INVOKABLE void coinChanged(const int);
     Q_INVOKABLE QString getIp();
     Q_INVOKABLE QString getBalanceBTC();
     Q_INVOKABLE QString getBalanceTFT();
@@ -20,7 +21,6 @@ public:
     Q_INVOKABLE QString getSyncStatusBTC();
     Q_INVOKABLE QString getSyncStatusTFT();
     Q_INVOKABLE void showOutputLog();
-
     Q_INVOKABLE QString getCommitVersion();
 
     QJsonObject ObjectFromString(const QString& in);
@@ -35,7 +35,6 @@ public:
 
 public slots:
     void confirmNewOrder();
-    void initiatorAcceptorActivated(QString editText);
     void readOutputInitiator();
     void readOutputAcceptor();
     //void readErrors();

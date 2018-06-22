@@ -14,38 +14,55 @@
 NewOrder::NewOrder(QObject *parent) : QObject(parent)
 {
     outputLog = "";
-    role = "Initiator";
+    role = "BTC -> TFT";
     syncStatusBTCFinished = false;
     syncStatusTFTFinished = false;
     engine = ApplicationContext::Instance().getEngine();
 }
 
-void NewOrder::initiatorAcceptorActivated(QString editText)
+void NewOrder::coinChanged(const int index)
 {
-    role = editText;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    QObject *coin = rootObject->findChild<QObject *>("coin");
     QObject *destinationCoin = rootObject->findChild<QObject *>("destinationCoin");
-    QObject *ipAcceptor = rootObject->findChild<QObject *>("ipAcceptorBox");
-    if (coin == nullptr || destinationCoin == nullptr || ipAcceptor == nullptr)
+
+    if (destinationCoin == nullptr)
     {
-        qInfo() << "nullptr in initiatorAcceptorActivated";
+        qInfo() << "nullptr in coinChanged";
         return;
     }
-
-    if (editText == "Initiator")
+    if (index == 0)
     {
-        coin->setProperty("currentIndex", 0);
-        destinationCoin->setProperty("currentIndex", 0);
-        ipAcceptor->setProperty("visible", 1);
+        role = "Initiator";
     }
-    else if (editText == "Acceptor")
+    else if (index == 1)
     {
-        coin->setProperty("currentIndex", 1);
-        destinationCoin->setProperty("currentIndex", 1);
-        ipAcceptor->setProperty("visible", 0);
+        role == "Acceptor";
     }
+    destinationCoin->setProperty("currentIndex", index);
+    //     role = editText;
+    //     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
+    //     QObject *coin = rootObject->findChild<QObject *>("coin");
+    //     QObject *destinationCoin = rootObject->findChild<QObject *>("destinationCoin");
+    //     QObject *ipAcceptor = rootObject->findChild<QObject *>("ipAcceptorBox");
+    //     if (coin == nullptr || destinationCoin == nullptr || ipAcceptor == nullptr)
+    //     {
+    //         qInfo() << "nullptr in initiatorAcceptorActivated";
+    //         return;
 }
+
+//     if (editText == "BTC -> TFT")
+//     {
+//         coin->setProperty("currentIndex", 0);
+//         destinationCoin->setProperty("currentIndex", 0);
+//         ipAcceptor->setProperty("visible", 1);
+//     }
+//     else if (editText == "TFT -> BTC")
+//     {
+//         coin->setProperty("currentIndex", 1);
+//         destinationCoin->setProperty("currentIndex", 1);
+//         ipAcceptor->setProperty("visible", 0);
+//     }
+// }
 
 void NewOrder::confirmNewOrder()
 {
@@ -239,7 +256,7 @@ QString NewOrder::getIp()
 }
 QString NewOrder::getBalanceBTC()
 {
-        return "";
+    return "";
     qInfo() << "getbalance";
     QProcess process;
     process.start("sh", QStringList() << "-c"
@@ -252,7 +269,7 @@ QString NewOrder::getBalanceBTC()
 }
 QString NewOrder::getBalanceTFT()
 {
-        return "";
+    return "";
     qInfo() << "getbalance tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
@@ -346,12 +363,12 @@ QString NewOrder::getSyncStatusBTC()
     QString outputString(output);
     qInfo() << "getsync 6";
     outputString.remove(QRegExp("[\n\t\r]"));
-        qInfo() << "getsync 7";
+    qInfo() << "getsync 7";
     return outputString + " %";
 }
 QString NewOrder::getSyncStatusTFT()
 {
-        return "";
+    return "";
     qInfo() << "get sync tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");

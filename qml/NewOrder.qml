@@ -251,31 +251,23 @@ ColumnLayout {
                     onTriggered: ipAddress.text = newOrderService.getIp()
                 }
                 Label {
-                    text: "Direction"
+                    text: "My IP"
                     Layout.preferredWidth: 100
                 }
-                ComboBox {
-                        id: role
-                        objectName: "role"
-                        width: 200
-                        model: [ "BTC -> TFT", "TFT -> BTC" ]
-                        onActivated: newOrderService.initiatorAcceptorActivated(editText)
-                        
-                }
-                Text {
+
+                Label {
                     id: ipAddress
                     objectName: "ipAddress"
                     color : "#2b2b2b"
                 }
             }
-            RowLayout {
-               
-                   id: ipAcceptorBox
-                    objectName: "ipAcceptorBox"
-                    visible: true
+            RowLayout {               
+                id: ipAcceptorBox
+                objectName: "ipAcceptorBox"
+                visible: true
 
                 Label {
-                    text: "Ip acceptor"
+                    text: "Peer IP"
                     Layout.preferredWidth: 100
                 }
                 TextField {
@@ -315,7 +307,8 @@ ColumnLayout {
                         objectName: "coin"
                         width: 200
                         model: [  "BTC", "TFT"]
-                        enabled: false;
+                        enabled: true;
+                        onActivated: newOrderService.coinChanged(index)
                 }
                 Text {
                     id: amountNote

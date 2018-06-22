@@ -32,8 +32,6 @@ ColumnLayout {
         Material.background: "White"
         //Layout.fillWidth: true
         Material.accent: Material.Green
-
-
         ColumnLayout{
             
             RowLayout{
