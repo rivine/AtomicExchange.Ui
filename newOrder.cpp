@@ -115,9 +115,9 @@ void NewOrder::confirmNewOrder()
 
         if (role == "Initiator")
         {
-            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
+            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/initiator.py" << "-o" << amount << "-m" << value << "-d";
 
-            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
+            QString scriptFile = QCoreApplication::applicationDirPath() + "/AtomicExchange.Scripts/initiator.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
 
             processInitiator.start("python", pythonCommandArguments);
@@ -128,9 +128,9 @@ void NewOrder::confirmNewOrder()
         else if (role == "Acceptor")
         {
 
-            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
+            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
 
-            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/participant.py";
+            QString scriptFile = QCoreApplication::applicationDirPath() + "/AtomicExchange.Scripts/participant.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value;
 
             processAcceptor.start("python", pythonCommandArguments);
