@@ -256,7 +256,6 @@ QString NewOrder::getIp()
 }
 QString NewOrder::getBalanceBTC()
 {
-    return "";
     qInfo() << "getbalance";
     QProcess process;
     process.start("sh", QStringList() << "-c"
@@ -269,7 +268,6 @@ QString NewOrder::getBalanceBTC()
 }
 QString NewOrder::getBalanceTFT()
 {
-    return "";
     qInfo() << "getbalance tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getbalance.sh");
@@ -330,45 +328,36 @@ void NewOrder::createTFTAddress()
 }
 QString NewOrder::getSyncStatusBTC()
 {
-    return "";
     qInfo() << "getsync ";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
-    qInfo() << "getsync 1";
     process.waitForFinished();
     QByteArray output = process.readAll();
-    qInfo() << "getsync 2";
     //TODO, stop timer when sync is 100
     if (output == "100")
     {
-        qInfo() << "getsync 3";
         syncStatusBTCFinished = true;
         if (syncStatusTFTFinished == true)
         {
             rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-            qInfo() << "getsync 4";
             QObject *syncStatusBTCTimer = rootObject->findChild<QObject *>("syncStatusBTCTimer");
             QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
             if (syncStatusBTCTimer == nullptr && submitButton == nullptr)
             {
                 qInfo() << "getsyncStatusBtc error";
-                return QString("");
+                return "";
             }
 
             syncStatusBTCTimer->setProperty("running", false);
             submitButton->setProperty("enabled", true);
         }
     }
-    qInfo() << "getsync 5";
     QString outputString(output);
-    qInfo() << "getsync 6";
     outputString.remove(QRegExp("[\n\t\r]"));
-    qInfo() << "getsync 7";
     return outputString + " %";
 }
 QString NewOrder::getSyncStatusTFT()
 {
-    return "";
     qInfo() << "get sync tft";
     QProcess process;
     process.start("sh", QStringList() << "/dist/scripts/tft/getsync.sh");
@@ -429,7 +418,6 @@ QString NewOrder::getCommitVersion()
     QString fileContent;
     if (file.open(QIODevice::ReadOnly))
     {
-        qInfo() << "Start1";
         QString line;
         QTextStream t(&file);
         do
