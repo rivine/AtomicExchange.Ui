@@ -118,7 +118,7 @@ void NewOrder::confirmNewOrder()
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/initiator.py" << "-o" << amount << "-m" << value << "-d";
 
             QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/initiator.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-d";
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
 
             processInitiator.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
@@ -130,8 +130,8 @@ void NewOrder::confirmNewOrder()
 
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/exchangeNodes/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
 
-            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/acceptor.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-d";
+            QString scriptFile = QCoreApplication::applicationDirPath() + "/exchangeNodes/participant.py";
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value;
 
             processAcceptor.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
@@ -252,6 +252,7 @@ QString NewOrder::getIp()
         }
         getIpTimer->setProperty("running", false);
     }
+    ipAddress = outputString;
     return outputString;
 }
 QString NewOrder::getBalanceBTC()
