@@ -14,7 +14,7 @@
 NewOrder::NewOrder(QObject *parent) : QObject(parent)
 {
     outputLog = "";
-    role = "BTC -> TFT";
+    role = "Initiator";
     syncStatusBTCFinished = false;
     syncStatusTFTFinished = false;
     engine = ApplicationContext::Instance().getEngine();
@@ -32,10 +32,12 @@ void NewOrder::coinChanged(const int index)
     }
     if (index == 0)
     {
+        qInfo() << "Role is initiator";
         role = "Initiator";
     }
     else if (index == 1)
     {
+        qInfo() << "Role is acceptor";
         role == "Acceptor";
     }
     destinationCoin->setProperty("currentIndex", index);
@@ -113,15 +115,17 @@ void NewOrder::confirmNewOrder()
         progressBar->setProperty("visible", 1);
         submitButton->setProperty("enabled", 0);
 
+        qInfo() << "role" << role;
         if (role == "Initiator")
         {
+            qInfo() << "In initiator";
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/initiator.py" << "-o" << amount << "-m" << value << "-d";
 
             QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
 
             processInitiator.start("python", pythonCommandArguments);
-            qInfo() << pythonCommandArguments;
+ 
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
         }
