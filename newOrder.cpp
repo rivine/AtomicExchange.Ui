@@ -38,7 +38,7 @@ void NewOrder::coinChanged(const int index)
     else if (index == 1)
     {
         qInfo() << "Role is acceptor";
-        role == "Acceptor";
+        role = "Acceptor";
     }
     destinationCoin->setProperty("currentIndex", index);
     //     role = editText;
@@ -113,7 +113,7 @@ void NewOrder::confirmNewOrder()
     else
     {
         progressBar->setProperty("visible", 1);
-        submitButton->setProperty("enabled", 0);
+        submitButton->setProperty("enabled", 1); //@ todo fix it kristof
 
         qInfo() << "role" << role;
         if (role == "Initiator")
