@@ -122,7 +122,7 @@ void NewOrder::confirmNewOrder()
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/initiator.py" << "-o" << amount << "-m" << value << "-d";
 
             QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAcceptor;
 
             processInitiator.start("python", pythonCommandArguments);
  
