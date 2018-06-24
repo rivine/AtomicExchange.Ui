@@ -122,9 +122,9 @@ void NewOrder::confirmNewOrder()
             //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/initiator.py" << "-o" << amount << "-m" << value << "-d";
 
             QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
-            QStringList pythonCommandArguments = QStringList() << "/";//scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-o" << amount << "-m" << value << "-i" << ipAddress;
 
-            processInitiator.start("ls", pythonCommandArguments);
+            processInitiator.start("python", pythonCommandArguments);
  
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
