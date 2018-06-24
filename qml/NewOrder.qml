@@ -302,7 +302,7 @@ ColumnLayout {
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
 
-                    validator: RegExpValidator { regExp: /\d{1,9}(?:,\d{1,9})+$/ }
+                    validator: RegExpValidator { regExp: /\d{1,9}(?:.\d{1,9})+$/ }
                 }
                 ComboBox {
                         id: coin
@@ -332,7 +332,7 @@ ColumnLayout {
                     id: value
                     objectName: "value"
                     Layout.fillWidth: true
-                    validator: RegExpValidator { regExp: /\d{1,9}(?:,\d{1,9})+$/ }
+                    validator: RegExpValidator { regExp: /\d{1,9}(?:.\d{1,9})+$/ }
                 }
                 ComboBox {
                         id: destinationCoin
