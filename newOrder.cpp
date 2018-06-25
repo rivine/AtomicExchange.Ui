@@ -119,8 +119,6 @@ void NewOrder::confirmNewOrder()
         if (role == "Initiator")
         {
             qInfo() << "In initiator";
-            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/initiator.py" << "-o" << amount << "-m" << value << "-d";
-
             QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
 
@@ -131,9 +129,6 @@ void NewOrder::confirmNewOrder()
         }
         else if (role == "Acceptor")
         {
-
-            //QStringList pythonCommandArguments = QStringList()  << "/home/kristof/jimber/AtomicExchange/AtomicExchange.Scripts/acceptor.py" << "-o" << amount << "-m" << value << "-d" ;
-
             QString scriptFile = "/dist/AtomicExchange.Scripts/participant.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value;
 
@@ -157,7 +152,7 @@ void NewOrder::readOutputInitiator()
     {
         qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
         QJsonObject jsonObj = ObjectFromString(list[i]);
-        printJsonObject(jsonObj);
+        enableCheckbox(jsonObj);
     }
 }
 void NewOrder::readOutputAcceptor()
@@ -173,7 +168,7 @@ void NewOrder::readOutputAcceptor()
     {
         qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
         QJsonObject jsonObj = ObjectFromString(list[i]);
-        printJsonObject(jsonObj);
+        enableCheckbox(jsonObj);
     }
 }
 void NewOrder::showOutputLog()
@@ -189,7 +184,7 @@ void NewOrder::showOutputLog()
     }
     outputLogTextfield->setProperty("text", outputLog);
 }
-void NewOrder::printJsonObject(const QJsonObject &object)
+void NewOrder::enableCheckbox(const QJsonObject &object)
 {
 
     int step = object.value("step").toInt();
@@ -203,11 +198,11 @@ void NewOrder::printJsonObject(const QJsonObject &object)
 
     if (progressBar == nullptr || stepBox == nullptr || stepCheckBox == nullptr || stepExtraInfo == nullptr)
     {
-        qInfo() << "nullptr in printJsonObject";
+        qInfo() << "nullptr in enableCheckbox";
         return;
     }
     //int step = object.value("step").toInt();
-    if (step > 0 && step < 10)
+    if (step > 0 && step < 4)
     {
 
         //qInfo() <<"testje" << object.value("step").toDouble() / 10;
@@ -217,7 +212,7 @@ void NewOrder::printJsonObject(const QJsonObject &object)
         }
         else if (role == "Acceptor")
         {
-            progressBar->setProperty("value", object.value("step").toDouble() / INITIATOR_STEPS);
+            progressBar->setProperty("value", object.value("step").toDouble() / ACCEPTOR_STEPS);
         }
 
         stepBox->setProperty("visible", 1);

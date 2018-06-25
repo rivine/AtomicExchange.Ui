@@ -41,7 +41,7 @@ public slots:
 
 private:
     QString getDateTime();
-    void printJsonObject(const QJsonObject& jsonObject);
+    void enableCheckbox(const QJsonObject& jsonObject);
     QString role;
     QProcess processInitiator;
     QProcess processAcceptor;

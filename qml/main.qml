@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
+import QtQuick.Shapes 1.11
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
     id: window
@@ -74,9 +76,8 @@ ApplicationWindow {
                         MenuItem{
                             text: 'Show log'
                             onClicked: {
-
-                                outputLog.outputLogTextVisible = !outputLog.outputLogTextVisible
-                                newOrderService.showOutputLog();
+                                footerPane.outputLogTextVisible = !footerPane.outputLogTextVisible
+                                //newOrderService.showOutputLog();
                             }
                         }
                         MenuItem{
@@ -84,6 +85,11 @@ ApplicationWindow {
                             onClicked: {
                                 loginService.signOut()
                             }
+                        }
+                        Timer {
+                            id: outputLogTimer
+                            interval: 3000; running: footerPane.outputLogTextVisible; repeat: true
+                            onTriggered: newOrderService.showOutputLog();
                         }
                     }
                 }
@@ -179,21 +185,73 @@ ApplicationWindow {
                 visible: true
             }
             RowLayout {
-                Layout.leftMargin: 70
-                Layout.topMargin: 10
-                width: parent.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 175
                 
-
                 ProgressBar {
-                    width: parent.width
                     id: progressBar
                     objectName: "progressBar"
-                    value: 0
                     visible: false
+                    anchors.centerIn: parent
+                    value: 0
+                    height: 20
+                    clip: true
+                    background: Rectangle {
+                        implicitWidth: 350
+                        implicitHeight: 6
+                        border.color: "#999999"
+                        radius: 5
+                    }
+                    contentItem: Item {
+                        implicitWidth: 200
+                        implicitHeight: 4
+
+                        Rectangle {
+                            id: bar
+                            width: progressBar.visualPosition * parent.width
+                            height: parent.height
+                            radius: 5
+                        }
+
+                        LinearGradient {
+                            anchors.fill: bar
+                            start: Qt.point(0, 0)
+                            end: Qt.point(bar.width, 0)
+                            source: bar
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: "#17a81a" }
+                                GradientStop { id: grad; position: 0.5; color: Qt.lighter("#17a81a", 2) }
+                                GradientStop { position: 1.0; color: "#17a81a" }
+                            }
+                            PropertyAnimation {
+                                target: grad
+                                property: "position"
+                                from: 0.1
+                                to: 0.9
+                                duration: 1000
+                                running: true
+                                loops: Animation.Infinite
+                            }
+                        }
+                        LinearGradient {
+                            anchors.fill: bar
+                            start: Qt.point(0, 0)
+                            end: Qt.point(0, bar.height)
+                            source: bar
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: Qt.rgba(0,0,0,0) }
+                                GradientStop { position: 0.5; color: Qt.rgba(1,1,1,0.3) }
+                                GradientStop { position: 1.0; color: Qt.rgba(0,0,0,0.05) }
+                            }
+                        }
+                    }
                 }
 
             }
             RowLayout {
+                width: newOrder.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 335
                 RowLayout {
                     id: step1Box
                     objectName: "step1Box"
@@ -225,6 +283,9 @@ ApplicationWindow {
                 }
             }
             RowLayout {
+                width: newOrder.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 335
                 RowLayout {
                     id: step3Box
                     objectName: "step3Box"
@@ -254,95 +315,32 @@ ApplicationWindow {
                         enabled: false;
                     }
                 }
-            }
-            RowLayout {
-                RowLayout {
-                    id: step5Box
-                    objectName: "step5Box"
-                    Layout.leftMargin: 70
-                    Layout.preferredWidth: 250
-                    visible: false
-
-                    CheckBox {
-                        id: step5CheckBox
-                        objectName: "step5CheckBox"
-                        checked: false
-                        enabled: false;
-                    }
-                }
-                RowLayout {
-                    id: step6Box
-                    objectName: "step6Box"
-                    Layout.leftMargin: 70
-                    Layout.preferredWidth: 250
-                    visible: false
-
-                    CheckBox {
-                        id: step6CheckBox
-                        objectName: "step6CheckBox"
-                        checked: false
-                        enabled: false;
-                    }
-                }
-            }
-            RowLayout {
-                RowLayout {
-                    id: step7Box
-                    objectName: "step7Box"
-                    Layout.leftMargin: 70
-                    Layout.preferredWidth: 250
-                    visible: false
-
-                    CheckBox {
-                        id: step7CheckBox
-                        objectName: "step7CheckBox"
-                        checked: false
-                        enabled: false;
-                    }
-                }
-                RowLayout {
-                    id: step8Box
-                    objectName: "step8Box"
-                    Layout.leftMargin: 70
-                    Layout.preferredWidth: 250
-                    visible: false
-
-                    CheckBox {
-                        id: step8CheckBox
-                        objectName: "step8CheckBox"
-                        checked: false
-                        enabled: false;
-                    }
-                }
-            }
-            RowLayout {
-                id: step9Box
-                objectName: "step9Box"
-                Layout.leftMargin: 70
-                Layout.preferredWidth: 250
-                visible: false
-
-                CheckBox {
-                    id: step9CheckBox
-                    objectName: "step9CheckBox"
-                    checked: false
-                    enabled: false;
-                }
-            }
-            RowLayout {
-                id: outputLog
-                objectName: "ouputLog"
-                Layout.leftMargin: 40
-                width: parent.width
-                property bool outputLogTextVisible: false;
-
-                Text {
-                    id: outputLogText
-                    objectName: "outputLogText"
-                    Layout.preferredWidth: 100
-                    visible: parent.outputLogTextVisible
-                }
-            }            
+            }             
         }
-    }       
+    }  
+    footer: Pane {
+        id: footerPane
+        objectName: "footerPane"
+        property bool outputLogTextVisible: false;
+        height: 250
+        Material.elevation: 6
+        visible: outputLogTextVisible
+        
+        ScrollView {        
+            anchors.horizontalCenter: parent.horizontalCenter            
+            id: scrollViewLog        
+            objectName: "scrollViewLog"
+            width: window.height - 40  
+            height: 250
+            clip: true       
+        
+            Text {     
+                Layout.topMargin: 50
+                width: window.height - 40          
+                id: outputLogText
+                wrapMode: Text.Wrap
+                objectName: "outputLogText"            
+            }             
+        }        
+    }        
 }

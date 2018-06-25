@@ -15,19 +15,25 @@ void Login::loginFinished(int exitCode, QProcess::ExitStatus exitStatus)
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *loginNote = rootObject->findChild<QObject *>("loginNote");
     QObject *loginButton = rootObject->findChild<QObject *>("loginButton");
+    QObject *scrollView = rootObject->findChild<QObject *>("scrollView");
+    QObject *scrollViewLogin = rootObject->findChild<QObject *>("scrollViewLogin");
+    QObject *userNameHeader = rootObject->findChild<QObject *>("userNameHeader");
+    QObject *userImage = rootObject->findChild<QObject *>("userImage");
+
+
+    if(loginNote == nullptr || loginButton == nullptr || scrollView == nullptr || scrollViewLogin == nullptr || 
+        userNameHeader == nullptr || userImage == nullptr){
+            qInfo() << "nullpointer in loginFinished";
+            return;
+    }
 
     if (exitCode == 1)
     {
         loginButton->setProperty("visible", true);
-        loginNote->setProperty("text", "Username / password combination is not correct.");
+        loginNote->setProperty("text", "Username / password is not correct.");
     }
     else if (exitCode == 0)
     {
-        QObject *scrollView = rootObject->findChild<QObject *>("scrollView");
-        QObject *scrollViewLogin = rootObject->findChild<QObject *>("scrollViewLogin");
-        QObject *userNameHeader = rootObject->findChild<QObject *>("userNameHeader");
-        QObject *userImage = rootObject->findChild<QObject *>("userImage");
-
         userNameHeader->setProperty("text", userName);
         scrollViewLogin->setProperty("visible", false);
         scrollView->setProperty("visible", true);
@@ -51,6 +57,13 @@ void Login::signOut()
     QObject *loginNote = rootObject->findChild<QObject *>("loginNote");
     QObject *usernameInput = rootObject->findChild<QObject *>("usernameInput");
     QObject *passwordInput = rootObject->findChild<QObject *>("passwordInput");
+    QObject *footerPane = rootObject->findChild<QObject *>("footerPane");
+
+    if(userNameHeader == nullptr || userImage == nullptr || scrollView == nullptr || scrollViewLogin == nullptr || 
+        loginButton == nullptr || loginNote == nullptr || usernameInput == nullptr || passwordInput == nullptr || footerPane == nullptr){
+            qInfo() << "nullpointer in signout";
+            return;
+    }
 
     userNameHeader->setProperty("visible", false);
     userImage->setProperty("visible", false);
@@ -58,6 +71,7 @@ void Login::signOut()
     scrollView->setProperty("visible", false);
     loginButton->setProperty("visible", true);
     loginNote->setProperty("visible", false);
+    footerPane->setProperty("visible", false);
     usernameInput->setProperty("text", "");
     passwordInput->setProperty("text", "");
 }
@@ -86,9 +100,6 @@ void Login::startLoginProcess(const QString userN, const QString password)
         loginNote->setProperty("visible", true);
         loginNote->setProperty("text", "You will receive a text message to login.");
     }
-
-
-
     //QString scriptFile =  QCoreApplication::applicationDirPath() + "/scripts/iyo/login.sh";
     QStringList commandArguments = QStringList() << userN << password;
     loginProcess.start("dist/scripts/iyo/login.php", commandArguments);
