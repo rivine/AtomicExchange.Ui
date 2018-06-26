@@ -257,10 +257,12 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
 
-                Label {
+                TextEdit {
                     id: ipAddress
                     objectName: "ipAddress"
                     color : "#2b2b2b"
+                    selectByMouse: true   
+                    readOnly: true
                 }
             }
             RowLayout {               

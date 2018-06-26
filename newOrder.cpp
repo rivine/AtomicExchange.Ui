@@ -139,6 +139,7 @@ void NewOrder::confirmNewOrder()
         }
     }
 }
+
 void NewOrder::readOutputInitiator()
 {
     qInfo("readOutput");
@@ -166,7 +167,7 @@ void NewOrder::readOutputAcceptor()
     QStringList list = output.split(separator);
     for (int i = 0; i < list.length(); i++)
     {
-        qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
+        qInfo() << "splitted string " << list[i]; 
         QJsonObject jsonObj = ObjectFromString(list[i]);
         enableCheckbox(jsonObj);
     }

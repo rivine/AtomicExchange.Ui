@@ -334,12 +334,14 @@ ApplicationWindow {
             height: 250
             clip: true       
         
-            Text {     
+            TextEdit {     
                 Layout.topMargin: 50
                 width: window.height - 40          
                 id: outputLogText
                 wrapMode: Text.Wrap
-                objectName: "outputLogText"            
+                objectName: "outputLogText"     
+                selectByMouse: true   
+                readOnly: true    
             }             
         }        
     }        
