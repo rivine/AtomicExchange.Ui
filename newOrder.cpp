@@ -41,30 +41,7 @@ void NewOrder::coinChanged(const int index)
         role = "Acceptor";
     }
     destinationCoin->setProperty("currentIndex", index);
-    //     role = editText;
-    //     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    //     QObject *coin = rootObject->findChild<QObject *>("coin");
-    //     QObject *destinationCoin = rootObject->findChild<QObject *>("destinationCoin");
-    //     QObject *ipAcceptor = rootObject->findChild<QObject *>("ipAcceptorBox");
-    //     if (coin == nullptr || destinationCoin == nullptr || ipAcceptor == nullptr)
-    //     {
-    //         qInfo() << "nullptr in initiatorAcceptorActivated";
-    //         return;
 }
-
-//     if (editText == "BTC -> TFT")
-//     {
-//         coin->setProperty("currentIndex", 0);
-//         destinationCoin->setProperty("currentIndex", 0);
-//         ipAcceptor->setProperty("visible", 1);
-//     }
-//     else if (editText == "TFT -> BTC")
-//     {
-//         coin->setProperty("currentIndex", 1);
-//         destinationCoin->setProperty("currentIndex", 1);
-//         ipAcceptor->setProperty("visible", 0);
-//     }
-// }
 
 void NewOrder::confirmNewOrder()
 {
@@ -112,46 +89,77 @@ void NewOrder::confirmNewOrder()
     }
     else
     {
+        progressBar->setProperty("value", 0);
         progressBar->setProperty("visible", 1);
-        submitButton->setProperty("enabled", 1); //@ todo fix it kristof
 
         qInfo() << "role" << role;
         if (role == "Initiator")
         {
             qInfo() << "In initiator";
-            QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
-
-            processInitiator.start("python", pythonCommandArguments);
- 
+            hideCheckboxes(INITIATOR_STEPS);
+            //QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
+            //QString scriptFile = "/dist/scripts/testOutput.py";
+            //QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
+            //processInitiator.start("python", pythonCommandArguments);
+            processInitiator.start("python", QStringList() << "/dist/testOutput.py");
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
-            //QObject::connect(&initiatorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors()));  // when enabling errors, there is no ouput anymore after an error
+            QObject::connect(&processInitiator, SIGNAL(readyReadStandardError()), this, SLOT(readErrorsInitiator()));  // when enabling errors, there is no ouput anymore after an error
+            QObject::connect(&processInitiator, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processFinished(int,QProcess::ExitStatus))); 
+
+            submitButton->setProperty("enabled", 0);
         }
         else if (role == "Acceptor")
         {
+            hideCheckboxes(ACCEPTOR_STEPS);
             QString scriptFile = "/dist/AtomicExchange.Scripts/participant.py";
             QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value;
 
             processAcceptor.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
             QObject::connect(&processAcceptor, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputAcceptor()));
+            QObject::connect(&processAcceptor, SIGNAL(readyReadStandardError()), this, SLOT(readErrorsAcceptor())); 
+            QObject::connect(&processAcceptor, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processFinished(int,QProcess::ExitStatus)));  
+
             //QObject::connect(&acceptorProcess, SIGNAL(readyReadStandardError()), this, SLOT(readErrors())); // when enabling errors, there is no ouput anymore after an error
+            submitButton->setProperty("enabled", 0);
         }
     }
 }
+void NewOrder::readErrorsInitiator(){
+    qInfo("error in script");
+    qInfo() << processInitiator.readAllStandardError();
 
+    QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+    if ( submitButton == nullptr)
+    {
+        qInfo() << "nullptr in readErrorsInitiator";
+        return;
+    }
+    submitButton->setProperty("enabled", 1);
+}
+void NewOrder::readErrorsAcceptor(){
+    qInfo("error in script");
+    qInfo() << processAcceptor.readAllStandardError();
+
+    QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+    if ( submitButton == nullptr)
+    {
+        qInfo() << "nullptr in readErrorsInitiator";
+        return;
+    }
+    submitButton->setProperty("enabled", 1);
+}
 void NewOrder::readOutputInitiator()
 {
     qInfo("readOutput");
     output = processInitiator.readAllStandardOutput();
     outputLog += output;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
     QRegExp separator("\\n");
     QStringList list = output.split(separator);
     for (int i = 0; i < list.length(); i++)
     {
-        qInfo() << "splitted string " << list[i]; //=> segmentation fault!?!?
+        qInfo() << "splitted string nr " << i << ": " << list[i];
         QJsonObject jsonObj = ObjectFromString(list[i]);
         enableCheckbox(jsonObj);
     }
@@ -162,7 +170,7 @@ void NewOrder::readOutputAcceptor()
     output = processAcceptor.readAllStandardOutput();
     outputLog += output;
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
-    //QObject *outputBox = rootObject->findChild<QObject*>("outputMessages");
+
     QRegExp separator("\\n");
     QStringList list = output.split(separator);
     for (int i = 0; i < list.length(); i++)
@@ -171,6 +179,19 @@ void NewOrder::readOutputAcceptor()
         QJsonObject jsonObj = ObjectFromString(list[i]);
         enableCheckbox(jsonObj);
     }
+}
+void NewOrder::processFinished(int code, QProcess::ExitStatus status){
+    qInfo() << "processFinished";
+    QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
+    QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
+
+    if (submitButton == nullptr || progressBar == nullptr){
+
+        qInfo() << "nullptr in processFinished";
+        return;
+    }
+    submitButton->setProperty("enabled", 1);
+    progressBar->setProperty("visible", 0);
 }
 void NewOrder::showOutputLog()
 {
@@ -187,23 +208,25 @@ void NewOrder::showOutputLog()
 }
 void NewOrder::enableCheckbox(const QJsonObject &object)
 {
-
-    int step = object.value("step").toInt();
-    qInfo() << "step " << step;
-    qInfo() << "stepName " << object.value("stepName");
+    
+    double step = object.value("step").toDouble();
 
     QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
     QObject *stepBox = rootObject->findChild<QObject *>("step" + QString::number(step) + "Box");
     QObject *stepCheckBox = rootObject->findChild<QObject *>("step" + QString::number(step) + "CheckBox");
-    QObject *stepExtraInfo = rootObject->findChild<QObject *>("step" + QString::number(step) + "ExtraInfo");
+    QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
 
-    if (progressBar == nullptr || stepBox == nullptr || stepCheckBox == nullptr || stepExtraInfo == nullptr)
+    QObject *step4Box = rootObject->findChild<QObject *>("step4Box");
+    QObject *step5Box = rootObject->findChild<QObject *>("step5Box");
+
+    if (progressBar == nullptr || stepBox == nullptr || stepCheckBox == nullptr || submitButton == nullptr
+    || step4Box == nullptr || step5Box == nullptr)
     {
         qInfo() << "nullptr in enableCheckbox";
         return;
     }
     //int step = object.value("step").toInt();
-    if (step > 0 && step < 4)
+    if (step > 0 && step <= 4)
     {
 
         //qInfo() <<"testje" << object.value("step").toDouble() / 10;
@@ -216,20 +239,36 @@ void NewOrder::enableCheckbox(const QJsonObject &object)
             progressBar->setProperty("value", object.value("step").toDouble() / ACCEPTOR_STEPS);
         }
 
-        stepBox->setProperty("visible", 1);
+        stepBox->setProperty("visible", true);
         stepCheckBox->setProperty("text", object.value("stepName"));
-        stepCheckBox->setProperty("checked", 1);
+        stepCheckBox->setProperty("checked", true);
+
+        if(step == 3){
+            step4Box->setProperty("visible", true);
+            step5Box->setProperty("visible", true);
+        }
+        if(step == 4){
+            progressBar->setProperty("visible", false);
+            step5Box->setProperty("visible", false);
+        }
     }
 }
-// void NewOrder::readErrors(){
-//     qInfo("fail");
-//     errors = process.readAllStandardError();
+void NewOrder::hideCheckboxes(const int steps){
+    qInfo() << "hideCheckboxes  steps"<< steps;
+    for(int i=1; i <= steps; i++ ){
+        QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
+        QObject *stepBox = rootObject->findChild<QObject *>("step" + QString::number(i) + "Box");
+        QObject *stepCheckBox = rootObject->findChild<QObject *>("step" + QString::number(i) + "CheckBox");
 
-//     QObject *errorMessages = rootObject->findChild<QObject*>("errorMessages");
-//     errorMessages->setProperty("text", errors);
-
-//     process.kill();
-// }
+        if (progressBar == nullptr || stepBox == nullptr || stepCheckBox == nullptr)
+        {
+            qInfo() << "nullptr in disableCheckboxes";
+            return;
+        }
+        stepBox->setProperty("visible", false);
+        stepCheckBox->setProperty("checked", false);
+    }
+}
 
 QString NewOrder::getIp()
 {
@@ -279,17 +318,6 @@ QString NewOrder::getBalanceTFT()
     return outputString;
 }
 
-// void startAndGetOutput(QString command){
-
-//     QProcess process;
-//     process.start("sh", QStringList() << command);
-//     process.waitForFinished();
-//     QByteArray output = process.readAll();
-//     QString outputString(output);
-//     outputString.remove(QRegExp("[\n\t\r]"));
-//     return outputString;
-
-// }
 
 void NewOrder::createBTCAddress()
 {

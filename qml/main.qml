@@ -297,7 +297,7 @@ ApplicationWindow {
                         id: step3CheckBox
                         objectName: "step3CheckBox"
                         checked: false
-                        enabled: false;
+                        enabled: false
                     }
 
                 }
@@ -311,11 +311,33 @@ ApplicationWindow {
                     CheckBox {
                         id: step4CheckBox
                         objectName: "step4CheckBox"
+                        text: "Balance updated"
                         checked: false
-                        enabled: false;
+                        enabled: false
                     }
                 }
-            }             
+            }  
+             RowLayout {
+                width: newOrder.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 335
+                RowLayout {
+                    id: step5Box
+                    objectName: "step5Box"
+                    Layout.leftMargin: 70
+                    Layout.preferredWidth: 250
+                    visible: false
+
+                    CheckBox {
+                        id: step5CheckBox
+                        objectName: "step5CheckBox"
+                        text: "Refund"
+                        checked: false
+                        enabled: false
+                    }
+
+                }
+             }           
         }
     }  
     footer: Pane {

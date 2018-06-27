@@ -37,11 +37,15 @@ public slots:
     void confirmNewOrder();
     void readOutputInitiator();
     void readOutputAcceptor();
-    //void readErrors();
+    void readErrorsInitiator();
+    void readErrorsAcceptor();
+    void processFinished(int, QProcess::ExitStatus);
 
 private:
     QString getDateTime();
     void enableCheckbox(const QJsonObject& jsonObject);
+    void hideCheckboxes(const int);
+    QString getTestOutput();
     QString role;
     QProcess processInitiator;
     QProcess processAcceptor;
