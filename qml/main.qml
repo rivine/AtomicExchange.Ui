@@ -223,15 +223,7 @@ ApplicationWindow {
                                 GradientStop { id: grad; position: 0.5; color: Qt.lighter("#17a81a", 2) }
                                 GradientStop { position: 1.0; color: "#17a81a" }
                             }
-                            PropertyAnimation {
-                                target: grad
-                                property: "position"
-                                from: 0.1
-                                to: 0.9
-                                duration: 1000
-                                running: true
-                                loops: Animation.Infinite
-                            }
+
                         }
                         LinearGradient {
                             anchors.fill: bar
@@ -265,8 +257,15 @@ ApplicationWindow {
                         checked: false
                         enabled: false
                     }
+                }                
+            }
+            
 
-                }
+            RowLayout {
+                width: newOrder.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 335
+
                 RowLayout {
                     id: step2Box
                     objectName: "step2Box"
@@ -280,8 +279,9 @@ ApplicationWindow {
                         checked: false
                         enabled: false;
                     }
-                }
+                }              
             }
+
             RowLayout {
                 width: newOrder.width
                 Layout.topMargin: 20
@@ -301,6 +301,11 @@ ApplicationWindow {
                     }
 
                 }
+            }
+            RowLayout {
+                width: newOrder.width
+                Layout.topMargin: 20
+                Layout.leftMargin: window.width / 2 - 335
                 RowLayout {
                     id: step4Box
                     objectName: "step4Box"
@@ -317,7 +322,7 @@ ApplicationWindow {
                     }
                 }
             }  
-             RowLayout {
+            RowLayout {
                 width: newOrder.width
                 Layout.topMargin: 20
                 Layout.leftMargin: window.width / 2 - 335
