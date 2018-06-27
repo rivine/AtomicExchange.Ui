@@ -97,11 +97,9 @@ void NewOrder::confirmNewOrder()
         {
             qInfo() << "In initiator";
             hideCheckboxes(INITIATOR_STEPS);
-            //QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
-            //QString scriptFile = "/dist/scripts/testOutput.py";
-            //QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
-            //processInitiator.start("python", pythonCommandArguments);
-            processInitiator.start("python", QStringList() << "/dist/testOutput.py");
+            QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
+            processInitiator.start("python", pythonCommandArguments);
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardError()), this, SLOT(readErrorsInitiator()));  // when enabling errors, there is no ouput anymore after an error
             QObject::connect(&processInitiator, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processFinished(int,QProcess::ExitStatus))); 
