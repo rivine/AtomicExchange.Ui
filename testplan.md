@@ -70,6 +70,7 @@ commit version tested :
 - Press the 'Confirm Order' Button.
 
 ### Logging
+- Progressbar working?
 - Checkboxes visible after sumbitting orders?
 - Click show log in the menu on the right top.
 - Log available?
@@ -88,14 +89,13 @@ commit version tested :
 
 ## Responsiveness
 #### PC/Large screen
-#### tablet
+- Login screen centralized on schreen
+- Application centralized on screen
+- Username IYO on right top of screen
+- Currencies next to eachother
+
 #### Smartphone
-
-- Resize application: smartphone format => currencies under each other
-
-
-- Restart application
-- Progressbar working?
-- Sign out
-- Input fields login empty?
-- Repeat these steps on a mobile device
+- Login screen centralized on schreen.
+- fixed with on the left, app fits on screen.
+- Icon only on top of screen.
+- Currencies below to eachother.
