@@ -3,6 +3,7 @@
 commit version tested : 
 
 ## Sign in process
+
 ### Empty credentials
 - Login with empty username and password.
 ### Wrong username
@@ -11,19 +12,52 @@ commit version tested :
 - Login with the valid user with a wrong password.
 ### Special characters
 - Try to login with a username/password with special characters.
-### Correct credentials
+### Valid credentials
 - Login with a valid username and a valid password.
 
-## New Order process
+## Confirm a new order
+### Buy BTC / Sell TFT
+#### Insufficient amount
+- Enter the IP address of the peer.
+- Enter in 'Buy' an amount that's higher than your BTC Balance.
+- Enter in 'Sell' an amount of TFT.
+- Press the "Confirm Order" Button.
 
+#### Invalid IP Address
+- Enter an unvalid IP address. ( 21, ab, "!, ... )
+- Enter in 'Buy' a valid amount of BTC.
+- Enter in 'Sell' an amount of TFT.
+- Press the  "Confirm Order" Button.
 
-- Surf to application "A"
-- Resize application "A"
-- Try to login with empty username and password
-- Try to login with username / pw with special chars
-- Try to login with wrong username / pw
-- Login with valid username / pw
+#### Wrong IP Address
+- Enter a wrong but valid IP address.
+- Enter in 'Buy' a valid amount of BTC.
+- Enter in 'Sell' an amount of TFT.
+- Press the  "Confirm Order" Button.
 
+#### Valid values
+- Enter the IP address of the peer.
+- Enter in 'Buy' an amount that's higher than your BTC Balance.
+- Enter in 'Sell' an amount of TFT.
+- Press the "Confirm Order" Button.
+
+### Buy TFT / Sell BTC
+#### Insufficient amount
+- Select TFT next to 'Buy'.
+- Enter the IP address of the peer.
+- Enter in 'Buy' an amount that's higher than your TFT Balance.
+- Enter in 'Sell' an amount of BTC.
+- Press the "Confirm Order" Button.
+
+#### Valid values
+- Enter the IP address of the peer.
+- Enter in 'Buy' an amount that's higher than your TFT Balance.
+- Enter in 'Sell' an amount of BTC.
+- Press the "Confirm Order" Button.
+
+### Logging
+
+## Responsiveness
 - Resize application: smartphone format => currencies under each other
 - Balance BTC loaded?
 - Balance TFT loaded?
