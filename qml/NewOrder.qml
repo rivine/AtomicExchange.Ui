@@ -297,14 +297,16 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
                 TextField {
-                    id: amount
-                    objectName: "amount"
-                    //text: model.description
-                    //onEditingFinished: model.description = text
+                    id: sellAmountId
                     Layout.fillWidth: true
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
-
                     validator: RegExpValidator { regExp: /\d{1,9}(?:.\d{1,9})+$/ }
+                    text: newOrderService.sellAmount
+                }
+                Binding {
+                    target: newOrderService
+                    property: "sellAmount"
+                    value: sellAmountId.text
                 }
                 ComboBox {
                         id: coin
@@ -331,10 +333,16 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
                 TextField {
-                    id: value
-                    objectName: "value"
+                    id: buyAmountId
                     Layout.fillWidth: true
                     validator: RegExpValidator { regExp: /\d{1,9}(?:.\d{1,9})+$/ }
+                    text: newOrderService.buyAmount
+
+                }
+                Binding {
+                    target: newOrderService
+                    property: "buyAmount"
+                    value: buyAmountId.text
                 }
                 ComboBox {
                         id: destinationCoin

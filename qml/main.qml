@@ -25,6 +25,21 @@ ApplicationWindow {
             Material.primary: Material.Blue
             Layout.leftMargin: 70
             Layout.topMargin: 20
+            states: [
+                State {
+                    when: window.width <= maxWidthPhone
+                    PropertyChanges { target: userNameHeader; visible: false }
+
+                },
+                State {
+                    when: window.width > maxWidthPhone && window.width <= maxWidthTablet
+                    PropertyChanges { target: userNameHeader; visible: true }
+                },
+                State {
+                    when: window.width > maxWidthTablet
+                    PropertyChanges { target: userNameHeader; visible: true }
+                }
+            ]
 
             RowLayout {
                 anchors.fill: parent

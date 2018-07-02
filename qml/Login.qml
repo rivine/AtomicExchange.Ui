@@ -54,10 +54,16 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
                 TextField {
-                    id: username
+                    id: usernameInputId
                     objectName: "usernameInput"
                     Layout.fillWidth: true
                     Layout.preferredWidth: 200
+                    text: loginService.username
+                }
+                Binding {
+                    target: loginService
+                    property: "username"
+                    value: usernameInputId.text
                 }
             }
           
@@ -69,9 +75,15 @@ ColumnLayout {
                 }
                 TextField {
                     echoMode: TextInput.Password
-                    id: password
+                    id: passwordInputId
                     objectName: "passwordInput"
                     Layout.fillWidth: true
+                    text: loginService.password
+                }
+                Binding {
+                    target: loginService
+                    property: "password"
+                    value: passwordInputId.text
                 }
             }
             
@@ -96,7 +108,7 @@ ColumnLayout {
                     objectName: "loginButton"
                     text: qsTr("Log in")
                     onClicked: {
-                        loginService.startLoginProcess(username.text, password.text)
+                        loginService.startLoginProcess()
                     }
                     Layout.fillWidth: true
                 }

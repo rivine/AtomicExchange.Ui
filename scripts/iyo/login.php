@@ -10,7 +10,7 @@ $debug = false;
 $rest = new RestApiAccess();
 $headers = Array();
 
-
+return 0;
 $sentHeaders = Array();
 
 // POST to login to get more cookies

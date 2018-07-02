@@ -2,11 +2,43 @@
 #include <QDebug>
 #include <QProcess>
 #include <QCoreApplication>
+#include "newOrder.h"
 
 Login::Login(QObject *parent) : QObject(parent)
 {
-    userName = "";
+    username = "";
+    password = "";
+
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+QString Login::getUsername()
+{
+    return username;
+}
+QString Login::getPassword()
+{
+    return password;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Login::setUsername( QString value )
+{
+    if ( username != value ){
+        username = value;
+        emit usernameChanged();
+    }
+}
+void Login::setPassword( QString value )
+{
+    if ( password != value ){
+        password = value;
+        emit passwordChanged();
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Login::loginFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
@@ -34,7 +66,7 @@ void Login::loginFinished(int exitCode, QProcess::ExitStatus exitStatus)
     }
     else if (exitCode == 0)
     {
-        userNameHeader->setProperty("text", userName);
+        userNameHeader->setProperty("text", username);
         scrollViewLogin->setProperty("visible", false);
         scrollView->setProperty("visible", true);
         userNameHeader->setProperty("visible", true);
@@ -48,6 +80,11 @@ void Login::loginFinished(int exitCode, QProcess::ExitStatus exitStatus)
 }
 void Login::signOut()
 {
+    setUsername("");
+    setPassword("");
+    // newOrder.setBuyAmount("");
+    // newOrder.setSellAmount("");
+    // newOrder.setIpPeer("");
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *userNameHeader = rootObject->findChild<QObject *>("userNameHeader");
     QObject *userImage = rootObject->findChild<QObject *>("userImage");
@@ -55,12 +92,10 @@ void Login::signOut()
     QObject *scrollViewLogin = rootObject->findChild<QObject *>("scrollViewLogin");
     QObject *loginButton = rootObject->findChild<QObject *>("loginButton");
     QObject *loginNote = rootObject->findChild<QObject *>("loginNote");
-    QObject *usernameInput = rootObject->findChild<QObject *>("usernameInput");
-    QObject *passwordInput = rootObject->findChild<QObject *>("passwordInput");
     QObject *footerPane = rootObject->findChild<QObject *>("footerPane");
 
     if(userNameHeader == nullptr || userImage == nullptr || scrollView == nullptr || scrollViewLogin == nullptr || 
-        loginButton == nullptr || loginNote == nullptr || usernameInput == nullptr || passwordInput == nullptr || footerPane == nullptr){
+        loginButton == nullptr || loginNote == nullptr || footerPane == nullptr){
             qInfo() << "nullpointer in signout";
             return;
     }
@@ -71,14 +106,12 @@ void Login::signOut()
     scrollView->setProperty("visible", false);
     loginButton->setProperty("visible", true);
     loginNote->setProperty("visible", false);
-    footerPane->setProperty("visible", false);
-    usernameInput->setProperty("text", "");
-    passwordInput->setProperty("text", "");
+    footerPane->setProperty("outputLogTextVisible", false);
+
 }
 
-void Login::startLoginProcess(const QString userN, const QString password)
+void Login::startLoginProcess()
 {
-    userName = userN;
     QString validUser = qgetenv("VALIDUSER");
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *loginButton = rootObject->findChild<QObject *>("loginButton");
@@ -89,7 +122,7 @@ void Login::startLoginProcess(const QString userN, const QString password)
     }
     
         loginButton->setProperty("visible", false);
-    if (validUser != "" && validUser != QString(userN))
+    if (validUser != "" && validUser != QString(username))
     {
         qInfo() << "Invalid user";
         loginNote->setProperty("visible", true);
@@ -101,7 +134,7 @@ void Login::startLoginProcess(const QString userN, const QString password)
         loginNote->setProperty("text", "You will receive a text message to login.");
     }
     //QString scriptFile =  QCoreApplication::applicationDirPath() + "/scripts/iyo/login.sh";
-    QStringList commandArguments = QStringList() << userN << password;
+    QStringList commandArguments = QStringList() << username << password;
     loginProcess.start("dist/scripts/iyo/login.php", commandArguments);
     //loginProcess.start("sh", QStringList() << "/dist/scripts/btc/getsync.sh");
 

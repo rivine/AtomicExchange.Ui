@@ -10,8 +10,14 @@
 class NewOrder : public QObject
 {
     Q_OBJECT
+        Q_PROPERTY( QString buyAmount READ getBuyAmount WRITE setBuyAmount NOTIFY buyAmountChanged )
+        Q_PROPERTY( QString sellAmount READ getSellAmount WRITE setSellAmount NOTIFY sellAmountChanged )
+        Q_PROPERTY( QString ipPeer READ getIpPeer WRITE setIpPeer NOTIFY ipPeerChanged )
 public:
     explicit NewOrder(QObject *parent = nullptr);
+    QString getBuyAmount();
+    QString getSellAmount();
+    QString getIpPeer();
     Q_INVOKABLE void coinChanged(const int);
     Q_INVOKABLE QString getIp();
     Q_INVOKABLE QString getBalanceBTC();
@@ -25,15 +31,10 @@ public:
 
     QJsonObject ObjectFromString(const QString& in);
 
-
-// signals:
-//     void preItemAppended();
-//     void postItemAppended();
-
-//     void preItemRemoved(int index);
-//     void postItemRemoved();
-
 public slots:
+    void setBuyAmount( QString value );
+    void setSellAmount( QString value );
+    void setIpPeer( QString value );
     void confirmNewOrder();
     void readOutputInitiator();
     void readOutputAcceptor();
@@ -41,11 +42,18 @@ public slots:
     void readErrorsAcceptor();
     void processFinished(int, QProcess::ExitStatus);
 
+signals:
+    void buyAmountChanged();
+    void sellAmountChanged();
+    void ipPeerChanged();
 private:
     QString getDateTime();
     void enableCheckbox(const QJsonObject& jsonObject);
     void hideCheckboxes(const int);
     QString getTestOutput();
+    QString buyAmount;
+    QString sellAmount;
+    QString ipPeer;
     QString role;
     QProcess processInitiator;
     QProcess processAcceptor;

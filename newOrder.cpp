@@ -13,12 +13,55 @@
 
 NewOrder::NewOrder(QObject *parent) : QObject(parent)
 {
+    buyAmount = "";
+    sellAmount = "";
+    ipPeer= "";
     outputLog = "";
     role = "Initiator";
     syncStatusBTCFinished = false;
     syncStatusTFTFinished = false;
     engine = ApplicationContext::Instance().getEngine();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+QString NewOrder::getBuyAmount()
+{
+    return buyAmount;
+}
+QString NewOrder::getSellAmount()
+{
+    return sellAmount;
+}
+QString NewOrder::getIpPeer()
+{
+    return ipPeer;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void NewOrder::setBuyAmount( QString value )
+{
+    if ( buyAmount != value ){
+        buyAmount = value;
+        emit buyAmountChanged();
+    }
+}
+void NewOrder::setSellAmount( QString value )
+{
+    if ( sellAmount != value ){
+        sellAmount = value;
+        emit sellAmountChanged();
+    }
+}
+void NewOrder::setIpPeer( QString value )
+{
+    if ( ipPeer != value ){
+        ipPeer = value;
+        emit ipPeerChanged();
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void NewOrder::coinChanged(const int index)
 {
@@ -48,41 +91,34 @@ void NewOrder::confirmNewOrder()
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
 
-    QObject *amountField = rootObject->findChild<QObject *>("amount");
-    QObject *valueField = rootObject->findChild<QObject *>("value");
-    QObject *ipField = rootObject->findChild<QObject *>("ipAcceptor");
     QObject *amountNote = rootObject->findChild<QObject *>("amountNote");
     QObject *valueNote = rootObject->findChild<QObject *>("valueNote");
     QObject *ipNote = rootObject->findChild<QObject *>("ipNote");
     QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
 
-    if (progressBar == nullptr || amountField == nullptr || valueField == nullptr ||
-        ipField == nullptr || amountNote == nullptr || valueNote == nullptr || ipNote == nullptr || submitButton == nullptr)
+    if (progressBar == nullptr || amountNote == nullptr || 
+        valueNote == nullptr || ipNote == nullptr || submitButton == nullptr)
     {
 
         qInfo() << "nullptr in confirmNewOrder";
         return;
     }
-    QString amount = amountField->property("text").toString();
-    QString value = valueField->property("text").toString();
-    QString ipAcceptor = ipField->property("text").toString();
-
     amountNote->setProperty("visible", 0);
     valueNote->setProperty("visible", 0);
     ipNote->setProperty("visible", 0);
 
-    if (amount == "" || value == "" || (ipAcceptor == "" && role == "Initiator"))
+    if (sellAmount == "" || buyAmount == "" || (ipPeer == "" && role == "Initiator"))
     {
         qInfo() << "something went wrong";
-        if (amount == "")
+        if (sellAmount == "")
         {
             amountNote->setProperty("visible", 1);
         }
-        if (value == "")
+        if (buyAmount == "")
         {
             valueNote->setProperty("visible", 1);
         }
-        if (ipAcceptor == "" && role == "Initiator")
+        if (ipPeer == "" && role == "Initiator")
         {
             ipNote->setProperty("visible", 1);
         }
@@ -98,7 +134,7 @@ void NewOrder::confirmNewOrder()
             qInfo() << "In initiator";
             hideCheckboxes(INITIATOR_STEPS);
             QString scriptFile = "/dist/AtomicExchange.Scripts/initiator.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value << "-i" << ipAcceptor;
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << sellAmount << "-o" << buyAmount << "-i" << ipPeer;
             processInitiator.start("python", pythonCommandArguments);
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardOutput()), this, SLOT(readOutputInitiator()));
             QObject::connect(&processInitiator, SIGNAL(readyReadStandardError()), this, SLOT(readErrorsInitiator()));  // when enabling errors, there is no ouput anymore after an error
@@ -110,7 +146,7 @@ void NewOrder::confirmNewOrder()
         {
             hideCheckboxes(ACCEPTOR_STEPS);
             QString scriptFile = "/dist/AtomicExchange.Scripts/participant.py";
-            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << amount << "-o" << value;
+            QStringList pythonCommandArguments = QStringList() << scriptFile << "-m" << sellAmount << "-o" << buyAmount;
 
             processAcceptor.start("python", pythonCommandArguments);
             qInfo() << pythonCommandArguments;
@@ -133,7 +169,7 @@ void NewOrder::readErrorsInitiator(){
         qInfo() << "nullptr in readErrorsInitiator";
         return;
     }
-    submitButton->setProperty("enabled", 1);
+
 }
 void NewOrder::readErrorsAcceptor(){
     qInfo("error in script");
@@ -145,7 +181,7 @@ void NewOrder::readErrorsAcceptor(){
         qInfo() << "nullptr in readErrorsInitiator";
         return;
     }
-    submitButton->setProperty("enabled", 1);
+
 }
 void NewOrder::readOutputInitiator()
 {
@@ -190,6 +226,9 @@ void NewOrder::processFinished(int code, QProcess::ExitStatus status){
     }
     submitButton->setProperty("enabled", 1);
     progressBar->setProperty("visible", 0);
+    setBuyAmount("");
+    setSellAmount("");
+    setIpPeer("");
 }
 void NewOrder::showOutputLog()
 {
