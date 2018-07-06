@@ -13,9 +13,9 @@
 
 NewOrder::NewOrder(QObject *parent) : QObject(parent)
 {
-    buyAmount = "";
-    sellAmount = "";
-    ipPeer= "";
+    setBuyAmount("");
+    setSellAmount("");
+    setIpPeer("");
     outputLog = "";
     role = "Initiator";
     syncStatusBTCFinished = false;
@@ -88,6 +88,7 @@ void NewOrder::coinChanged(const int index)
 
 void NewOrder::confirmNewOrder()
 {
+
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
 
@@ -226,6 +227,10 @@ void NewOrder::processFinished(int code, QProcess::ExitStatus status){
     }
     submitButton->setProperty("enabled", 1);
     progressBar->setProperty("visible", 0);
+    resetData();
+}
+
+void NewOrder::resetData(){
     setBuyAmount("");
     setSellAmount("");
     setIpPeer("");

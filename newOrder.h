@@ -41,11 +41,13 @@ public slots:
     void readErrorsInitiator();
     void readErrorsAcceptor();
     void processFinished(int, QProcess::ExitStatus);
+    void resetData();
 
 signals:
     void buyAmountChanged();
     void sellAmountChanged();
     void ipPeerChanged();
+
 private:
     QString getDateTime();
     void enableCheckbox(const QJsonObject& jsonObject);

@@ -6,9 +6,9 @@
 
 Login::Login(QObject *parent) : QObject(parent)
 {
-    username = "";
-    password = "";
-
+    setUsername("");
+    setPassword("");
+    connect(this, SIGNAL(signOutEvent()), &newOrder, SLOT(resetData()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,12 @@ void Login::signOut()
 {
     setUsername("");
     setPassword("");
+    emit signOutEvent();
     // newOrder.setBuyAmount("");
+    // in login.cpp maak ik een signal signoutevent,
+    //in newOrder.cpp een slot resetData()
+    //emit signOutEvent();
+
     // newOrder.setSellAmount("");
     // newOrder.setIpPeer("");
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();

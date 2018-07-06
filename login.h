@@ -28,12 +28,14 @@ public slots:
 signals:
     void usernameChanged();
     void passwordChanged();
+    void signOutEvent();
 private:
     QObject *rootObject;
     QProcess loginProcess;
     QString username;   
     QString password;
-    //NewOrder newOrder;
+    NewOrder newOrder;
+
 };
 
 #endif // Login

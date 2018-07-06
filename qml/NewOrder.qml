@@ -275,10 +275,16 @@ ColumnLayout {
                     Layout.preferredWidth: 100
                 }
                 TextField {
-                    id: ipAcceptor
+                    id: ipPeerId
                     objectName: "ipAcceptor"
                     Layout.fillWidth: true
                     validator: RegExpValidator { regExp: /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/ }
+                    text: newOrderService.ipPeer
+                }
+                Binding {
+                    target: newOrderService
+                    property: "ipPeer"
+                    value: ipPeerId.text
                 }
                 Text {
                     id: ipNote
