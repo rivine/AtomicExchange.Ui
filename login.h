@@ -34,8 +34,6 @@ private:
     QProcess loginProcess;
     QString username;   
     QString password;
-    NewOrder newOrder;
-
 };
 
 #endif // Login
