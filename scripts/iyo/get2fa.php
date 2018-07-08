@@ -48,6 +48,8 @@ if (isset($twofaMethods->totp)){
 if(isset($twofaMethods->sms)){
     array_push($methods, "sms");
 }
+
+
 $obj = new stdClass();
 $obj->methods = $methods;
 $obj->cookie = $cookie;
