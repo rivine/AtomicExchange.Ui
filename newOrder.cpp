@@ -478,7 +478,6 @@ QJsonObject NewOrder::ObjectFromString(const QString &in)
         qInfo() << "Invalid JSON...\n"
                 << in << endl;
     }
-
     return obj;
 }
 
