@@ -30,6 +30,7 @@ ColumnLayout {
         Layout.preferredWidth: 350
         Material.elevation: 6
         Material.background: "White"
+        objectName: "startLoginPane"
         //Layout.fillWidth: true
         Material.accent: Material.Green
         ColumnLayout{
@@ -120,5 +121,165 @@ ColumnLayout {
                 }
             }
         }
-    }    
+    }  
+    Pane {
+        Layout.preferredWidth: 350
+        Material.elevation: 6
+        Material.background: "White"
+        //Layout.fillWidth: true
+        Material.accent: Material.Green
+        objectName: "selectAuthenticatorPane"
+        visible: false
+        ColumnLayout{
+            
+            RowLayout{
+                Text {
+                    color : "#2b2b2b"
+                    text: "Login"
+                    font.pixelSize: 20
+                    font.bold: true
+                }
+            }          
+          
+            RowLayout {
+                width: parent.width
+                visible: true
+
+                Label {
+                    text: "Authenticator method"
+                    Layout.preferredWidth: 100
+                }
+                ComboBox {
+                        objectName: "authenticatorMethod"
+                        width: 200
+                        model: ["Authenticator application","SMS"]
+                        enabled: true;
+                }
+            }
+            RowLayout {
+                Button {
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    id: nextButton
+                    font.capitalization: Font.MixedCase
+                    objectName: "nextButton"
+                    text: qsTr("Next")
+                    onClicked: {
+                        loginService.selectAuthenticator()
+                    }
+                    Layout.fillWidth: true
+                }
+            }
+        }
+    }     
+    Pane {
+        Layout.preferredWidth: 350
+        Material.elevation: 6
+        Material.background: "White"
+        //Layout.fillWidth: true
+        Material.accent: Material.Green
+        objectName: "enterCodePane"
+        visible: false
+        ColumnLayout{
+            
+            RowLayout{
+                Text {
+                    color : "#2b2b2b"
+                    text: "Authentication method"
+                    font.pixelSize: 20
+                    font.bold: true
+                }
+            }          
+          
+            RowLayout {
+                width: parent.width
+                visible: true
+
+                Label {
+                    text: "Authenticator method"
+                    Layout.preferredWidth: 100
+                }
+                ComboBox {
+                        objectName: "authenticatorMethod"
+                        width: 200
+                        model: ["Authenticator application","SMS"]
+                        enabled: true;
+                }
+            }
+            RowLayout {
+                Button {
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    id: nextButton
+                    font.capitalization: Font.MixedCase
+                    objectName: "nextButton"
+                    text: qsTr("Next")
+                    onClicked: {
+                        loginService.selectAuthenticator()
+                    }
+                    Layout.fillWidth: true
+                }
+            }
+        }
+    }     
+    Pane {
+        Layout.preferredWidth: 350
+        Material.elevation: 6
+        Material.background: "White"
+        //Layout.fillWidth: true
+        Material.accent: Material.Green
+        objectName: "AuthenticatorAppPane"
+        visible: false
+        ColumnLayout{
+            
+            RowLayout{
+                Text {
+                    color : "#2b2b2b"
+                    text: "Fill in the 6 digit code from the authenticator application on your phone."
+                    font.pixelSize: 20
+                    font.bold: true
+                }
+            }          
+                              
+            RowLayout {
+                width: parent.width
+                visible: true
+
+                Label {
+                    text: "Authenticator method"
+                    Layout.preferredWidth: 100
+                }
+                TextField {
+                    id: authenticatorAppCodeId
+                    objectName: "authenticatorAppCode"
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 200
+                    text: loginService.authenticatorAppCode
+                    validator: RegExpValidator { regExp: /\b\d{6}\b/ }
+                }
+                Binding {
+                    target: loginService
+                    property: "authenticatorAppCode"
+                    value: authenticatorAppCodeId.text
+                }
+            }
+            RowLayout {
+                Button {
+                    Material.background: Material.LightBlue
+                    Material.foreground: "white"
+                    font.bold: true
+                    id: nextButton
+                    font.capitalization: Font.MixedCase
+                    objectName: "nextButton"
+                    text: qsTr("Next")
+                    onClicked: {
+                        loginService.loginPotp()
+                    }
+                    Layout.fillWidth: true
+                }
+            }
+        }
+    }         
 }

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QObject>
 #include <QDebug>
 
 #include "ooList.h"
@@ -8,7 +9,6 @@
 #include "ooModel.h"
 #include "login.h"
 #include "newOrder.h"
-
 
 int main(int argc, char *argv[])
 {
@@ -21,13 +21,14 @@ int main(int argc, char *argv[])
     OoList ooList;
 
 
-     qmlRegisterUncreatableType<OhList>("Oo", 1, 0, "OhList",
+    qmlRegisterUncreatableType<OhList>("Oo", 1, 0, "OhList",
          QStringLiteral("OoList should not be created in QML"));
 
-     OhList ohList;
+    OhList ohList;
 
-     Login login;
-     NewOrder newOrder;
+    Login login;
+    NewOrder newOrder;
+    QObject::connect(&login, SIGNAL(signOutEvent()), &newOrder, SLOT(resetData()));
     
 
     QQmlApplicationEngine engine;
