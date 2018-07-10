@@ -163,7 +163,7 @@ void Login::loginInitiateSmsFinished(int exitCode, QProcess::ExitStatus exitStat
             loginProcessPollingSms.start("dist/scripts/iyo/login_sms_polling.php", commandArguments);
         QObject::connect(&loginProcessPollingSms, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(pollingSmsFinished(int, QProcess::ExitStatus)));
         }else{
-            qInfo() << "somethinw went wrong in loginInitiateSmsFinished"
+            qInfo() << "something went wrong in loginInitiateSmsFinished";
         }
 }
 void Login::pollingSmsFinished(int exitCode, QProcess::ExitStatus exitStatus)
