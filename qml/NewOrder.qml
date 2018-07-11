@@ -103,7 +103,7 @@ ColumnLayout {
 
                             Timer {
                                 id: syncStatusBTCTimer
-                                interval: 5000; running: true; repeat: true
+                                interval: 20000; running: true; repeat: true
                                 onTriggered: syncStatusBTC.text = newOrderService.getSyncStatusBTC()
                             }
                             Label {
