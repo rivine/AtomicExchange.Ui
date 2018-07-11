@@ -87,11 +87,15 @@ void Login::get2faFinished(int exitCode, QProcess::ExitStatus exitStatus)
     if (exitCode == 0)
     {
         output = loginProcess.readAllStandardOutput();
-        QJsonObject jsonObj = ObjectFromString(output);
-        
-        cookie = jsonObj["cookie"].toString();
-        startLoginPane->setProperty("visible", false);
-        selectAuthenticatorPane->setProperty("visible", true);        
+        qInfo() << "output = " << output;
+        if(output != ""){
+            QJsonObject jsonObj = ObjectFromString(output);
+            
+            cookie = jsonObj["cookie"].toString();
+            qInfo() << "cookie in get2faFinished" << cookie;
+            startLoginPane->setProperty("visible", false);
+            selectAuthenticatorPane->setProperty("visible", true); 
+        }       
     }
     else if (exitCode == 1)
     {
@@ -123,7 +127,7 @@ void Login::selectAuthenticator(){
     }else if(authenticatorMethodObject->property("currentIndex") == 1){
         authenticatorMethod = "sms";
         loginSmsPane->setProperty("visible", true);    
-
+        qInfo() << "cookie in selectAuthenticator : " << cookie;
         QStringList commandArguments = QStringList() << cookie ;
         loginProcessInitiateSms.start("dist/scripts/iyo/login_sms_initiate.php", commandArguments);
         QObject::connect(&loginProcessInitiateSms, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(loginInitiateSmsFinished(int, QProcess::ExitStatus)));
@@ -149,19 +153,27 @@ void Login::loginSms(){
             return;
         }
         smsCodeNote->setProperty("visible", false);
-
+        qInfo() << "in sms 1";
+        
         QStringList commandArguments2 = QStringList() << cookie2Sms << smsCode;
+        qInfo() << "in sms cookie2Sms " << cookie2Sms; 
+        qInfo() << "in sms smsCode " << smsCode; 
         loginProcessSendSmsCode.start("dist/scripts/iyo/login_sms_sendcode.php", commandArguments2);
+        qInfo() << "in sms 2";
         QObject::connect(&loginProcessSendSmsCode, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(smsCodeFinished(int, QProcess::ExitStatus)));
         
 }
 void Login::loginInitiateSmsFinished(int exitCode, QProcess::ExitStatus exitStatus){   
         if(exitStatus == 0){     
-            cookie2Sms = loginProcessInitiateSms.readAllStandardOutput();
+            output = loginProcessInitiateSms.readAllStandardOutput();
+            if(output != ""){
+                cookie2Sms = output;
+                qInfo() << "in loginInitiateSmsFinished cookie2Sms " << cookie2Sms;
 
-            QStringList commandArguments = QStringList() << cookie2Sms;
-            loginProcessPollingSms.start("dist/scripts/iyo/login_sms_polling.php", commandArguments);
-        QObject::connect(&loginProcessPollingSms, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(pollingSmsFinished(int, QProcess::ExitStatus)));
+                QStringList commandArguments = QStringList() << cookie2Sms;
+                loginProcessPollingSms.start("dist/scripts/iyo/login_sms_polling.php", commandArguments);
+                QObject::connect(&loginProcessPollingSms, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(pollingSmsFinished(int, QProcess::ExitStatus)));
+            }
         }else{
             qInfo() << "something went wrong in loginInitiateSmsFinished";
         }
@@ -183,7 +195,7 @@ void Login::smsCodeFinished(int exitCode, QProcess::ExitStatus exitStatus)
     }
 
     if(exitCode == 0){
-        loginProcessPollingSms.kill();
+        loginProcessPollingSms.close();
         finishLogin();
     }else if(exitCode == 1){        
         smsCodeNote->setProperty("visible", true);
@@ -232,6 +244,12 @@ void Login::signOut()
     setPassword("");
     setTotpCode("");
     setSmsCode("");
+
+    loginProcess.close();
+    loginProcessTotp.close();
+    loginProcessInitiateSms.close();
+    loginProcessPollingSms.close();
+    loginProcessSendSmsCode.close();
     emit signOutEvent();
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
@@ -309,7 +327,7 @@ QJsonObject Login::ObjectFromString(const QString &in)
         }
     }
     else{
-        qInfo() << "Invalid JSON...\n"
+        qInfo() << "Invalid JSON in login...\n"
                 << in << endl;
     }
     return obj;
