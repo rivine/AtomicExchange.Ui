@@ -217,6 +217,7 @@ void NewOrder::readOutputAcceptor()
 }
 void NewOrder::processFinished(int code, QProcess::ExitStatus status){
     qInfo() << "processFinished";
+    
     QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
     QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
 
@@ -227,6 +228,8 @@ void NewOrder::processFinished(int code, QProcess::ExitStatus status){
     }
     submitButton->setProperty("enabled", 1);
     progressBar->setProperty("visible", 0);
+    hideCheckboxes(ACCEPTOR_STEPS);
+    
     resetData();
 }
 
@@ -234,6 +237,7 @@ void NewOrder::resetData(){
     setBuyAmount("");
     setSellAmount("");
     setIpPeer("");
+
 }
 void NewOrder::showOutputLog()
 {

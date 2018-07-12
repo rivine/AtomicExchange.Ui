@@ -92,7 +92,6 @@ void Login::get2faFinished(int exitCode, QProcess::ExitStatus exitStatus)
             QJsonObject jsonObj = ObjectFromString(output);
             
             cookie = jsonObj["cookie"].toString();
-            qInfo() << "cookie in get2faFinished" << cookie;
             startLoginPane->setProperty("visible", false);
             selectAuthenticatorPane->setProperty("visible", true); 
         }       
@@ -152,14 +151,9 @@ void Login::loginSms(){
             qInfo() << "nullpointer in loginSms";
             return;
         }
-        smsCodeNote->setProperty("visible", false);
-        qInfo() << "in sms 1";
-        
+        smsCodeNote->setProperty("visible", false);        
         QStringList commandArguments2 = QStringList() << cookie2Sms << smsCode;
-        qInfo() << "in sms cookie2Sms " << cookie2Sms; 
-        qInfo() << "in sms smsCode " << smsCode; 
         loginProcessSendSmsCode.start("dist/scripts/iyo/login_sms_sendcode.php", commandArguments2);
-        qInfo() << "in sms 2";
         QObject::connect(&loginProcessSendSmsCode, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(smsCodeFinished(int, QProcess::ExitStatus)));
         
 }
@@ -168,7 +162,6 @@ void Login::loginInitiateSmsFinished(int exitCode, QProcess::ExitStatus exitStat
             output = loginProcessInitiateSms.readAllStandardOutput();
             if(output != ""){
                 cookie2Sms = output;
-                qInfo() << "in loginInitiateSmsFinished cookie2Sms " << cookie2Sms;
 
                 QStringList commandArguments = QStringList() << cookie2Sms;
                 loginProcessPollingSms.start("dist/scripts/iyo/login_sms_polling.php", commandArguments);
@@ -250,7 +243,7 @@ void Login::signOut()
     loginProcessInitiateSms.close();
     loginProcessPollingSms.close();
     loginProcessSendSmsCode.close();
-    emit signOutEvent();
+    //emit signOutEvent();
 
     rootObject = ApplicationContext::Instance().getEngine()->rootObjects().first();
     QObject *userNameHeader = rootObject->findChild<QObject *>("userNameHeader");
