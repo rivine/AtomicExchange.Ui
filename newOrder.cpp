@@ -215,10 +215,10 @@ void NewOrder::readOutputAcceptor()
         enableCheckbox(jsonObj);
     }
 }
-void NewOrder::processFinished(int code, QProcess::ExitStatus exitStatus){
-    if(exitStatus == 0){
+void NewOrder::processFinished(int exitCode, QProcess::ExitStatus exitStatus){
+    if(exitCode == 0){
         outputLog += "Process finished successfully";
-    }else if(exitStatus == 1){
+    }else if(exitCode == 1){
         outputLog += "Process failed, please contact support!";
     }else {
         outputLog += "Something went wrong, please contact support for more information";
@@ -234,7 +234,6 @@ void NewOrder::processFinished(int code, QProcess::ExitStatus exitStatus){
     }
     submitButton->setProperty("enabled", 1);
     progressBar->setProperty("visible", 0);
-    hideCheckboxes(ACCEPTOR_STEPS);    
     resetData();
 }
 
