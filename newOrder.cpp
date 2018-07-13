@@ -215,8 +215,14 @@ void NewOrder::readOutputAcceptor()
         enableCheckbox(jsonObj);
     }
 }
-void NewOrder::processFinished(int code, QProcess::ExitStatus status){
-    qInfo() << "processFinished";
+void NewOrder::processFinished(int code, QProcess::ExitStatus exitStatus){
+    if(exitStatus == 0){
+        outputLog += "Process finished successfully";
+    }else if(exitStatus == 1){
+        outputLog += "Process failed, please contact support!";
+    }else {
+        outputLog += "Something went wrong, please contact support for more information";
+    }
     
     QObject *submitButton = rootObject->findChild<QObject *>("submitButton");
     QObject *progressBar = rootObject->findChild<QObject *>("progressBar");
@@ -228,8 +234,7 @@ void NewOrder::processFinished(int code, QProcess::ExitStatus status){
     }
     submitButton->setProperty("enabled", 1);
     progressBar->setProperty("visible", 0);
-    hideCheckboxes(ACCEPTOR_STEPS);
-    
+    hideCheckboxes(ACCEPTOR_STEPS);    
     resetData();
 }
 

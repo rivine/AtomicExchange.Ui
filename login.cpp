@@ -87,7 +87,6 @@ void Login::get2faFinished(int exitCode, QProcess::ExitStatus exitStatus)
     if (exitCode == 0)
     {
         output = loginProcess.readAllStandardOutput();
-        qInfo() << "output = " << output;
         if(output != ""){
             QJsonObject jsonObj = ObjectFromString(output);
             
@@ -126,7 +125,6 @@ void Login::selectAuthenticator(){
     }else if(authenticatorMethodObject->property("currentIndex") == 1){
         authenticatorMethod = "sms";
         loginSmsPane->setProperty("visible", true);    
-        qInfo() << "cookie in selectAuthenticator : " << cookie;
         QStringList commandArguments = QStringList() << cookie ;
         loginProcessInitiateSms.start("dist/scripts/iyo/login_sms_initiate.php", commandArguments);
         QObject::connect(&loginProcessInitiateSms, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(loginInitiateSmsFinished(int, QProcess::ExitStatus)));
